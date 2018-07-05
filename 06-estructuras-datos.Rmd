@@ -1,0 +1,245 @@
+# Estructuras de datos
+Dimensiones| Homogeneas| Heterogeneas
+----       |----       |----
+1          | Vector    | Lista
+2          | Matriz    | Data frame 
+n          | Array     | 
+*Adaptado de Wickham (2016).
+
+Estas estructuras son los objetos que contienen datos y son lo que manipulamos al trabajar en R.
+
+## Vectores
+Un vector es la estructura de datos más sencilla de todas las existentes en R. 
+
+Un vector es atómico. Únicamente puede contener datos un sólo tipo, no se pueden mezclar tipos de datos dentro de ellos. Por esta razón, también esta estructura es también denominada como homogénea.
+
+Un vector sólo tiene una dimensión, que es su largo.
+
+Todos los vectores tienen además tres propiedades:
+
+* Tipo. Un vector tiene el mismo tipo que los datos que contiene. Si tenemos un vector que contiene datos de tipo numérico, el vector será también de tipo numérico.
+* Largo. Es la cantidad de elementos que contiene un vector.
+* Atributos. Los vectores pueden tener metadatos de muchos tipos. Todos son incluidos en esta propiedad.
+
+En realidad, un dato sencillo como el número **3** es un vector de tipo numérico y largo 1.
+
+```{r, echo=TRUE}
+1
+```
+
+Podemos crear vectores usando la función `c()` (combinar).
+
+```{r, echo=TRUE}
+c(1, 2, 3, 5, 8, 13)
+c("arbol", "casa", "persona")
+c(TRUE, TRUE, FALSE, FALSE, TRUE)
+```
+
+Si intentamos combinar datos de tipos diferentes en un mismo vector, R realizará coerción. El vector resultante será del tipo más flexible entre los datos que contenga.
+
+```{r, echo=TRUE}
+mi_vector <- c(1, 2, 3)
+
+class(mi_vector)
+
+mi_vector_nuevo <- c(mi_vector, "a")
+
+class(mi_vector_nuevo)
+
+mi_vector_mezcla <- c(FALSE, 2, "tercero", 4.00)
+
+class(mi_vector_mezcla)
+```
+
+Hay algunas operaciones que pueden **vectorizarse**. Si las aplicamos a un vector, esta se aplica en cada uno de sus elementos.
+
+Por ejemplo, las operaciones aritméticas pueden vectorizarse.
+```{r, echo=TRUE}
+mi_vector <- c(2, 3, 6, 7, 8, 10, 11)
+
+mi_vector + 2
+
+mi_vector * 2
+
+mi_vector / 2
+
+mi_vector ^ 2
+
+mi_vector %% 2
+```
+
+## Matrices y arrays
+Podemos describir a las matrices y arrays como vectores multidimensionales, pues además de un largo, pueden tener una estrictura de dos o más dimensiones.
+
+En realidad, las matrices son una caso especial de un array, que se distingue por tener específicamente dos dimensiones, un "largo"" y un "alto". Es decir, esta es una estructura con forma rectangular. Como las matrices son usadas de manera regular en estadística, esta es una estructura de datos que es común encontrar y en la que nos enfocaremos.
+
+Por su parte, los arrays pueden tener un número arbitrario de dimensiones. Pueden ser cubos, hipercubos y otras... cosas. Su uso no es muy común en R, aunque a veces es deseable contar con un objeto n-dimensional para manipular datos, los arrays tienen la restricción de que todos sus datos, no importando en cuantas dimensiones se encuentren, deben ser del mismo tipo. Debido a esto, es preferible el uso de listas, que además tienen ciertas ventajas que veremos más adelante.
+
+Para crear matrices en R usamos la función `matrix()`. La función `matrix()` acepta dos argumentos, `nrow` y `ncol`, con los cuales especificamos el número de renglones y columnas que tendrá nuestra matriz.
+```{r, echo=TRUE}
+# Un vector numérico del uno al doce
+1:12
+
+# matrix() sin especificar renglones ni columnas
+matrix(1:12)
+
+# Tres renglones y cuatro columnas
+matrix(1:12, nrow = 3, ncol = 4)
+
+# Cuatro columnas y tres columnas
+matrix(1:12, nrow = 4, ncol = 3)
+
+# Dos renglones y seis columnas
+matrix(1:12, nrow = 4, ncol = 3)
+```
+
+Los datos que intentemos agrupar en una matriz serán acomodados en orden, de arriba a abajo, y de izquierda a derecha.
+
+Si multiplicamos el número de renglones por el número de columnas, obtendremos el número de celdas de la matriz. En los ejemplo anteriores, el número de celdas es igual al número de elementos que queremos acomodar, así que la operación ocurre sin problemas.
+
+Cuando intentamos acomodar un número diferente de elementos y celdas, ocurren dos cosas diferentes. 
+
+Si el número de elementos es mayor al número de celdas, se acomodaran todos los datos que sean posibles y los demás se omitirán. 
+```{r, echo=TRUE}
+matrix(1:12, nrow = 3, ncol = 3)
+```
+
+Si, por el contrario, el número de celdas es mayor que el número de elementos, estos se **reciclaran**. En cuanto los elementos sean insuficientes para acomodarse en las celdas, R nos devolverá una advertencia y se empezaran a usar los elementos a partir del primero de ellos
+```{r, echo=TRUE}
+matrix(1:12, nrow = 5, ncol = 4)
+```
+
+No obstante que las matrices y arrays son estructuras que sólo pueden contener un tipo de datos, no son atómicas. Su clase es igual a **matriz (matrix)** o **array** segun corresónda.
+```{r, echo=TRUE}
+mi_matriz <- matrix(1:10)
+
+class(mi_matriz)
+```
+
+Podemos saber el número de dimensiones de un objeto, no sólo matrices y arrays, usando la función **dim()**. Esta función nos devolverá varios números. Cada uno de ellos indica la cantidad de elementos que tiene una dimensión.
+```{r, echo=TRUE}
+mi_matriz <- matrix(1:12, nrow = 4, ncol = 3)
+dim(mi_matriz)
+
+# Si usamos dim() con un vector, obtenemos NULL. Esto ocurre con todos 
+# los objetos unidimensionales 
+mi_vector <- 1:12
+dim(mi_vector)
+```
+
+Finalmente, las operaciones aritméticas también son vectorizadas al aplicarlas a una matriz.
+```{r, echo=TRUE}
+mi_matriz <- matrix(1:9, nrow = 3, ncol = 3)
+
+mi_matriz
+
+mi_matriz + 1
+
+mi_matriz * 2
+
+mi_matriz ^ 3
+```
+
+## Data frames
+Los data frames son estructuras de datos de dos dimensiones (rectangulares) que pueden contener datos de diferentes tipos, por lo tanto, son heterogéneas. Esta estructura de datos es la más usada para realizar análisis de datos y seguro te resultará familiar si has trabajado con otros paquetes estadísticos.
+
+Podemos entender a los data frames como una versión más flexible de una matriz. Mientras que en una matriz todas las celdas deben contener datos del mismo tipo, los renglones de un data frame admiten datos de distintos tipos, pero sus columnas conservan la restricción de contener datos de un sólo tipo.
+
+En términos generales, los renglones en un data frame representan casos, individuos u observaciones, mientras que las columnas representan atributos, rasgos o variables. 
+Por ejemplo, así lucen los primeros cinco renglones del objeto **iris**, el famoso conjunto de datos  *Iris de Ronald Fisher*, que está incluido en todas las instalaciones de R.
+```{r, echo=FALSE}
+head(iris, 5)
+```
+
+Los primeros cinco renglones corresponden a cinco casos, en este caso flores. Las columnas son variables con los rasgos de cada flor: largo y ancho de sépalo, largo y ancho de pétalo, y especie.
+
+Para crear un data frame usamos la función `data.frame()`. Esta función nos pedirá un número de vectores igual al número de columnas que deseemos. Todos los vectores que proporcionemos deben tener el mismo largo. 
+
+Esto es muy importante: **Un data frame está compuesto por vectores**.
+
+Más adelante se hará evidente porque esta característica de un data frame es sumamente importante y también, como podemos sacarle provecho.
+
+Además, podemos asignar un nombre a cada vector, que se convertirá en el nombre de la columna. Como todos los nombres, es recomendable que este sea claro, no ambiguo y descriptivo.
+```{r, echo = TRUE}
+mi_df <- data.frame(
+  "entero" = 1:4, 
+  "factor" = c("a", "b", "c", "d"), 
+  "numero" = c(1.2, 3.4, 4.5, 5.6),
+  "cadena" = as.character(c("a", "b", "c", "d"))
+)
+
+mi_df
+
+# Podemos usar dim() en un data frame
+dim(mi_df)
+
+# El largo de un data frame es igual a su número de columnas
+length(mi_df)
+
+# names() nos permite ver los nombres de las columnas
+names(mi_df)
+
+# La clase de un data frame es data.frame
+class(data.frame) 
+```
+
+Si los vectores que usamos para construir el data frame no son del mismo largo, los datos **no se reciclaran**. Se nos devolverá un error.
+```{r, echo=TRUE, error=TRUE}
+data.frame(
+  "entero" = 1:3, 
+  "factor" = c("a", "b", "c", "d"), 
+  "numero" = c(1.2, 3.4, 4.5, 5.6),
+  "cadena" = as.character(c("a", "b", "c", "d"))
+)
+```
+
+Al igual que con una matriz, si aplicamos una operación aritmética a un data frame, esta se vectorizará. 
+
+Los resultados que obtendremos dependerán del tipo de datos de cada columna. R nos devolverá todas las advertencias que ocurran como resultado de las operaciones realizadas, por ejemplo, aquellas que hayan requerido una coerción.
+```{r, echo=TRUE}
+mi_df <- data.frame(
+  "entero" = 1:4, 
+  "factor" = c("a", "b", "c", "d"), 
+  "numero" = c(1.2, 3.4, 4.5, 5.6),
+  "cadena" = as.character(c("a", "b", "c", "d"))
+)
+
+mi_df * 2
+```
+
+## Listas
+Las listas, al igual que los vectores, son estructuras de datos unidimensionales, sólo tienen largo, pero a diferencia de los vectores cada uno de sus elementos puede ser de diferente tipo o incluso de diferente clase, por lo que son estructuras heterogéneas.
+
+Podemos tener listas que contengan datos atómicos, vectores, matrices, arrays, data frames u otras listas. Esta última característica es la razón por la que una lista puede ser considerada un vector recursivo, pues es un objeto que puede contener objetos de su misma clase.
+
+Para crear una lista usamos la función `list()`, que nos pedirá los elementos que deseamos incluir en nuestra lista. Para esta estructura, no importan las dimensiones o largo de los elementos que queramos incluir en ella. 
+
+Al igual que con un data frame, tenemos la opción de poner nombre a cada elemento de una lista.
+
+Por último, no es posible vectorizar operaciones aritméticas usando una lista, se nos devuelve un error como resultado.
+```{r, echo = TRUE, error=TRUE}
+mi_vector <- 1:10
+mi_matriz <- matrix(1:4, nrow = 2)
+mi_df     <- data.frame("num" = 1:3, "let" = c("a", "b", "c"))
+
+mi_lista <- list("un_vector" = mi_vector, "una_matriz" = mi_matriz, "un_df" = mi_df)
+
+mi_lista
+
+# Una lista que contiene otras listas
+lista_recursiva <- list("lista1" = mi_lista, "lista2" = mi_lista)
+
+lista_recursiva
+
+# El largo de una lista es igual al número de elementos que contiene, sin importar de qué tipo o clase sean
+length(lista_recursiva)
+
+# Una lista tiene siempre una sóla dimensión, por lo tanto dim() nos devuelve NULL
+dim(lista_recursiva)
+
+# Las listas tienen clase list
+class(lista_recursiva)
+
+# No es posible vectorizar operaciones aritméticas usando listas. Nos es devuelto un error
+mi_lista / 2
+```

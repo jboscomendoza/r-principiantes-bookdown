@@ -1,0 +1,410 @@
+# Subconjuntos
+En R, podemos obtener subconjuntos de todas las estructuras de datos. Esto es, podemos extraer datos de las estructuras que tengan una o más características en especial.
+
+Para esta extracción usaremos índices, operadores lógicos y álgebra Booleana. Aunque cada estructura de datos de R es diferente, existen procedimientos para obtener subconjuntos que pueden usarse con todas ellas. Por supuesto, hay otras que funcionan sólo con algunas estructuras.
+
+## Índices
+Crer subconjuntos usando índices es el procedimiento más universal en R, pues funciona con todas las estructuras de datos.
+
+Los índices en R son **posicionales**. Cuando usamos este método le pedimos a R que extraiga de una estructura los datos que se encuentran en una o varias posiciones específicas.
+
+Escribimos corchetes `[]` después de un objeto para obtener subconjuntos con índices. Dentro de los corchetes escribimos el o los números que corresponden a la posición que nos interesa extraer del objeto. Por ejemplo:
+
+* `objeto[3]`
+* `lista[4:5]` 
+* `dataframe[c(2, 7), ]`
+
+Veamos un ejemplo con un vector. Creamos un vector que contiene los nombres de distintos niveles educativos. 
+```{r, echo=TRUE}
+nivel <- c("Preescolar", "Primaria", "Secundaria", "Educación Media Superior",
+           "Educación Superior")
+
+nivel
+```
+Este es un vector de largo igual a 5.
+```{r}
+length(nivel)
+```
+
+¿Cómo obtendríamos el tercer elemento de este vector usando indices? ¿Y del primer al cuarto elemento? ¿O el segundo y quinto elemento?
+
+Sabemos que los índices son posicionales y que se usan corchetes para realizar la operación de extración, por lo tanto,  las respuestas a las preguntas anteriores son relativamente intuitivas.
+
+Para extraer el tercer elemento hacemos lo siguiente.
+```{r, echo=TRUE, error=TRUE}
+nivel[3]
+```
+
+A diferencia de la mayoría de los lenguajes de programación, los índices en R empiezan en 1, no en 0. El índice del primer elemento de una estructura de datos siempre es 1.
+
+Por lo tanto, para extrar del primer al cuarto elemento de un vector, usamos los números del 1 al 4.
+```{r, echo=TRUE}
+nivel[1:4]
+```
+
+Cuando deseamos extraer elementos en posiciones no consecutivas, usamos vectores. Por ejemplo, para extraer el segundo y quinto elemento del vector ***nivel**, lo siguiente no funciona.
+```{r, echo = TRUE, error = TRUE}
+nivel[2, 5]
+```
+
+Si usamos un vector, tendremos éxito en extraer el segundo y quinto elemento de **nivel**.
+```{r, echo=TRUE}
+nivel[c(2, 5)]
+```
+
+¿Porqué no funcionó usar **nivel[2, 5]** para extraer dos elementos no consecutivos en nuestro vector? 
+
+El mensaje de error nos da una pista muy importante. Al usar una coma dentro de los corchetes estamos pidiendo a R que busque los índices solicitados en más de una dimensión. 
+
+Entonces, al llamar `nivel[2, 5]` le pedimos a R que extraiga el elemento que se encuentA en la posición 2 de la primera dimensión del vector, y el elemento en la posición 5 de su segunda dimensión. Como los vectores son unidimensionales, es imposible cumplir esta instrucción y se produce un error.
+
+En cambio, usar `nivel[c(2, 5)]` funciona porque estamos dando un vector con dos números, pero ambos en una misma dimensión de nuestro objeto.
+
+Para estructuras con más de una dimensión, los índices hacen referencia a posiciones para cada una de ellas. En estructuras de dos dimensiones (matrices y data frames), **el primer índice es para los renglones y la segunda para las columnas**. 
+
+Este es un tipo de operación muy común al trabajar con data frames y matrices
+
+## Índices, data frames y matrices
+Para ilustrar cómo usar índices con objetos rectangulares, vamos a crear un data frame llamado **mi_df**. 
+```{r, echo=TRUE}
+mi_df <- data.frame("nombre" = c("Armando", "Elsa", "Ignacio", "Olga"),
+                    "edad" = c(20, 24, 22, 30),
+                    "sexo" = c("H", "M", "M", "H"),
+                    "grupo" = c(0, 1, 1, 0))
+
+mi_df
+```
+
+Confirmamos que nuestro data frame tiene dos dimensiones: tres renglones y tres columnas.
+```{r, echo=TRUE}
+dim(mi_df)
+```
+
+
+Con índices podemos extraer un dato que se encuentra en un renglón y columna específico.
+```{r, echo=TRUE}
+# Extraer dato en el tercer renglón y tercera columna
+mi_df[3, 3]
+
+# Extraer dato en el primer renglón y segunda columna
+mi_df[1, 2]
+
+# Extraer dato en el segundo renglón y el primer renglón
+mi_df[2, 1]
+```
+
+
+```{r, echo=TRUE}
+# Extraer dato en 
+mi_df[1:2, 3:4]
+
+# Si dejamos vacio el índice para una dimensión, nos son devueltos todos 
+# los datos que contiene
+mi_df[ , 1]
+mi_df[1,  ]
+
+# Podemos usar vectores para elegir elementos no consecutivos
+mi_df[c(1, 3),  c(1, 4)]
+```
+
+
+
+Para objetos de tres o más dimensiones se siguen las mismas reglas, aunque ya no es tan fácil hablar de renglones y columnas. Por ejemplo, un array de cuatro dimensiones.
+
+```{r, echo=TRUE}
+mi_array <- array(data = 1:16, dim = c(2, 2, 2, 2))
+
+# Comprobamos las dimensiones
+dim(mi_array)
+
+# Así luce un array sencillo de cuatro dimensiones.
+mi_array
+
+# Un par de subconjuntos
+mi_array[1, 2, 1, 2]
+mi_array[ , 1, 1, 1]
+
+```
+
+Finalmente, conviene saber que la posición de los elementos en una estructura se determinan en su creación.
+```{r, echo=TRUE}
+vector1 <- c("a", "b", "c")
+vector2 <- c("a", "c", "b")
+
+# Aunque los vectores tienen los mismos elementos, su orden es diferente
+vector1[2]
+vector2[2]
+
+```
+
+Esto es suficiente por ahora. La siguiente ocasión continuaremos con más métodos para crear subconjuntos.
+
+Esta ocasión terminaremos de revisar las formas de extraer subconjuntos de nuestros datos. Puede parecer que le estamos dedicando mucho tiempo a este tema, pero es crucial para ahorrarnos dolores de cabeza en el futuro.
+
+## Subconjuntos por nombre
+Podemos usar los nombres de los elementos en una estructura de datos para extraer subconjuntos. Este método es usado principalmente para trabajar con data frames y listas. 
+
+Al igual que con los índices, podemos usar corchetes cuadrados (**[ ]**) para obtener subconjuntos, pero en lugar de escribir un número de índice, escribimos el nombre del elemento que deseamos extraer como una cadena de texto, es decir, entre comillas.
+
+Por ejemplo, usando el mismo data frame que la ocasión anterior.
+```{r, echo=TRUE}
+mi_df <- data.frame("nombre" = c("Armando", "Elsa", "Ignacio", "Olga"), 
+                    "edad" = c(20, 24, 22, 30), "sexo" = c("H", "M", "M", "H"), 
+                    "grupo" = c(0, 1, 1, 0))
+
+mi_df["nombre"]
+
+mi_df["grupo"]
+
+```
+
+En una data frame, cada uno de sus elementos representa una columna en los datos, así que en realidad estamos pidiendo a R que nos devuelva las columnas con los nombres que le indicamos.
+
+Podemos extraer más de un elemento si en lugar de una cadena de texto escribimos un vector de texto entre los corchetes.
+
+```{r, echo = TRUE}
+# Esto funciona
+mi_df[c("edad", "sexo")]
+
+# Esto no funciona como esperamos
+mi_df["edad", "sexo"]
+
+# Además, las columnas son devueltas en el orden que las pedimos
+mi_df[c("sexo", "edad")]
+```
+
+Si pedimos un nombre que no existe en nuestros datos, obtenemos un error.
+```{r, echo = TRUE, error=TRUE}
+mi_df["calificacion"]
+```
+
+Para una lista, el procedimiento es el mismo que con un data frame. En lugar de obtener columnas, obtenemos los elementos contenidos en la lista para los que hemos proporcionado un nombre. 
+
+Una diferencia importante con los data frame es que si pedimos un nombre que no existe en la lista, se nos devuelve **NULL** en lugar de un error.
+
+```{r, echo = TRUE}
+mi_lista <- list("uno" = 1, "dos" = "2", "tres" = as.factor(3), 
+                 "cuatro" = c(1:4))
+
+mi_lista["dos"]
+
+mi_lista[c("cuatro", "tres")]
+
+mi_lista["cinco"]
+
+```
+
+También podemos usar el signo de dólar (**$**) para extrar subconjuntos usando nombres. 
+
+Este método permite extraer sólo un elemento a la vez y en un data frame, siempre devolverá una columna.
+Si lo deseamos, podemos escribir el nombre que nos interesa obtener sin comillas.
+
+```{r, echo = TRUE, error=TRUE}
+# Esto funciona
+mi_df$nombre
+
+# Esto también funciona
+mi_df$"nombre"
+
+# Esto no funciona
+mi_df$c("nombre", "edad")
+
+```
+
+Notarás que la salida al usar este método es diferente que si usamos corchetes. Si revisas la **Tarea 01**, verás más ejemplos de este comportamiento.
+
+En pocas palabras, **distintos métodos para obtener subconjuntos pueden devolver resultados diferentes**. Más adelante en este documento veremos porqué ocurre esto 
+
+** Nombres para extraer renglones
+De igual manera que con los índices, si escribimos dentro de un corchete nombres separados por comas, R interpretará esto como que estamos buscando elementos en más de una dimensión.
+
+En un data frame, el primer nombre corresponderá a renglones y el segundo a columnas. Esto funciona porque en un data frame los renglones también pueden tener nombre. 
+
+En caso de que pidamos un nombre de renglón que no existe, nos es devuelto **NA**
+
+Por ejemplo, en el conjunto de datos **iris** los nombres de los renglones son igual a su número de renglón.
+```{r, echo=TRUE}
+# Pedimos el renglón llamado "4"
+iris["4", ]
+
+# En este caso, lo anterior es equivalente a pedir el índice cuatro
+iris[4, ]
+```
+
+Lo anterior nos permite extraer subconjuntos muy específicos de nuestros datos.
+```{r, echo=TRUE}
+iris["110", "Species"]
+
+iris["15", c("Sepal.Length", "Sepal.Width")]
+
+iris[c("88", "96"), c("Sepal.Length","Sepal.Width")]
+```
+
+** Subconjutos por indice y nombre
+Al extraer subconjuntos podemos usar tanto índices como nombres dentro del mismo corchete.
+
+Esta es una herramienta muy poderosa al manipular datos pues nos proporciona una flexibilidad para extrar subconjuntos.
+
+Por supuesto, tenemos que seguir las reglas de ambos métodos.
+```{r, echo=TRUE}
+iris[5:6, "Species"]
+
+iris["76", 2:3]
+
+iris[c(1:2, 149:150), c("Petal.Width", "Species")]
+```
+
+Esto no funciona con las listas, Por ser estructuras de datos unidimensionales.
+
+
+** Subconjuntos con su clase y tipo original: usando el signo de dólar $ y el corchete doble [[ ]]
+
+¿Porqué llamar **mi_df["nombre"]** devuelve un resultado diferente de llamar **mi_df$nombre**?
+
+```{r, echo = TRUE}
+mi_df["nombre"]
+
+mi_df$nombre
+```
+
+Para entender lo que esta ocurriendo necesitamos recordar que **un data frame está formado por vectores**. Esto vectores nunca dejan de ser vectores, aunque estén contenidos dentro de un data frame. Por lo tanto, es posible extraerlos.
+
+Además, necesitamos entender que **cuando extramos un subconjunto de un objeto usando corchetes, obtenemos como resultado un objeto de su misma clase**.
+
+Esto suena a un trabalenguas, pero todo lo que quiere decir es que extraemos un subconjunto de una lista, obtenemos una lista; si lo hacemos de un data frame, obtenemos un data frame; y lo mismo para todas las estructuras de datos.
+
+Esto lo podemos comprobar fácilmente usando la función **class( )**
+
+```{r, echo = TRUE}
+class(mi_df)
+
+class(mi_df["nombre"])
+```
+
+Esto cambia cuando usamos el signo de dólar **$** para extraer un subconjunto. **Si usamos un signo de dolar, obtenemos un objeto de la misma clase y tipo que era ese elemento originalmente**. 
+
+En el caso de un data frame, usar el signo de dólar siempre resulta en vectores atómicos.
+
+```{r, echo = TRUE}
+class(mi_df$nombre)
+
+class(mi_df$edad)
+
+class(mi_df$sexo)
+```
+
+Con las listas, podemos obtener objetos de cualquier clase y tipo.
+
+```{r, echo=TRUE}
+# Una lista con una matriz y un data frame.
+mi_lista <- list("uno" = matrix(2:2, nrow = 2), 
+              "dos" = data.frame("a" = 1:2, "b" = 3:4))
+
+# Devuelve una lista
+class(mi_lista["uno"])
+
+# Devuelve una matriz
+class(mi_lista$uno)
+
+# Devuelve un data frame
+class(mi_lista$dos)
+```
+
+Otra manera de extraer elementos de un objeto con su clase original es usar corchetes dobles **[[ ]]**. 
+
+La ventaja de usar este método es que podemos usar índices y nombres dentro de los corchetes dobles, lo que nos da acceso a una mayor flexibilidad para extraer subconjuntos, además de que nos permite usarlos en estructuras de datos que tienen elementos sin nombre.
+
+```{r, echo=TRUE}
+mi_df[["edad"]]
+
+mi_df[[2]]
+
+mi_matriz <- matrix(1:9, nrow = 3, ncol = 3)
+
+mi_matriz
+
+mi_matriz[[1, 2]]
+```
+
+Sin embargo, no podemos usar vectores dentro los corchetes dobles para extraer subconjuntos, pues este método busca un elemento a la vez.
+
+```{r, echo=TRUE, error=TRUE}
+mi_matriz[[c(1, 3), 2]]
+```
+
+Obtener un objeto del tipo correcto al extraer un subconjunto es sumamente importante, en particular si deseamos usar este subconjunto para realizar otras operaciones.
+
+Por ejemplo, si queremos obtener la media de la columna **Sepal.Width** del conjunto de datos iris, usamos la función **mean( )**. Sin embargo, esta función nos pide que demos como argumento un vector, de modo que debemos estar atentos a cómo extraemos la columna que nos interesa.
+
+```{r, echo = TRUE}
+# Esto no funciona, porque estamos extrayendo un data frame
+mean(iris["Sepal.Width"])
+
+# Esto sí funciona
+mean(iris$Sepal.Width)
+
+# Esto también funciona
+mean(iris[["Sepal.Width"]])
+```
+
+## Subconjuntos de un data frame usando condicionales
+
+Supongamos que nos interesa obtener un subconjunto de datos que cumplen con una o más condiciones específicas.
+
+Por ejemplo, queremos obtener todos los datos de una encuesta que corresponden a mujeres, o a personas que viven en una entidad específica o que tienen un ingreso superior a la media.
+
+Si tenemos columnas que contengan esa información en nuestro conjunto de datos, podemos extraer subconjuntos usando condicionales dentro de los corchetes.
+
+Esta operación tiene la siguiente estructura.
+
+** objeto[condicion, columnas_devueltas] **
+
+Veamos un ejemplo.
+
+Extraeremos del conjunto iris...
+
+... todos los casos en los que el ancho del pétalo es mayor a 2. 
+
+```{r, echo = TRUE}
+iris[iris["Petal.Width"] > 2, ]
+```
+
+... todos los casos en los que la especie sea "setosa"
+
+```{r}
+iris[iris[["Species"]] == "setosa", ]
+```
+
+... la especie de los casos en que los que el ancho del sépalo sea menor a 3.
+
+```{r}
+iris[iris$Sepal.Width < 3, "Species"]
+```
+
+... el ancho y largo del pétalo de los casos en los que el largo del sépalo es mayor o igual a 7.2.
+
+```{r}
+iris[iris["Sepal.Length"] >= 7.2, c("Petal.Length", "Petal.Width")]
+```
+
+¿Qué es lo que está ocurriendo?
+
+Dentro del corchete escribimos antes de una coma un subconjunto, al cual aplicamos una operación relacional. Todos los renglones en los que el resultado de esta operación sea **TRUE**, formarán parte de nuestro subconjunto.
+
+Si no indicamos qué columnas queremos que se nos devuelvan, obtendremos todas. De esta manera podemos extraer subconjuntos que cumplen una condición, pero sólo para una columna específica.
+
+Para entender porqué escribimos una operación relacional aplicada a un subconjunto dentro de los corchetes, nos conviene saber que las operaciones relacionales también se vectorizan.
+
+Si al vector **iris$Petal.Width** aplicamos la operación **> 6**, esta se aplicará a todos sus elementos, devolviendo **TRUE** o **FALSE**, según corresponda.
+
+```{r, echo = TRUE}
+as.vector(iris["Petal.Width"] > 6)
+```
+
+Así, lo que pedimos antes de la coma dentro de un corchete, son todos los renglones para los que la condición es verdadera.
+
+Si quisieras, podrías elegir manualmente renglones de un data frame usando TRUE y FALSE.
+```{r, echo=TRUE}
+# EL vector de datos lógicos se reciclará, así que obtendremos uno de cada cinco elementos
+iris[c(TRUE, FALSE, FALSE, FALSE, FALSE), ]
+```

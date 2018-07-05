@@ -1,0 +1,66 @@
+---
+title: "R para principiantes"
+author: "Juan Bosco Mendoza Vega"
+output:
+  bookdown::gitbook:
+    lib_dir: assets
+    split_by: section
+    config:
+      toolbar:
+        position: static
+    highlight: espresso
+  # bookdown::pdf_book:
+  #   keep_tex: yes
+  #   #highlight: espresso
+  # bookdown::html_book:
+  #   css: toc.css
+  #   highlight: espresso
+  #   documentclass: book
+  #   theme: journal
+---
+
+# Prefacio: Introducción a R 
+Mtro. Juan Bosco Mendoza Vega 
+
+Objetivos
+
+Al final de este curso-taller introductorio al lenguaje de programación estadístico R, el participante:
+
+*	conocerá las características principales de R
+*	estará familiarizado con los tipos y estructuras de datos usados en R
+*	conocerá el flujo de trabajo para el análisis de datos con R
+*	será capaz de importar, manipular, visualizar y modelar datos usando R
+*	podrá escribir funciones simples
+*	aplicará el contenido del curso-taller en un caso con datos reales
+
+Contenido
+
+*	Introducción: ¿Qué es R y para qué es usado?
+*	El vocabulario básico de R
+*	RStudio. Un entorno integrado de desarrollo
+*	El flujo de trabajo con R
+*	Importar
+  *	Ordenar
+  *	Transformar
+  *	Visualizar
+  *	Modelar
+*	Aplicando R en un caso real 
+
+Software necesario
+•	R. https://cran.itam.mx/ 
+•	RStudio. https://www.rstudio.com/products/rstudio/download/ 
+
+**Equipo sugerido**
+
+Computadora con las siguientes especificaciones mínimas: Un puerto USB; 2 GB de RAM; 300 MB de espacio libro en disco duro; Sistema operativo Windows Vista o superior; o Mac OS X Mavericks (versión 10.9) o superior; o Linux con kernel reciente (requiere instalación desde repositorios dependiendo de la distribución).
+
+**Bibliografía básica de referencia**
+
+*	Diez, D., Barr, C., Çetinkaya-Rundel, M. (2015). OpenIntro Statistics, segunda edición. OpenIntro. https://www.openintro.org/stat/textbook.php?stat_book=os 
+*	Grolemund y Wickham. (2017). R for Data Science. O’Reilly. http://r4ds.had.co.nz/ 
+*	Navarro, D. (2015). Learning statistics with R: A tutorial for psychology students and other beginners. University of Adelaide. http://www.fon.hum.uva.nl/paul/lot2015/Navarro2014.pdf 
+*	Peng, R. D. (2016). R Programming for Data Science. Leanpub. https://leanpub.com/rprogramming 
+*	RStudio Cheat Sheets. https://www.rstudio.com/resources/cheatsheets/
+*	Wickham, H. (2014) Advanced R. O’Reilly.  http://adv-r.had.co.nz/ 
+*	Wickham, H. (2014) Tidy Data. Journal of Statistical Software. https://www.jstatsoft.org/article/view/v059i10/v59i10.pdf 
+

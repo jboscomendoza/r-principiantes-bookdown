@@ -1,0 +1,290 @@
+# Estructuras de control
+En esta ocasión revisaremos las estructuras de control de R. Estas estructuras nos permiten controlar la manera en que se ejecuta nuestro código, lo cual es de gran utilidad, en especial al definir funciones.
+
+## if, else
+**if** (si) es usado cuando deseamos que una operación de ejecute únicamente cuando una condición se cumple. **else** (de otro modo) es usado para indicarle a R qué hacer en caso de la condición de un **if** no se cumpla. 
+
+Un **if** es la manera de decirle a R: 
+**SI esta condición es cierta, ENTONCES haz estas operaciones**.
+
+El modelo para un **if** es:
+```{r, eval=FALSE}
+if(Condición) {
+  operaciones_si_la_condición_es_TRUE
+}
+```
+
+Si la condición es **TRUE** se realizan las operaciones, en caso contrario, no ocurre nada y el código con las operaciones no es ejecutado.
+
+**else** complementa un **if**, pues indica qué deseamos cuando la condición es **FALSE**, en lugar de hacer nada.
+
+Un **if** con **else** es la manera de decirle a R:
+**SI esta condición es es cierta, ENTONCES haz estas operaciónes, DE OTRO MODO, ENTONCES haz estas otras operaciones**.
+
+El modelo para un **if** con un **else** es:
+```{r, eval=FALSE}
+if(condición) {
+  operaciones_si_la_condición_es_TRUE
+} else {
+  operaciones_si_la_condición_es_FALSE
+}
+```
+
+**if** y **else** nos dan las herramientas para ejecutar código de R de manera condicional.
+
+### Usando if y else
+Empezamos definiendo una función que calcula el promedio de calificaciones de un estudiante.
+```{r}
+promedio <- function(calificaciones) {
+  mean(calificaciones)
+}
+
+promedio(c(6, 7, 8, 9, 8))
+promedio(c(5, 8, 5, 6, 5))
+```
+
+Saber el promedio es útil, pero nos gustaría que esta función nos dijera si el estudiante ha aprobado o no.
+
+Sabemos que un estudiante necesita obtener 6 o más de promedio para aprobar, en otras palabras, si es cierto que su calificación es igual o mayor a 6, de otro modo, está reprobado.
+
+Aplicamos un **if** con **else** a la función **promedio( )**, usando esta condición.
+```{r}
+promedio <- function(calificaciones) {
+  media <- mean(calificaciones)
+  
+  if(media >= 6) {
+    print("Aprobado")
+  } else {
+    print("Reprobado")
+  }
+}
+
+
+promedio(c(6, 7, 8, 9, 8))
+promedio(c(5, 8, 5, 6, 5))
+```
+
+Justo lo que necesitamos. Aunque los resultados no tienen la mejor presentación.
+
+Usaremos la función **paste0( )** para pegar el promedio de calificaciones, como texto, con el resultado de "Aprobado" o "Reprobado".
+
+```{r}
+promedio <- function(calificaciones) {
+  media <- mean(calificaciones)
+  texto <- paste0("Calificación: ", media, ", ")
+  
+  if(media >= 6) {
+    print(paste0(texto, "aprobado"))
+  } else {
+    print(paste0(texto, "reprobado"))
+  }
+}
+
+promedio(c(6, 7, 8, 9, 8))
+promedio(c(5, 8, 5, 6, 5))
+```
+
+### ifelse
+La función **ifelse( )** nos permite vectorizar **if, else**. En lugar de escribir una línea de código para cada comparación, podemos usar una sola llamada a esta función, que se aplicará a todos los elementos de un vector.
+
+Para cada comparación, **ifelse** nos devolverá un valor si la condición es **TRUE** y otro diferente si es **FALSE**. Esta función tiene el siguiente modelo:
+
+```{r, eval=FALSE}
+ifelse(vector, valor_si_TRUE, valor_si_FALSE)
+```
+
+Por ejemplo, podemos usar **if_else** para saber si los números en un vector son pares o nones.
+
+```{r}
+num <- 1:8
+
+ifelse(num %% 2 == 0, "Par", "Non")
+```
+
+Podemos crear condiciones más complejas usando operadores Booleanos.
+
+En este caso, pedimos sólo los números que son exactamente divisibles entre 2 y 3.
+
+```{r}
+num <- 1:20
+
+ifelse(num %% 2 == 0 & num %% 3, "Divisible", "No divisible")
+```
+
+## for 
+Esta estructura nos permite hacer un bucle (loop), realizando una operación para cada elemento de un conjunto de datos.
+
+Su estructura es la siguiente:
+  ```{r, eval=FALSE}
+for(elemento in conjunto) {
+  operacion_con_elemento
+}
+```
+
+Podemos, por ejemplo, obtener el cuadrado de cada uno de los elementos en un vector numérico.
+
+```{r} 
+dado <- 1:4
+
+for(cara in dado) {
+  cara ^ 2 
+}
+
+```
+
+Si ejectutaste el código anterior notarás que no ha ocurrido nada, o al menos R no nos ha devuelto un resultado.
+
+Las operaciones en un **for** se realizan pero sus resultados no son devueltos automáticamente, es necesario pedirlos de manera explícita.
+
+Podemos usar una solución provisional para mostrar los resultados de un bucle con la función **print**, si lo único que nos interesa conocer el resultado de un **for** pero no asignarlo a un objeto.
+
+```{r}
+for(cara in dado) {
+  print(cara ^ 2)
+}
+```
+
+Si deseamos asignar los resultados de un bucle **for** a un objeto, usamos índices. 
+
+Aprovechamos que el primer elemento en un bucle siempre es identificado con el número **1** y que continuará realizando operaciones hasta llegar al total de elementos que hemos especificado.
+
+En nuestro caso, pasamos por los valores de dado, cara por cara. La primera cara será igual a 1, la segunda a 2, la tercera a 3 y la cuarta a 4. Así, podemos usar estos valores para asignar un valor a una posición específica en un vector, incluso si este está vacio.
+
+```{r}
+mi_vector <- NULL
+
+for(cara in dado) {
+  mi_vector[cara] <- cara ^ 2
+}
+
+mi_vector
+```
+
+Notarás que el resultado que obtenemos usando **for** es el mismo que si vectorizamos la operación.
+
+```{r}
+dado ^ 2
+```
+
+Dado que contamos con vectorización de operaciones y podemos usar las funciones de la familia **apply**, los bucles **for** no son particularmente populares en R. sin embargo, es conveniente que los conozcas, pues hay ocasiones en que son la mejor herramienta para resolver ciertos problemas.
+
+## while
+
+Este es otro tipo de bucle, que ocurre **mientras** una condición es verdadera. En otras palabras, se realiza una operación hasta llegar a un umbral.
+
+El modelo de **while** es:
+```{r, eval =FALSE}
+while(condicion) {
+  operaciones
+}
+```
+
+Probemos sumar **+1** a un valor, mientras que ese valor sea menor que 5.
+```{r}
+umbral <- 5
+valor <- 0
+
+while(valor < umbral) {
+  print("Todavía no.")
+  valor <- valor + 1
+}
+
+```
+
+¡Ten cuidado con crear bucles infinitos! Si corres un bucle while con una condición que nunca será FALSE, entonces el bucle nunca se detendrá.
+
+```{r, eval=FALSE}
+# Si corres lo siguiente, presiona ESC para detener la ejecución, de otro modo, 
+# correra por siempre.
+while(1 < 2) {
+  print("Presiona ESC para detener")
+}
+```
+
+El anterior es un error común. Estamos sumando 1 a i con cada pase del bucle, pero como no estamos asignando este nuevo valor a i,esta se mantiene igual, la condición nunca se cumplirá y el bucle será infinito.
+```{r, eval=FALSE}
+# Si corres lo siguiente, presiona ESC para detener la ejecución.
+i <- 0
+while(i < 10) {
+  i + 1
+}
+```
+
+Un uso común de **while** es la realización de operación que queremos detener cuando se cumple una condición, pero desconocemos cuándo se cumplirá esa condición.
+
+Supongamos que, por alguna razón, queremos sumar calificaciones, del 1 al 10 al azar, hasta llegar a un número que no sea menor a 50. Nos interesa saber cuántas calificaciones se tuvieron que sumar y cuál fue el resultado final.
+
+Cada vez que corras el código siguiente obtendrás un resultado distinto, pero siempre obtendrás un **valor** mayor a 50.
+```{r}
+conteo <-  0
+valor <- 0
+
+while(valor < 50) {
+  valor <- valor + sample(1:10, 1)
+  conteo <- conteo + 1
+}
+
+valor
+conteo
+
+```
+
+## break y next
+Estas son dos son palabras reservadas en R, no podemos asignarles nuevos valores y realizan una operación específica cuando aparecen en nuestro código.
+
+Break nos permite a interrumpir un bucle, mientras que next nos deja avanzar a la siguiente iteración del bucle, "saltandose" la actual.
+
+Usamosbvreak para interrumpir un bucle. En el momento que la condición se cumple, el bucle se detiene, aunque existan elementos a los cuales aún podría aplicarse.
+```{r}
+for(i in 1:4) {
+  if(i == 3) {
+    break
+  }
+  print(i)
+}
+```
+
+Como podrás notar, una aplicación de break es similar a while: realizar una operación hasta que se cumple con una condición específica.
+
+Por su parte, usamos next para "saltarnos" una iteración en un bucle. Cuando la condición se cumple, esa iteración es omitida. 
+```{r}
+for(i in 1:4) {
+  if(i == 3) {
+    next
+  }
+  print(i)
+}
+```
+
+Estas dos estructuras de control nos dan uncontrol fino sobre nuestro código. aunque los dos ejemplos de arriba son con **for**, también funcionan con **while** y **repeat**. 
+
+En realidad, **break** es indispensable en **repeat**.
+
+## Repeat
+Este es un bucle que se llevará a cabo el número de veces que especifiquemos, sin que esto dependa de una condición. Es decir, se asegura que ocurriran las operaciones que contenga al menos en una ocasión.
+
+El modelo de **repeat** es el siguiente:
+```{r, eval=FALSE}
+repeat {
+  operaciones
+  
+  un_break_para_detener
+}
+```
+
+Si no incluimos un **break**, el bucle se repetirá indefinidamente.
+
+El siguiente repeat sumará **+1** a valor hasta que sea igual a 5.
+```{r}
+valor = 0
+mi_vector <- NULL
+repeat{
+  valor <- valor + 1
+  if(valor == 5) {
+    break
+  }
+}
+valor
+```
+
+Este tipo de bucle es quizás el menos usado entre todos. Existen alternativas para lograr los mismos resultados de manera más sencilla y sin el riesgo de crear un bucle infinito. Pero, como siempre, hay problemas para los que es la mejor alternativa.

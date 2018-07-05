@@ -1,0 +1,48 @@
+# Instalación
+La manera de instalar R es diferente dependiendo del sistema operativo que estés usando, pero todas tienen en común el uso de CRAN.
+
+CRAN es el The Comprehensive R Archive Network, la red en la que se archivan todas las versiones de R base, así como todos los paquetes para R que han pasado por un proceso de revisión riguroso para encontrarse allí, realizado por el CRAN Team, el cual busca asegurar su correcto funcionamiento.
+
+CRAN es una red porque existen copias de su contenido en diferentes servidores alrededor del mundo, que se actualizan diariamente de modo que no importa de qué servidor descargues R o un paquete, vas a obtener la misma versión que otra persona ese mismo recurso desde un servidor diferente.
+
+Como veremos más adelante, cuando descargamos un paquete de R, lo estamos haciendo desde CRAN, a menos que indiquemos otra cosa.
+
+* https://cran.r-project.org/ 
+
+## Windows
+Para instalar R en Windows, la manera más simple es descargar la versión más reciente de R base disponible en CRAN y ejecutar el instalador.
+
+* https://cran.r-project.org/bin/windows/base/
+
+Una vez hecho esto, estamos listos para usar R.
+
+## OSX
+Para instalar R en OSX, basta descargar los archivos binarios de R base desde CRAN y ejecutarlos.
+
+* https://cran.r-project.org/bin/macosx/ 
+
+Con esto podremos usar R, incluso llamándolo directamente desde la consola.
+
+## Linux
+Como siempre, en Linux hay una manera fácil y una difícil de instalar R.
+
+La fácil depende de la presencia de R en los repositorios de la distribución de Linux que estés usando. Si R se encuentra en los repositorios de tu distribución, sólo es necesario usar el gestor de paquetes para instalarlo como cualquier otro software.
+
+Si R no se encuentra en los repositorios, debes agregar una entrada a tu lista de fuentes de software y esta depende de tu distribución. También puedes compilar directamente desde archivos fuente.
+
+En cualquier caso, los detalles se encuentran en el siguiente enlace (que si estás usando Linux no te debería ser difícil seguir las instrucciones presentadas):
+
+* https://cran.r-project.org/bin/linux/ 
+
+## RStudio
+Recomiendo instalar y usar un entorno integrado de desarrollo (IDE, por sus siglas en inglés) para trabajar con R. 
+
+Aunque es posible usar R ejecutando nuestro código directamente desde documentos de texto plano, esta es una manera poco efectiva de trabajar en proyectos complejos.
+
+Un IDE nos proporciona herramientas para escribir y revisar nuestro código, administrar los archivos que estamos usando, gestionar nuestro entorno de trabajo y algunas otras herramientas de productividad. Tareas que serían difíciles de otro modo, son fáciles a través de un IDE.
+
+Entre los existentes para R, mi preferido es RStudio porque además de incorporar las funciones esenciales de una IDE, el equipo responsable del desarrollo de este entorno también ha contribuido de manera significativa a hacer de R un lenguaje de programación más accesible, con un énfasis en la colaboración y la reproducción de los análisis.
+
+Para instalar RStudio basta con descargar y ejecutar alguno de los instaladores disponibles. Existen versiones para Windows, OSX y Linux.
+
+* https://www.rstudio.com/products/rstudio/download/ 

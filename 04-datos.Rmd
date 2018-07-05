@@ -1,0 +1,71 @@
+# Tipos de datos
+Los tipos de datos más usados en R son los siguientes.
+
+Tipo            | Ejemplo | Nombre en inglés
+-----           | -----   |----
+Entero          | 1       | integer
+Numérico        | 1.3     | numeric
+Complejo        | 1+0i    | complex 
+Cadena de texto | "uno"   | character
+Factor          | uno     | factor
+Lógico          | TRUE    | logical
+Perdido         | NA      | NA
+Vacio           | NULL    | null
+
+
+Los datos numéricos también son llamados **dobles** o **floats (flotantes)**. Su nombre se deb a que son números de doble precisión, pues tienen una parte entera y una fraccionaria decimal, y son llamados floats debido a que se usa un punto flotante para su representación computacional. Para fines prácticos todos estos términos son sinónimos y son usados de manera mas o menos intercambiable en libros y documentación, lo mismo ocurrirá en este libro.
+
+Los datos de tipo lógico sólo tienen dos valores posibles: **TRUE** (verdadero) y **FALSE** (falso). Este tipo de datos es esencial para trabajar con álgebra booleana.
+
+**NA** se usa para representar datos perdidos y en R es diferente a **NULL**. **NULL** representa la ausencia de datos, es decir, que no hay nada que recuperar, mientras que **NA** representa un valor específico, de un dato que se reporta como perdido o ausente.
+
+El tipo *character* representa cadenas de texto y es fácil reconocerlo porque un dato siempre esta rodeado de comillas, simples o dobles.
+
+Las cadenas de texto son diferentes a los factores aunque suelen lucir igual en la consola. Un factor puede ser descrito como un dato numérico representado por una etiqueta. Cada uno de las etiquetas o valores que puedes asumir un factor se conoce como **nivel**.
+
+Por ejemplo, podemos tener un conjunto de datos de tipo factor con dos niveles, **femenino (1)** y **masculino (2)**. Para nuestra computadora, femenino tiene un valor de 1, pero a nosotros se nos muestra la palabra *femenino*. Por su parte, las cadenas de texto no son representaciones de datos numéricos, son 
+
+Por esta razón, si intentamos coercionar un factor a tipo numérico, tendremos éxito, pero si intentamos lo mismo con una cadena de texto, se nos mostrara una advertencia y el resultado será **NA**.
+
+Podemos usar la función **class()** para determinar el tipo de un dato.
+```{r, echo=TRUE}
+class(3)
+class("3")
+class(TRUE)
+```
+
+## Coerción
+En R, los datos pueden ser coercionados (forzados) para convertirlos de un tipo a otro. Cuando pedimos a R que ejecute una operación, R intentará coercionar los datos al tipo correcto que permita realizarla. Si no lo logra, nos devuelve como resultado un error.
+
+La coerción de tipos se realiza de los más restrictivos a los más flexibles.
+
+Como los datos de tipo lógico sólo admiten dos valores (`TRUE` y `FALSE`), estos son los más restrictivos; mientras que los datos de cadena de texto, al admitir cualquier cantidad y combinación de caracteres, son los más flexibles.
+
+Por ejemplo, podemos coercionar un dato de tipo entero a tipo numérico, pero no un dato de tipo cadena de texto a numérico.
+
+Las coerciones siguen este orden:
+
+*logical -> integer -> numeric -> complex -> character*
+
+Podemos pedir a R que haga coerción usando la familia de funciones `as()`.
+
+Función         | Tipo al que hace coerción | Ejemplo
+-----           | -----                     |----
+as.integer()    | Entero                    | integer
+as.numeric()    | Numerico                  | numeric
+as.complex()    | 1+0i                      | complex
+as.character()  | Cadena de texto           | "uno"
+as.factor()     | Factor                    | factor
+as.logical()    | Lógico                    | logical
+as.null()       | NULL                      | null
+
+Por ejemplo, con `as.character()`, podemos convertir un número en una cadena de texto.
+```{r, echo=TRUE}
+as.character(5)
+```
+
+Estas funciones siguen las reglas de coerción de R, así que no podemos hacer forzar coerciones no permitidas.
+```{r, echo=TRUE, error=TRUE}
+as.logical("palabra")
+```
+
