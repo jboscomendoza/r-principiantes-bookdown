@@ -5,7 +5,7 @@ bookdown::gitbook:
       before: |
         <li><a href="./">R para principiantes</a></li>
       after: |
-        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+        <li><a href="https://github.com/rstudio/bookdown" target="blank">Creado con bookdown</a></li>
     edit: https://github.com/rstudio/bookdown-demo/edit/master/%s
     download: ["pdf", "epub"]
 bookdown::pdf_book:

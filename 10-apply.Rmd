@@ -303,11 +303,3 @@ correlaciones <- lapply(tablas, cor)
 
 correlaciones[[1]]
 ```
-
--
-
-Ha sido un proceso un poco más largo de lo que anticipaba, pero con **apply** y **lapply**, en conjunto con todo lo que hemos revisado anteriormente, tienes suficientes herramientas para resolver problemas complejos usando R.
-
-Eso es precisamente lo que haremos.
-
-Crearemos una función para obtener estadísticos de las bases de datos de ECEA, lo cual implica la estimación de errores estándar de medida con pesos muestrales replicados (método BRR con corrección de Fay).
