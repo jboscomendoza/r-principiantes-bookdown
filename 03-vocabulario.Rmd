@@ -1,44 +1,66 @@
-# Lo más básico
+# Conceptos básicos
 
 Para trabajar con R es necesario que conozcamos un poco del vocabulario usado en en este lenguaje de programación. Los siguientes son conceptos básicos que usaremos a lo largo de todo el curso.
 
 ## La consola de R
-Lo primero que nos encontramos al abrir R es una pantalla que nos muestra la versión de este lenguaje que estamos ejecutando y un *prompt*:
+Lo primero que nos encontramos al ejecutar R es una pantalla que nos muestra la versión de este lenguaje que estamos ejecutando y un *prompt*:
 
 `>_                                               ` 
 
-Esta es la consola de R y corresponde con el entorno computacional de este lenguaje. Es aquí donde nuestro código es interpretado.
+Esta es la consola de R y corresponde al **entorno computacional** de este lenguaje. Es aquí donde nuestro código es interpretado.
 
-Podemos escribir código directamente en la consola y R nos dará el resultado de lo pidamos allí mismo. Por esta razón se dice que R permite el uso interactivo, pues no es necesario compilar nuestro código para poder ver sus resultados.
+Podemos escribir código directamente en la consola y R nos dará el resultado de lo pidamos allí mismo. Esta es la razón pora la que se dice que R permite el uso interactivo, pues no es necesario compilar nuestro código para ver sus resultados.
+
+Si estás usando RStudio, te encontrarás la consola de R en uno de los páneles de este programa.
 
 ## Ejecutar, llamar, correr y devolver
-Cuando hablamos de ejecutar, llamar o correr nos referimos a pedir que R realice algo, en otras palabras, estamos dándole una *entrada*. Por su parte, cuando decimos que R nos devuelve algo, es que ha realizado lo que le hemos pedido, es decir, nos da una *salida*.
+Cuando hablamos de ejecutar, llamar o correr nos referimos a pedir que R realice algo, en otras palabras, estamos dando una instrucción o una *entrada*. 
+
+Cuando decimos que R nos devuelve algo, es que ha realizado algo que le hemos pedido, es decir, nos está dando una *salida*.
+
+Por ejemplo, si escribimos los siguiene en la consola lo siguiente y damos Enter, estamos pidiendo que se ejecute esta operación:
+`> 1 + 1`
+
+Y nos será devuelto su resultado:
+`[1] 2`
 
 ## Constantes y variables
-Una constante es un objeto cuyo valor no podemos cambiar, en contraste, una variable es un objeto que puede cambiar de valor.
+De manera análoga al uso de estos términos en lenguaje matemático, una constante es un objeto cuyo valor no podemos cambiar, en contraste, una variable es un objeto que puede cambiar de valor.
 
-Las constantes y variables en R tienen nombres que nos permiten hacer referencia a ellas.
+Por ejemplo, en la siguiente expresión, **$\pi$** y **2** son constantes, mientras que **a** y **r** son variables.
 
-Las constantes ya están establecidas por R, mientras que nosotros podemos crear variables, asignando valores a un nombre.
+$a = \pi r ^ 2$
 
-Es recomendable que al crear una variable usemos nombres claros, no ambiguos y descriptivos. Esto previene confusión y hace que nuestro código sea más fácil de comprender por otras personas o por nosotros mismos en el futuro.
+Las constantes y variables en R tienen nombres que nos permiten hacer referencia a ellas en operaciones.
+
+Las constantes ya están establecidas por R, mientras que nosotros podemos crear variables, asignandoles valores a nombres.
+
+En R usamos `<-` para hacer asignaciones. De este modo, podemos asignar el valor **3** a la variable **radio**
+```{r, echo = TRUE}
+radio <- 3
+```
+
+Hablaremos sobre asignaciones más adelante, en el capítulo de [operadores](##operadores-de-asignacion).
+
+Es recomendable que al crear una variable usemos **nombres claros, no ambiguos y descriptivos**. Esto previene confusión y hace que nuestro código sea más fácil de comprender por otras personas o por nosotros mismos en el futuro.
 
 Los nombres de las variables pueden incluir letras, números, puntos y guiones bajos. Deben empezar siempre con una letra o un punto y si empiezan con un punto, a este no puede seguirle un número.
 
 ## Funciones (introducción básica)
-Una función es una serie de operaciones a la que le hemos asignados un nombre. Las funciones aceptan argumentos, es decir, especificaciones de cómo deben funcionar.
+Una función es **una serie de operaciones** a la que les hemos asignados un nombre. Las funciones aceptan **argumentos**, es decir, especificaciones sobre cómo deben funcionar.
 
 Cuando llamamos una función, se realizan las operaciones que contiene, usando los argumentos que hemos establecido.
 
-En R reconocemos a una función usando la notación **nombre_de_la_función()**.
+En R reconocemos a una función usando la notación: `nombre_de_la_función()`. Por ejemplo:
 
-Por ejemplo:
-- mean()
-- quantile()
-- summary()
-- density()
-- c()
+* `mean()`
+* `quantile()`
+* `summary()`
+* `density()`
+* `c()`
 
-Al igual que con las variables, se recomienda que los nombres de las funciones sean claros, no ambiguos y descriptivos. En este caso, que describan lo que hace la función. Es probable que adivines qué hacen casi todas funciones de la lista de arriba a partir de su nombre.
+Al igual que con las variables, se recomienda que los nombres de las funciones sean claros, no ambiguos y descriptivos. Idealmente, el nombre de una función  describe lo que hace. 
 
-Las funciones son un tema más complejo que esta introducción básica que veremos más adelante. Por el momento, esta descripción basta para entender a qué nos referimos al hablar de una función.
+De hecho, es probable que adivines qué hacen casi todas funciones de la lista de arriba a partir de su nombre.
+
+Las funciones son un tema que revisamos más adelante. Por el momento, recuerda que una función realiza operaciones y requiere argumentos para poder llevarlas a cabo.

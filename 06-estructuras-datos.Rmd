@@ -1,81 +1,141 @@
 # Estructuras de datos
+Las estructuras de datos son objetos que contienen datos. Cuando trabajamos con R, lo que estamos haciendo es manipular estas estructuras.
+
+Las estructuras tienen diferentes características. Entre ellas, las que distinguen a una estructura de otra son su número de **dimensiones** y si son **homogeneas** o **hereterogeneas**.
+
+La siguiente tabla muestra las principales estructuras de control que te encontrarás en R.
+
 Dimensiones| Homogeneas| Heterogeneas
 ----       |----       |----
 1          | Vector    | Lista
 2          | Matriz    | Data frame 
 n          | Array     | 
-*Adaptado de Wickham (2016).
+*Adaptado de Wickham (2016).*
 
-Estas estructuras son los objetos que contienen datos y son lo que manipulamos al trabajar en R.
+Veamos las características de cada una de ellas.
 
 ## Vectores
-Un vector es la estructura de datos más sencilla de todas las existentes en R. 
+Un vector es la estructura de datos más sencilla en R. Un vector es una colección de uno o más datos del mismo tipo.
 
-Un vector es atómico. Únicamente puede contener datos un sólo tipo, no se pueden mezclar tipos de datos dentro de ellos. Por esta razón, también esta estructura es también denominada como homogénea.
+Todos los vectores tienen tres propiedades:
 
-Un vector sólo tiene una dimensión, que es su largo.
+* **Tipo**. Un vector tiene el mismo tipo que los datos que contiene. Si tenemos un vector que contiene datos de tipo numérico, el vector será también de tipo numérico. Los vectores son **atómicos**, pues sólo pueden contener datos de un sólo tipo, no es posible mezclar datos de tipos diferentes dentro de ellos.
+* **Largo**. Es el número de elementos que contiene un vector. El largo es la única **dimensión** que tiene esta estructura de datos.
+* **Atributos**. Los vectores pueden tener metadatos de muchos tipos, los cuales describen características de los datos que contienen. Todos ellos son incluidos en esta propiedad. Nosotros no usaremos vectores con metadatos, por ser una propiedad con usos muy específicos que van más allá del alcance de este libro.
 
-Todos los vectores tienen además tres propiedades:
+Cuando una estructura unicamente puede contener datos de un sólo tipo, como es el caso de los vectores, decimos que es **homogénea**, pero no implica que necesariamente sea **atómica**. Regresaremos sobre esto al hablar de matrices y arrays.
 
-* Tipo. Un vector tiene el mismo tipo que los datos que contiene. Si tenemos un vector que contiene datos de tipo numérico, el vector será también de tipo numérico.
-* Largo. Es la cantidad de elementos que contiene un vector.
-* Atributos. Los vectores pueden tener metadatos de muchos tipos. Todos son incluidos en esta propiedad.
-
-En realidad, un dato sencillo como el número **3** es un vector de tipo numérico y largo 1.
-
+Como los vectores son la estrucutra de datos más sencilla de R, datos simples como el número **3**, son en realidad vectores. En este caso, un vector de tipo númerico y largo igual a 1.
 ```{r, echo=TRUE}
-1
+3
 ```
 
-Podemos crear vectores usando la función `c()` (combinar).
-
+Verificamos que  el **3** es un vector con la función `is.vector()`.
 ```{r, echo=TRUE}
+is.vector(3)
+```
+
+Y usamos la función `length()` para conocer su largo.
+```{r, echo=TRUE}
+length(3)
+```
+
+Lo mismo ocurre con los demás tipos de datos, por ejemplo, con cadenas de texto y datos lógicos.
+```{r, echo=TRUE}
+is.vector("tres")
+is.vector(TRUE)
+```
+
+### Creación de vectores
+Creamos vectores usando la función `c()` (*combinar*). 
+
+Llamamos esta función y le damos como argumento los elementos que deseamos combinar en un vector, separados por comas.
+```{r, echo=TRUE}
+# Vector numérico
 c(1, 2, 3, 5, 8, 13)
+
+# Vector de cadena de texto
 c("arbol", "casa", "persona")
+
+# Vector lógico
 c(TRUE, TRUE, FALSE, FALSE, TRUE)
 ```
 
-Si intentamos combinar datos de tipos diferentes en un mismo vector, R realizará coerción. El vector resultante será del tipo más flexible entre los datos que contenga.
+Si deseamos agregar un elemento a un vector ya existente, podemos hacerlo combinando nuestro vector original con los elementos nuevos y asignando el resultado a nuestro vector original.
+```{r, echo=TRUE}
+mi_vector <- c(TRUE, FALSE, TRUE)
 
+mi_vector <- c(mi_vector, FALSE)
+
+mi_vector
+```
+
+Naturalmente, podemos crear vectores que son combinación de vectores.
+```{r, echo=TRUE}
+mi_vector_1 <- c(1, 3, 5)
+mi_vector_2 <- c(2, 4, 6)
+
+mi_vector_3 <- c(mi_vector_1, mi_vector_2)
+
+mi_vector_3
+```
+
+Si intentamos combinar datos de diferentes tipos en un mismo vector, R realizará coerción automáticamente. El vector resultante será del tipo más flexible entre los datos que contenga, siguiendo las reglas de ***coerción***.
+
+Creamos un vector numérico.
 ```{r, echo=TRUE}
 mi_vector <- c(1, 2, 3)
 
 class(mi_vector)
+```
 
+Si intentamos agregar un dato de tipo cadena de texto, nuestro vector ahora sera de tipo cadena de texto.
+```{r}
 mi_vector_nuevo <- c(mi_vector, "a")
 
 class(mi_vector_nuevo)
+```
 
+Como las cadenas de texto son el tipo de dato más flexible, siempre que creamos un vector que incluye un dato de este tipo, el resultado será un vector de texto.
+```{r}
 mi_vector_mezcla <- c(FALSE, 2, "tercero", 4.00)
 
 class(mi_vector_mezcla)
 ```
 
-Hay algunas operaciones que pueden **vectorizarse**. Si las aplicamos a un vector, esta se aplica en cada uno de sus elementos.
+### Vectorización de operaciones
+Existen algunas operaciones al aplicarlas a un vector, se aplican a cada uno de sus elementos. A este proceso le llamamos **vectorización**.
 
-Por ejemplo, las operaciones aritméticas pueden vectorizarse.
+Por ejemplo, las operaciones aritméticas pueden vectorizarse. Si las aplicamos a un vector, la operación se realizará para cada uno de los elementos que contiene.
 ```{r, echo=TRUE}
+# Nuestro vector
 mi_vector <- c(2, 3, 6, 7, 8, 10, 11)
 
+# Las operaciones
 mi_vector + 2
-
 mi_vector * 2
-
 mi_vector / 2
-
 mi_vector ^ 2
-
 mi_vector %% 2
 ```
 
+Esta manera de aplicar una operación es muy eficiente. Comparada con otros procedimientos, requiere de menos tiempo de cómputo, lo cual a veces es considerable, en particular cuando trabajamos con un número grande de datos.
+
+Aunque el nombre de este proceso es **vectorización**, también funciona, en ciertas circunstancias, para otras estructuras de datos.
+
 ## Matrices y arrays
-Podemos describir a las matrices y arrays como vectores multidimensionales, pues además de un largo, pueden tener una estrictura de dos o más dimensiones.
+Las matrices y arrays pueden ser descritas como **vectores multidimensionales**. Al igual que un vector, únicamente pueden contener datos de un sólo tipo, pero además de largo, tienen más dimensiones.
 
-En realidad, las matrices son una caso especial de un array, que se distingue por tener específicamente dos dimensiones, un "largo"" y un "alto". Es decir, esta es una estructura con forma rectangular. Como las matrices son usadas de manera regular en estadística, esta es una estructura de datos que es común encontrar y en la que nos enfocaremos.
+En un sentido estricto, las matrices son una caso especial de un array, que se distingue por tener **específicamente dos dimensiones**, un "largo"" y un "alto". Las matrices son, por lo tanto, una estructura con forma rectangular, con renglones y columnas.
 
-Por su parte, los arrays pueden tener un número arbitrario de dimensiones. Pueden ser cubos, hipercubos y otras... cosas. Su uso no es muy común en R, aunque a veces es deseable contar con un objeto n-dimensional para manipular datos, los arrays tienen la restricción de que todos sus datos, no importando en cuantas dimensiones se encuentren, deben ser del mismo tipo. Debido a esto, es preferible el uso de listas, que además tienen ciertas ventajas que veremos más adelante.
+Como las matrices son usadas de manera regular en matemáticas y estadística, es una estructura de datos de uso común en R común y en la que nos enfocaremos en este libro.
 
-Para crear matrices en R usamos la función `matrix()`. La función `matrix()` acepta dos argumentos, `nrow` y `ncol`, con los cuales especificamos el número de renglones y columnas que tendrá nuestra matriz.
+Los arrays, por su parte, pueden tener un número arbitrario de dimensiones. Pueden ser cubos, hipercubos y otras formas. Su uso no es muy común en R, aunque a veces es deseable contar con objetos n-dimensionales para manipular datos. Como los arrays tienen la restricción de que todos sus datosdeben ser del mismo tipo, no importando en cuantas dimensiones se encuentren, esto limita sus usos prácticos. 
+
+En general, es preferible usar listas en lugar de arrays, una estructura de datos que además tienen ciertas ventajas que veremos más adelante.
+
+### Creación de matrices
+Creamos matrices en R con la función `matrix()`. La función `matrix()` acepta dos argumentos, `nrow` y `ncol`. Con ellos especificamos el número de renglones y columnas que tendrá nuestra matriz.
 ```{r, echo=TRUE}
 # Un vector numérico del uno al doce
 1:12

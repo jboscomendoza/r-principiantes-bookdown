@@ -1,4 +1,20 @@
-# Operadores aritméticos
+# Operadores
+Los operadores son los símbolos que le indican a R que debe realizar una tarea. Combinando datos y operadores es que logramos que R haga su trabajo.
+
+Existen operadores específicos para cada tipo de tarea. Los tipos de operadores principales son los siguientes:
+
+* Aritméticos
+* Relacionales
+* Lógicos
+* De asignación
+
+Familiarizarnos con los operadores nos permitirá manipular y transformar datos de distintos tipos. 
+
+## Operadores aritméticos
+Como su nombre lo indica, este tipo de operador es usado para operaciones aritméticas.
+
+En R tenemos los siguientes operadores aritméticos:
+
 Operador| Operación       | Ejemplo | Resultado
 ----    |----             |----     |----
 +       | Suma            | 5 + 3   | 8
@@ -8,32 +24,57 @@ Operador| Operación       | Ejemplo | Resultado
 ^       | Potencia        | 5 ^ 3   | 125
 %%      | División entera | 5 %% 3  | 2
 
-Es posible realizar operaciones aritméticas con datos de tipo **entero** y **numérico**. Cuando intentas realizar una operación aritmética con otro tipo de dato, R primero intenta coercionar ese dato a numérico, si la coerción tiene éxito se realiza la operación normalmente, si falla, el resultado es un error.
-Por ejemplo, `4 + "tres"` devuelve:
-`Error in 4 + "tres" : non-numeric argument for binary operator."`
+Es posible realizar operaciones aritméticas con datos de tipo **entero** y **numérico**. 
+
+Si escribes una operación aritmética en la consola de R y das Enter, esta se realiza y se devuelve sy resultado.
+```{r, echo=TRUE}
+15 * 3
+```
+
+Cuando intentas realizar una operación aritmética con otro tipo de dato, R primero intentará coercionar ese dato a uno numérico. Si la coerción tiene éxito se realizará la operación normalmente, si falla, el resultado será un error.
+
+Por ejemplo, `4 + "tres"` devuelve: `Error in 4 + "tres" : non-numeric argument for binary operator."`
+```{r, echo=TRUE, error=TRUE}
+4 + "tres"
+```
   
-El mensaje *"non-numeric argument for binary operator"* aparece siempre que intentas realizar una operación aritmética con un argumento no numérico. Por lo tanto, si un error contiene este mensaje, es la primera pista para que identifiques donde ha ocurrido un problema.
+El mensaje *"non-numeric argument for binary operator"* aparece siempre que intentas realizar una operación aritmética con un argumento no numérico. Si te encuentras un un error que contiene este mensaje, es la primera pista para que identifiques donde ha ocurrido un problema.
+
+### La división entera
+Entre los operadores aritméticos, el de división entera o **modulo** requiere una explicación adicional sobre su uso. La operación que realiza es una división de un número entre otro, pero en lugar de devolver el cociente, nos devuelve el residuo.
+
+Por ejemplo, si hacermos una división entera de 4 entre 2, el resultado será 0. Esta es una división exacta y no tiene residuo.
+```{r, echo =TRUE}
+4 %% 2
+```
+
+En cambio, si hacemos una división entera de 5 entre 2, el resultado será 1, pues este es el residuo de la operación.
+```{r, echo =TRUE}
+5 %% 2
+```
 
 ## Operadores relacionales
+Los operadores lógicos son usados para hacer comparaciones y siempre devuelven como resultado `TRUE` o `FALSE` (verdadero o falso, respectivamente).
+
 Operador| Comparación           | Ejemplo | Resultado
 ----    |----                   |----     |----
-  <       | Menor que             | 5 < 3   | FALSE
+<       | Menor que             | 5 < 3   | FALSE
 <= 	    | Menor o igual que     | 5 <= 3  | FALSE
 >       |	Mayor que             | 5 > 3   | TRUE
 >= 	    | Mayor o igual que     | 5 >= 3  | TRUE
 == 	    | Exactamente igual que | 5 == 3  | FALSE
 != 	    | No es igual que       | 5 != 3  | TRUE
 
-Los operadores lógicos son usados para hacer comparaciones y siempre devuelven como resultado `TRUE` o `FALSE` (verdadero o falso, respectivamente).
-
 Es posible comparar cualquier tipo de dato sin que resulte en un error.
 
-Sin embargo, al usar los operadores `>`, `>=`, `<` y `<=` con cadenas de texto, estos tienen un comportamiento especial. Por ejemplo, `"casa" > "barco"` nos devuelve `TRUE`.
+Sin embargo, al usar los operadores `>`, `>=`, `<` y `<=` con cadenas de texto, estos tienen un comportamiento especial. 
+
+Por ejemplo, `"casa" > "barco"` nos devuelve `TRUE`.
 ```{r}
 "casa" > "barco"
 ```
 
-Este resultado se debe a que la comparación se hace por orden alfabético. En este caso, la palabra "casa" tendría una posición, por orden alfabético, posterior a "barco", por lo tanto, es verdadero que sea "mayor".
+Este resultado se debe a que se ha hecho una comparación por orden alfabético. En este caso, la palabra "casa" tendría yba posición posterior a "barco", pues empieza con "c" y está letra tiene una posición posterior a la "b" en el alfabeto. Por lo tanto, es verdadero que sea "mayor".
 
 Cuando intentamos comparar factores, siempre obtendremos como resultado `NA` y una advertencia acerca de que estos operadores no son significativos para datos de tipo factor.
 ```{r, echo=TRUE}
@@ -41,19 +82,27 @@ as.factor("casa") > "barco"
 ```
 
 ## Operadores lógicos
-Operador  | Comparación   | Ejemplo       | Resultado
-----      |----           |----           |----
-!x        |	Negación de x | !TRUE         | FALSE
-x | y     |	x Ó y         | TRUE | FALSE  | TRUE
-x & y     |	x Y y         | TRUE & FALSE  | FALSE
-isTRUE(x) |	Es x TRUE     | isTRUE(TRUE)  | TRUE
+Los operadores lógicos son usados para operaciones de **álgebra Booleana**, es decir, para describir relaciones lógicas, expresadas como verdadero (`TRUE`) o falso (`FALSO`).
+  
+Operador  | Comparación                   | Ejemplo       | Resultado
+----      |----                           |----           |----
+x | y     |	x Ó y es verdadero            | TRUE | FALSE  | TRUE
+x & y     |	x Y y son verdaderos          | TRUE & FALSE  | FALSE
+!x        |	x no es verdadero (negación)  | !TRUE         | FALSE
+isTRUE(x) |	x es verdadero (afirmación)   | isTRUE(TRUE)  | TRUE
 
-Los operadores lógicos son usados para operaciones de **álgebra Booleana**, es decir, para describir relaciones lógicas.
+Los operadores `|` y `&` siguen estas reglas:
 
-Pueden ser usados con estos operadores los datos de tipo **numérico**, **lógico** y **complejo** y al igual que con los operadores relacionales, los operadores lógicos siempre devuelven `TRUE` o `FALSE`.
+* `|` devuelve `TRUE` si alguno de los datos es `TRUE`
+* `&` solo devuelve `TRUE` si ambos datos es `TRUE`
+* `|` solo devuelve `FALSE` si ambos datos son `FALSE`
+* `&` devuelve `FALSE` si alguno de los datos es `FALSE`
 
-En realidad, para realizar operaciones lógicas, todos los valores numéricos distintos a `0` son coercionados a `TRUE`, mientras que `0` siempre es coercionado a `FALSE`. Por ejemplo, `5 | 0` resulta en `TRUE` y `5 & FALSE` resulta en `FALSE`. Podemos comprobar lo anterior con la función `isTRUE()`.
+Estos operadores pueden ser usados con estos con datos de tipo **numérico**, **lógico** y **complejo**. Al igual que con los operadores relacionales, los operadores lógicos siempre devuelven `TRUE` o `FALSE`.
 
+Para realizar operaciones lógicas, todos los valores numéricos y complejos distintos a `0` son coercionados a `TRUE`, mientras que `0` siempre es coercionado a `FALSE`. 
+
+Por ejemplo, `5 | 0` resulta en `TRUE` y `5 & FALSE` resulta en `FALSE`. Podemos comprobar lo anterior con la función `isTRUE()`.
 ```{r, echo=TRUE}
 5 | 0
 
@@ -64,37 +113,70 @@ isTRUE(0)
 isTRUE(5)
 ```
 
+Estos operadores se pueden combinar para expresar relaciones complejas.
+
+Por ejemplo, la negación `FALSE` Y `FALSE` dará como resultado `TRUE`.
+```{r, }
+!(FALSE | FALSE)
+```
+
+También podeos combinar operadores lógicos y relacionales, dado que esto últimos dan como resultado `TRUE` y `FALSE`.
+```{r, echo=FALSE}
+(4 < 6) | (6 == 6)
+```
+
 ## Operadores de asignación
+Este es probablemente el operador más importante de todos, pues nos permite asignar datos a variables.
+
 Operador  | Operación   
 ----      |----         
 <-        | Asigna un valor a una variable
+=         | Asigna un valor a una variable
 
-Este es probablemente el operador más importante de todos pues nos permite asignar datos a variables.
+Aunque podemos usar el signo igual para una asignación, a lo largo de este libro utlizaremos `<-`, por ser característico de R y fácil de reconocer visualmente.
 
-Cuando realizamos esta operación, podemos usar el nombre de la variable para realizar operaciones con ella, como si fuera del tipo de datos que le hemos asignado. Si asignamos un valor a una variable que a la que ya habíamos realizado una asignación, nuestra variable conserva el valor más reciente.
+Después de realizar la operación de asignación, podemos usar el nombre de la variable para realizar operaciones con ella, como si fuera del tipo de datos que le hemos asignado. Si asignamos un valor a una variable a la que ya habíamos asignado datos, nuestra variable conserva el valor más reciente.
 
-Además, esta operación nos permite "guardar" el resultado de operaciones, de modo que podemos recuperarlo sin necesidad de realizar las operaciones de nuevo, con sólo usar de nuevo el nombre de la variable.
+Además, esta operación nos permite "guardar" el resultado de operaciones, de modo que podemos recuperarlos sin necesidad de realizar las operaciones otra vez. Basta con llamar el nombre de la variable en la consola
 
+En este ejemplo, asignamos valores a las variables `estatura` y `peso`.
 ```{r, echo=TRUE}
 estatura <- 1.73
 peso <- 83
+```
+Llamamos a sus valores asignados
+```{r, echo=TRUE}
+estatura
+peso
+```
 
+Usamos los valores asignados para realizar operacions.
+```{r, echo=TRUE}
 peso / estatura ^ 2
+```
 
+Cambiamos el valor de una variable a uno nuevo y realizamos operaciones
+```{r, echo=TRUE}
 peso <- 76
+
+peso
 
 peso / estatura ^ 2
 
 estatura <- 1.56
 peso <- 48
 
+peso / estatura ^ 2
+```
+
+Asignamos el resultado de una operación a una variable nueva.
+```{r, echo = TRUE}
 bmi <- peso / estatura ^ 2
 
 bmi
-
 ```
 
-Es posible asignar a una variable valores de otra variable distinta o el resultado de operaciones con otras variables.
+Como podrás ver, es posible asignar a una variable valores de otra variable o el resultado de operaciones con otras variables.
 ```{r, echo=TRUE}
 velocidad_inicial <- 110
 velocidad_final <- 185

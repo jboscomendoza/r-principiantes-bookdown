@@ -8,7 +8,6 @@ output:
     config:
       toolbar:
         position: static
-    highlight: espresso
   # bookdown::pdf_book:
   #   keep_tex: yes
   #   #highlight: espresso
@@ -19,19 +18,18 @@ output:
   #   theme: journal
 ---
 
-# Prefacio: Introducción a R 
-Mtro. Juan Bosco Mendoza Vega 
+# Prefacio
+Juan Bosco Mendoza Vega 
 
-Objetivos
+Este libro esta dirigído a personas que nunca han usado R.
 
-Al final de este curso-taller introductorio al lenguaje de programación estadístico R, el participante:
-
-*	conocerá las características principales de R
-*	estará familiarizado con los tipos y estructuras de datos usados en R
-*	conocerá el flujo de trabajo para el análisis de datos con R
-*	será capaz de importar, manipular, visualizar y modelar datos usando R
-*	podrá escribir funciones simples
-*	aplicará el contenido del curso-taller en un caso con datos reales
+El propósito es que lector:
+*	conozca las características principales de R
+*	se familiarice con los tipos y estructuras de datos usados en R
+*	conozca el flujo de trabajo para el análisis de datos con R
+*	sea capaz de importar, manipular, visualizar y modelar datos usando R
+*	pueda odrá escribir funciones simples
+*	aqplie el contenido del curso-taller en un caso con datos reales
 
 Contenido
 
@@ -46,12 +44,7 @@ Contenido
   *	Modelar
 *	Aplicando R en un caso real 
 
-Software necesario
-•	R. https://cran.itam.mx/ 
-•	RStudio. https://www.rstudio.com/products/rstudio/download/ 
-
 **Equipo sugerido**
-
 Computadora con las siguientes especificaciones mínimas: Un puerto USB; 2 GB de RAM; 300 MB de espacio libro en disco duro; Sistema operativo Windows Vista o superior; o Mac OS X Mavericks (versión 10.9) o superior; o Linux con kernel reciente (requiere instalación desde repositorios dependiendo de la distribución).
 
 **Bibliografía básica de referencia**

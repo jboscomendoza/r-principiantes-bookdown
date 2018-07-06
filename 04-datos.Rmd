@@ -1,5 +1,5 @@
 # Tipos de datos
-Los tipos de datos más usados en R son los siguientes.
+En R los datos pueden ser de diferentes tipos. Los siguientes son los comunes.
 
 Tipo            | Ejemplo | Nombre en inglés
 -----           | -----   |----
@@ -12,6 +12,7 @@ Lógico          | TRUE    | logical
 Perdido         | NA      | NA
 Vacio           | NULL    | null
 
+Cada tipo de dato tiene características particulares que lo hace diferente a los demás.
 
 Los datos numéricos también son llamados **dobles** o **floats (flotantes)**. Su nombre se deb a que son números de doble precisión, pues tienen una parte entera y una fraccionaria decimal, y son llamados floats debido a que se usa un punto flotante para su representación computacional. Para fines prácticos todos estos términos son sinónimos y son usados de manera mas o menos intercambiable en libros y documentación, lo mismo ocurrirá en este libro.
 
@@ -45,19 +46,19 @@ Por ejemplo, podemos coercionar un dato de tipo entero a tipo numérico, pero no
 
 Las coerciones siguen este orden:
 
-*logical -> integer -> numeric -> complex -> character*
+`logical -> integer -> numeric -> complex -> character`
 
 Podemos pedir a R que haga coerción usando la familia de funciones `as()`.
 
-Función         | Tipo al que hace coerción | Ejemplo
------           | -----                     |----
-as.integer()    | Entero                    | integer
-as.numeric()    | Numerico                  | numeric
-as.complex()    | 1+0i                      | complex
-as.character()  | Cadena de texto           | "uno"
-as.factor()     | Factor                    | factor
-as.logical()    | Lógico                    | logical
-as.null()       | NULL                      | null
+Función         | Tipo al que hace coerción
+-----           | -----
+as.integer()    | Entero
+as.numeric()    | Numerico
+as.complex()    | Complejo
+as.character()  | Cadena de texto
+as.factor()     | Factor
+as.logical()    | Lógico
+as.null()       | NULL
 
 Por ejemplo, con `as.character()`, podemos convertir un número en una cadena de texto.
 ```{r, echo=TRUE}
@@ -69,3 +70,22 @@ Estas funciones siguen las reglas de coerción de R, así que no podemos hacer f
 as.logical("palabra")
 ```
 
+## Verificar el tipo de un dato
+También podemos verificar si un dato es de un tipo específico con la familia de funciones `is()`. 
+
+Función         | Tipo que verifican
+-----           | -----
+is.integer()    | Entero
+is.numeric()    | Numerico
+is.complex()    | Complejo
+is.character()  | Cadena de texto
+is.factor()     | Factor
+is.logical()    | Lógico
+is.null()       | NULL
+
+Si el dato es del tipo que estamos verificando, estas funciones nos devolverán `TRUE` y en caso contrario devolverán `FALSE`.
+```{r, echo=TRUE}
+is.numeric(5)
+
+is.character(5)
+```

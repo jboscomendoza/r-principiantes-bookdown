@@ -1,54 +1,55 @@
-# apply
+# La familia apply
 
 La familia de funciones **apply** es usada para aplicar una función a cada elemento de una estructura de datos. En particular, es usada para aplicar funciones en matrices, data frames, arrays y listas.
 
 Con esta familia de funciones podemos automatizar tareas complejas usando poca líneas de código y es una de las características distintivas de R como lenguaje de programación. 
 
-La familía de funciones **apply** es una expresión del paradigma funcional de programación. Sobre esto no profundizaremos demasiado. Basta saber que en este paradigma las funciones son "ciudadanos de primera", con la misma importancia que los objetos, y por lo tanto, operamos en ellas. La familia de funciones apply recibe funciones como argumentos, no sólo objetos.
+La familía de funciones **apply** es una expresión del paradigma funcional de programación. Sobre esto no profundizaremos demasiado, pero se refiere saber que en R las funciones son "ciudadanos de primera", con la misma importancia que los objetos, y por lo tanto, operamos en ellas. 
 
-## Un recordatorio sobre vectorización
-Para entender la familia apply, empecemos recordarndo que en R podemos vectorizar operaciones.
+La familia de funciones apply no sólo recibe datos como argumentos, también recibe funciones.
 
-```{r}
+### Un recordatorio sobre vectorización
+Para entender la familia apply, recordemos la [vectorización de operaciones](###vectorización-de-operaciones).
+
+```{r, echo=FALSE}
 mi_vector <- 1:10
 
 mi_vector ^ 2
-
 ```
 
-Cuando vecotorizamos, la operación es aplicada a cada elemento en un vector. Es una alternativa, generalmente deseable a escribir una operación para cada elemento o usar un bucle **for** (como se describió en Estructuras de control).
+Cuando vectorizamos, la operación es aplicada a cada elemento en un vector. 
+Esto es generalmente deseable a escribir una operación para cada elemento o usar un bucle **for** (como se describió en [estructuras de control](#estructuras-de-control)).
 
 Como todo lo que ocurre en R es una función, podríamos decir que **al vectorizar estamos aplicando una función a cada elemento de un vector**. 
 
-La familia de funciones **apply** nos permite realizar lo anterior en estructuras de datos distintas  los vectores, de más de una dimensión.
+La familia de funciones **apply** nos permite realizar lo anterior en estructuras de datos distintas a los vectores.
 
-## la familia apply
+### Las funciones de la familia apply
 La familia apply esta formada por las siguientes funciones:
 
-- apply
-- eapply
-- lapply
-- mapply
-- rapply
-- sapply
-- tapply
-- vapply
+* `apply()`
+* `eapply()`
+* `lapply()`
+* `mapply()`
+* `rapply()`
+* `sapply()`
+* `tapply()`
+* `vapply()`
 
-Luce como un panorama abrumador. En realidad, no estoy seguro si me faltó incluir alguna función de la familia **apply** en la lista anterior.
+Es una familia numerosa. La variedad de funciones se debe a que muchas de ellas tienen aplicaciones muy específicas.
 
-La variedad de funciones se debe a que muchas de ellas son usadas para casos muy específicos. Como estamos aprendiendo a usar R, nos concentraremos en las funciones más generales y de uso común.
+Nosotros nos concentraremos en las funciones más generales y de uso común de esta familia.
 
-- apply
-- lapply
+* `apply()`
+* `lapply()`
 
-Conociendo el uso de estas dos funciones, las demás son relativamente fáciles de entender.
+Estas dos funciones nos permitiran solucionar casi todos los problemas con los que nos encontremos y conociendo su uso, las demás funciones de la familia son relativamente fáciles de entender.
 
 ## apply
 
-**apply** aplica una función a todos los elementos de una matriz.
+**apply** aplica una función a todos los elementos de una **matriz**.
 
 La manera de usar esta función es:
-
 ```{r, eval = F}
 apply(X, MARGIN, FUN)
 
