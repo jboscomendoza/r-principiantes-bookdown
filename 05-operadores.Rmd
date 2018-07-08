@@ -26,7 +26,7 @@ Operador| Operación       | Ejemplo | Resultado
 
 Es posible realizar operaciones aritméticas con datos de tipo **entero** y **numérico**. 
 
-Si escribes una operación aritmética en la consola de R y das Enter, esta se realiza y se devuelve sy resultado.
+Si escribes una operación aritmética en la consola de R y das Enter, esta se realiza y se devuelve su resultado.
 ```{r, echo=TRUE}
 15 * 3
 ```
@@ -39,6 +39,15 @@ Por ejemplo, `4 + "tres"` devuelve: `Error in 4 + "tres" : non-numeric argument 
 ```
   
 El mensaje *"non-numeric argument for binary operator"* aparece siempre que intentas realizar una operación aritmética con un argumento no numérico. Si te encuentras un un error que contiene este mensaje, es la primera pista para que identifiques donde ha ocurrido un problema.
+
+Cualquier operación aritmética que intentemos con un dato `NA`, devolverá `NA` como resultado.
+```{r, echo = TRUE}
+NA - 66
+
+21 * NA
+
+NA ^ 13
+```
 
 ### La división entera
 Entre los operadores aritméticos, el de división entera o **modulo** requiere una explicación adicional sobre su uso. La operación que realiza es una división de un número entre otro, pero en lugar de devolver el cociente, nos devuelve el residuo.

@@ -153,7 +153,7 @@ matrix(1:12, nrow = 4, ncol = 3)
 matrix(1:12, nrow = 4, ncol = 3)
 ```
 
-Los datos que intentemos agrupar en una matriz serán acomodados en orden, de arriba a abajo, y de izquierda a derecha.
+Los datos que intentemos agrupar en una matriz serán acomodados en orden, de arriba a abajo, y de izquierda a derecha, hasta formar un rectángulo.
 
 Si multiplicamos el número de renglones por el número de columnas, obtendremos el número de celdas de la matriz. En los ejemplo anteriores, el número de celdas es igual al número de elementos que queremos acomodar, así que la operación ocurre sin problemas.
 
@@ -169,35 +169,131 @@ Si, por el contrario, el número de celdas es mayor que el número de elementos,
 matrix(1:12, nrow = 5, ncol = 4)
 ```
 
-No obstante que las matrices y arrays son estructuras que sólo pueden contener un tipo de datos, no son atómicas. Su clase es igual a **matriz (matrix)** o **array** segun corresónda.
+Otro procedimiento para crear matrices es la unión vectores con las siguientes funciones:
+
+* `cbind()` para unir vectores, usando cada uno como una columna.
+* `rbind()` para unir vectores, usando cada uno como un renglón.
+
+De este modo podemos crear cuatro vectores y unirlos para formar una matriz. Cada vector será un renglon en esta matriz.
+
+Creamos cuatro vectores, cada uno de largo igual a cuatro.
+```{r, echo = TRUE}
+vector_1 <- 1:4
+vector_2 <- 5:8
+vector_3 <- 9:12
+vector_4 <- 13:16
+```
+
+Usamos `rbind()` para crear un matriz, en la que cada vector será un renglón.
+```{r, echo = TRUE}
+matriz <- rbind(vector_1, vector_2, vector_3, vector_4)
+
+# Resultado
+matriz
+```
+
+Si utilizamos `cbind()`, entonces cada vector será una columna.
+```{r, echo = TRUE}
+matriz <- cbind(vector_1, vector_2, vector_3, vector_4)
+
+# Resultado
+matriz
+```
+
+Al igual que con `matrix()`, los elementos de los vectores son reciclados para formar una estructura rectangular y se nos muestra un mensaje de advertencia.
+```{r, echo = TRUE}
+# Elementos de largo diferente
+vector_1 <- 1:2
+vector_2 <- 1:3
+vector_3 <- 1:5
+
+matriz <- cbind(vector_1, vector_2, vector_3)
+
+# Resultado
+matriz
+```
+
+Finalmente, las matrices pueden contener `NA`s.
+
+Creamos dos vectores con un `NA` en ellos.
+```{r, echo=TRUE}
+vector_1 <- c(NA, 1, 2)
+vector_2 <- c(3,  4, NA)
+```
+
+Creamos una matriz con `rbind()`.
+```{r}
+matriz <- rbind(vector_1, vector_2)
+
+# Resultados
+matriz
+```
+
+Como `NA` representa datos perdidos, puede estar presente en compañía de todo tipo de de datos.
+
+### Propiedades de las matrices
+No obstante que las matrices y arrays son estructuras que sólo pueden contener un tipo de datos, no son atómicas. Su clase es igual a **matriz (matrix)** o **array** segun corresponda.
+
+Verificamos esto usando la función `class()`.
 ```{r, echo=TRUE}
 mi_matriz <- matrix(1:10)
 
 class(mi_matriz)
 ```
 
-Podemos saber el número de dimensiones de un objeto, no sólo matrices y arrays, usando la función **dim()**. Esta función nos devolverá varios números. Cada uno de ellos indica la cantidad de elementos que tiene una dimensión.
+Las matrices y arrays pueden tener más de una dimensión.
+
+Obtenemos el número de dimensiones de una matriz o array con la función `dim()`. Esta función nos devolverá varios números, cada uno de ellos indica la cantidad de elementos que tiene una dimensión.
 ```{r, echo=TRUE}
 mi_matriz <- matrix(1:12, nrow = 4, ncol = 3)
 dim(mi_matriz)
+```
 
-# Si usamos dim() con un vector, obtenemos NULL. Esto ocurre con todos 
-# los objetos unidimensionales 
+Cabe señalar que si usamos `dim()` con un vector, obtenemos `NULL`. Esto ocurre con todos los objetos unidimensionales 
+```{r, echo=TRUE}
 mi_vector <- 1:12
+
 dim(mi_vector)
 ```
 
-Finalmente, las operaciones aritméticas también son vectorizadas al aplicarlas a una matriz.
+Finalmente, las operaciones aritméticas también son vectorizadas al aplicarlas a una matriz. La operación es aplicada a cada uno de los elementos de la matriz.
+
+Creamos una matriz.
 ```{r, echo=TRUE}
 mi_matriz <- matrix(1:9, nrow = 3, ncol = 3)
 
+# Resultado
 mi_matriz
+``` 
 
+Intenemos sumar, multiplicar y elevar a la tercera potencia.
+```{r}
+# Suma
 mi_matriz + 1
 
+# Multiplicación
 mi_matriz * 2
 
+# Potenciación
 mi_matriz ^ 3
+```
+
+Si intentamos vectorizar una operación utilizando una matriz con `NA`s, esta se aplicará para los elementos válidos, devolviendo `NA` cuando corresponda.
+
+Creamos una matriz con `NA`s.
+```{r, echo=TRUE}
+vector_1 <- c(NA, 2, 3)
+vector_2 <- c(4, 5, NA)
+
+matriz <- rbind(vector_1, vector_2)
+
+# Resultado
+matriz
+```
+
+Intentamos dividir sus elementos entre dos.
+```{r, echo=T}
+matriz / 2
 ```
 
 ## Data frames
@@ -253,6 +349,27 @@ data.frame(
 )
 ```
 
+También podemos coercionar esta matriz a un data frame.
+
+Creamos una matriz.
+```{r}
+matriz <- matrix(1:12, ncol = 4)
+```
+
+Usamos `as.data.frame()` para coercionar una matriz a un data frame.
+```{r}
+df <- as.data.frame(matriz)
+```
+
+Verificamos el resultado
+```{r}
+class(df)
+
+# Resultado
+df
+```
+
+### Propiedades de un data frame
 Al igual que con una matriz, si aplicamos una operación aritmética a un data frame, esta se vectorizará. 
 
 Los resultados que obtendremos dependerán del tipo de datos de cada columna. R nos devolverá todas las advertencias que ocurran como resultado de las operaciones realizadas, por ejemplo, aquellas que hayan requerido una coerción.
@@ -285,21 +402,42 @@ mi_df     <- data.frame("num" = 1:3, "let" = c("a", "b", "c"))
 mi_lista <- list("un_vector" = mi_vector, "una_matriz" = mi_matriz, "un_df" = mi_df)
 
 mi_lista
+```
 
-# Una lista que contiene otras listas
+Creamos una lista que contiene otras listas.
+```{r, echo=TRUE}
 lista_recursiva <- list("lista1" = mi_lista, "lista2" = mi_lista)
 
+# Resultado
 lista_recursiva
+```
 
-# El largo de una lista es igual al número de elementos que contiene, sin importar de qué tipo o clase sean
+### Propiedades de una lista
+Una lista es unidimensional, sólo tiene largo.
+
+El largo de una lista es igual al número de elementos que contiene, sin importar de qué tipo o clase sean. Usamos la lista recursiva que creamos en la sección anterior para ilustrar esto.
+```{r, echo=TRUE}
 length(lista_recursiva)
+```
 
-# Una lista tiene siempre una sóla dimensión, por lo tanto dim() nos devuelve NULL
+Dado que una lista siempre tiene una sóla dimensión, la función `dim()` nos devuelve `NULL`.
+```{r, echo=TRUE}
 dim(lista_recursiva)
+```
 
-# Las listas tienen clase list
+Las listas tienen clase **list**, sin importar qué elementos contengan.
+```{r, echo=TRUE}
 class(lista_recursiva)
+```
 
-# No es posible vectorizar operaciones aritméticas usando listas. Nos es devuelto un error
+Finalmente, no es posible vectorizar operaciones aritméticas usando listas. Al intentarlo nos es devuelto un error.
+```{r, echo=TRUE, echo=TRUE}
 mi_lista / 2
 ```
+
+Si deseamos aplicar una función a cada elemento de una lista, usamos `lapply()`, como veremos en el [capítulo 10](#apply).
+
+
+
+
+

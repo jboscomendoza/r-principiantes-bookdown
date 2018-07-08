@@ -1,28 +1,27 @@
 # La familia apply
+La familia de funciones `apply` es usada para aplicar una función a cada elemento de una estructura de datos. En particular, es usada para aplicar funciones en matrices, data frames, arrays y listas.
 
-La familia de funciones **apply** es usada para aplicar una función a cada elemento de una estructura de datos. En particular, es usada para aplicar funciones en matrices, data frames, arrays y listas.
+Con esta familia de funciones podemos automatizar tareas complejas usando poca líneas de código y es una de las características distintivas de R como lenguaje de programación.
 
-Con esta familia de funciones podemos automatizar tareas complejas usando poca líneas de código y es una de las características distintivas de R como lenguaje de programación. 
-
-La familía de funciones **apply** es una expresión del paradigma funcional de programación. Sobre esto no profundizaremos demasiado, pero se refiere saber que en R las funciones son "ciudadanos de primera", con la misma importancia que los objetos, y por lo tanto, operamos en ellas. 
+La familía de funciones `apply` es una expresión de los rasgos del paradigma funcional de programación presentes en R. Sobre esto no profundizaremos demasiado, pero se refiere saber que en R las funciones son "ciudadanos de primera", con la misma importancia que los objetos, y por lo tanto, operamos en ellas. 
 
 La familia de funciones apply no sólo recibe datos como argumentos, también recibe funciones.
 
 ### Un recordatorio sobre vectorización
-Para entender la familia apply, recordemos la [vectorización de operaciones](###vectorización-de-operaciones).
+Para entender más fácilmente el uso de la familia apply, recordemos la [vectorización de operaciones](###vectorización-de-operaciones).
 
-```{r, echo=FALSE}
+Hay operaciones que, si las aplicamos a un vector, son aplicadas a todos sus elementos.
+```{r, echo=TRUE}
 mi_vector <- 1:10
+
+mi_vector
 
 mi_vector ^ 2
 ```
 
-Cuando vectorizamos, la operación es aplicada a cada elemento en un vector. 
-Esto es generalmente deseable a escribir una operación para cada elemento o usar un bucle **for** (como se describió en [estructuras de control](#estructuras-de-control)).
+Lo anterior es, generalmente, preferible a escribir una operación para cada elemento o a usar un bucle **for**, como se describió en  el capítulo sobre [estructuras de control](#estructuras-de-control).
 
-Como todo lo que ocurre en R es una función, podríamos decir que **al vectorizar estamos aplicando una función a cada elemento de un vector**. 
-
-La familia de funciones **apply** nos permite realizar lo anterior en estructuras de datos distintas a los vectores.
+Como todo lo que ocurre en R es una función, podemos decir que **al vectorizar estamos aplicando una función a cada elemento de un vector**. La familia de funciones **apply** nos permite implementar esto en estructuras de datos distintas a los vectores.
 
 ### Las funciones de la familia apply
 La familia apply esta formada por las siguientes funciones:
@@ -36,72 +35,82 @@ La familia apply esta formada por las siguientes funciones:
 * `tapply()`
 * `vapply()`
 
-Es una familia numerosa. La variedad de funciones se debe a que muchas de ellas tienen aplicaciones muy específicas.
+Es una familia numerosa, pues  variedad de funciones se debe a que varias de ellas tienen aplicaciones sumamente específicas.
 
-Nosotros nos concentraremos en las funciones más generales y de uso común de esta familia.
+Todas las funciones de esta familia tienen una característica en común: **reciben como argumentos a un objeto y al menos una función**. 
+
+Hasta ahora, todas las funciones que hemos usado han recibido como argumentos estructuras de datos, sean vectores, data frames o de otro tipo. Las funciones de la familia apply tienen la particularidad que pueden recibir a otra función como un argumento. Lo anterior puede sonar confuso, pero es más bien intuitivo al verlo implementado.
+
+Nosotros trabajaremos con las funciones más generales y de uso común de esta familia:
 
 * `apply()`
 * `lapply()`
 
-Estas dos funciones nos permitiran solucionar casi todos los problemas con los que nos encontremos y conociendo su uso, las demás funciones de la familia son relativamente fáciles de entender.
+Estas dos funciones nos permitiran solucionar casi todos los problemas a los que nos encontremos. Además, conociendo su uso, las demás funciones de la familia **apply** serán relativamente fáciles de entender.
 
 ## apply
+`apply` aplica una función a todos los elementos de una **matriz**.
 
-**apply** aplica una función a todos los elementos de una **matriz**.
-
-La manera de usar esta función es:
+La estructura de esta función es la siguiente.
 ```{r, eval = F}
 apply(X, MARGIN, FUN)
 
 ```
 
-Tenemos tres argumentos:
+`apply` tiene tres argumentos:
 
-- X: Una matriz o un objeto que pueda coercionarse a una matriz, generalmente, un data frame.
-- MARGIN: La dimensión que agrupará los elementos de la matriz, para aplicar una función. 1 es renglones, 2 es colummnas.
-- FUN: La función que aplicaremos.
+* `X`: Una matriz o un objeto que pueda coercionarse a una matriz, generalmente, un data frame.
+* `MARGIN`: La dimensión (margen) que agrupará los elementos de la matriz `X`, para aplicarles una función. Son identificadas con números, **1** son renglones y **2** son colummnas.
+* `FUN`: La función que aplicaremos a la matriz `X` en su dimención `MARGIN`.
 
-X es un argumento sencillo de comprender pero MARGIN y FUN no son intuitivos y requieren de una explicación más amplia.
+### ¿Qué es X
+`X` es una matriz o cualquier otro objeto que sea posible coercionar a una matriz. Esto es, principalmente, vectores y data frames. 
+
+Recuerda que puedes coercionar objetos a matriz usando `as.matrix()` y puedes comprobar si un objeto es de esta clase con `is.matrix()`.
+```{r, echo = TRUE}
+# Creamos un data frame
+mi_df <- data.frame(v1 = 1:3, v2 = 4:6)
+
+mi_df
+
+# Coerción a matriz
+mi_matriz <- as.matrix(mi_df)
+
+# Verificamos que sea matriz
+is.matrix(mi_matriz)
+
+# Resultado
+mi_matriz
+```
+
+
+
+Aunque tambien podemos coercionar listas y arrays a matrices, los resultados que obtenemos no siempre son apropiados para `apply()`, por lo que no es recomendable usarl estos objetos como argumentos.
 
 ### ¿Qué es MARGIN?
-Primero, recordemos que las matrices o data frames estás formadas por vectores. De hecho, podemos crear matrices uniendo vectores. Las funciones que usamos para esta tarea son:
+Recuerda que las matrices y los data frames están formadas por vectores y que estas estructuras tienen dos dimensiones, ordenadas en renglones y columnas. Esto lo vimos en en [Matrices y arrays](##matrices-y-arrays) y [Data frames](##data-frames).
 
-- cbind para unir vectores, usando cada uno como una columna.
-- rbind para unir vectores, usando cada uno como un renglón.
+Para `MARGIN`:
 
-De modo que podemos crear cuatro vectores, y después unirlos para formar una matriz, en los que cada vector es un renglon.
-```{r}
-vector_1 <- 1:4
-vector_2 <- 5:8
-vector_3 <- 9:12
-vector_4 <- 13:16
+* 1 es renglones.
+* 2 es columnas.
 
-matriz <- rbind(vector_1, vector_2, vector_3, vector_4)
+Por ejemplo, podemos usar `apply()` para obtener la sumatoria de los elementos de una matriz, por renglón.
 
-class(matriz)
-
-matriz
+Creamos una matriz de cuatro renglones.
+```{r, echo=TRUE}
+matriz <- matrix(1:14, nrow = 4) 
 ```
 
-Podemos coercionar esta matriz a un data frame.
+Aplicamos `apply()`, dando la función `sum()` el argumento `FUN`, nota que sólo necesitamos el nombre de la función, sin paréntesis.
 
-```{r}
-df <- as.data.frame(matriz)
-
-class(df)
-
-df
-```
-
-Vamos a usar **apply** para obtener la sumatoria de los elementos de nuestra matriz, por columna (MARGIN = 2).
-
-```{r}
+Por último, damos el argumento `MARGIN = 1`, para aplicar la función por renglón.
+```{r, echo=TRUE}
 apply(X = matriz, MARGIN = 1, FUN = sum)
 ```
 
 Esto es equivalente a hacer lo siguiente.
-
-```{r}
+```{r, echo = TRUE}
 sum(matriz[1, ])
 sum(matriz[2, ])
 sum(matriz[3, ])
@@ -109,7 +118,6 @@ sum(matriz[4, ])
 ```
 
 Y naturalmente, es equivalente a hacer lo siguiente.
-
 ```{r}
 sum(vector_1)
 sum(vector_2)
@@ -117,100 +125,118 @@ sum(vector_3)
 sum(vector_4)
 ```
 
-**Estamos aplicando una función a cada elemento de nuestra matriz. Los elementos son son los renglones.**
+**Estamos aplicando una función a cada elemento de nuestra matriz. Los elementos son los renglones. Cada renglón es un vector. Cada vector es usado como argumento de la función.**
 
-Considerando lo anterior, probablemente ya sepas qué pasará si cambiamos el argumento MARGIN de 1 a 2.
-
-```{r}
+Si cambiamos el argumento MARGIN de `MARGIN = 1` a `MARGIN = 2`, entonces la función se aplicará por columna.
+```{r, echo=TRUE}
 apply(X = matriz, MARGIN = 2, FUN = sum)
 ```
 
-En este caso, la función **sum( )** ha sido aplicado a cada elementos de nuestra matriz y los elementos son las columnas. 
+En este caso, la función `sum()` ha sido aplicado a cada elementos de nuestra matriz, los elementos son las columnas, y cada columna es un vector.
 
-Probemos cambiando el argumento FUN, en lugar de obtener la sumatoria, usaremos **mean( )** para obtener la media.
+### ¿Qué es FUN?
+FUN es un argumento que nos pide el **nombre de una función que se se aplicarla a todos los elementos de nuestra matriz**.
 
-```{r}
+El ejemplo de la sección anterior aplicamos las funciones `mean()` y `sum()` usando sus nombres, sin paréntesis, esto es, sin especificar argumentos.
+
+Podemos dar como argumento cualquier nombre de función, siempre y cuando esta acepte vectores como argumentos.
+
+Probemos cambiando el argumento `FUN`. Usaremos la función `mean()` para obtener la media de cada renglón y de cada columna.
+
+Aplicado a los renglones.
+```{r, echo=TRUE}
 apply(matriz, 1, mean)
+```
 
+Aplicado a las columnas
+```{r, echo=TRUE}
 apply(matriz, 2, mean)
 ```
 
-### ¿Qué es FUN?
-El ejemplo anterior se ejecuta con éxito porque la función **sum( )** nos pide como argumento un vector de tipo numérico.
-
-FUN es un argumento que nos pide la función que será aplicada a los elementos de nuestra estructura de datos. 
-
-A diferencia de la manera convencional en la que llamamos una función, escribiendo su nombre y entre paréntesis los argumentos que necesita para realizar sus operaciones, **en apply sólo proporcionamos su nombre**. 
-
-Las siguientes llamadas a **sd( )**, **max( )** y **quantile( )** se ejecutan sin necesidad de especificar argumentos.
-
-```{r}
+Las siguientes llamadas a `sd()`, `max()` y `quantile()` se ejecutan sin necesidad de especificar argumentos.
+```{r, echo=TRUE}
+# Desviación estándar
 apply(matriz, 1, FUN = sd)
+
+# Máximo
 apply(matriz, 1, FUN = max)
+
+# Cuantiles
 apply(matriz, 1, FUN = quantile)
 ```
 
-¿Cómo sabe entonces la función cuáles son sus argumentos?
+## ¿Cómo sabe FUN cuáles son sus argumentos?
+Recuerda que podemos llamar una función y proporcionar sus argumentos en orden, tal como fueron establecidos en su definición.
 
-Recuerda que podemos llamar una función y proporcionar argumentos en orden, tal como fueron establecidos en la definición de la función.
+Por lo tanto, **el primer argumento que espera la función, sera la `X` del `apply()`**.
 
-Por lo tanto, **el primer argumento que espera la función, sera la X del apply**.
+Para ilustrar esto, usaremos la función `quantile()`. Llama `?quantile` en la consola para ver su documentación.
+```{r, echo=TRUE, eval=FALSE}
+?quantile
+```
 
-Para ilustrar esto, usaremos la función **quantile( )**. Usa **?quantile** para ver su documentación.
+`quantile()` espera siempre un argumento `x`, que debe ser un vector numerico, además tener varios argumentos adicionales. 
 
-**quantile( )** espera siempre un argumento **x**, que debe ser un vector numerico y varios argumentos adicionales. 
+* `probs` es un vector numérico con las probabilidades de las que queremos extraer cuantiles.
+* `na.rm`, si le asignamos `TRUE` quitará de x los `NA` y `NaN` antes de realizar operaciones. 
+* `names`, si le asignamos `TRUE`, hará que el objeto resultado de la función tenga nombres. 
+* `type` espera un valor entre 1 y 9, para determinar el algoritmo usado para el cálculo de los cuantiles.
 
-- **probs** es un vector numérico con las probabilidades de las que queremos extraer cuantiles.
-- **na.rm**, si le asignamos **TRUE** quitará de x los **NA** y **NaN** antes de realizar opeaciones. 
-- **names**, si le asignamos **TRUE**, hará que el objeto resultado de la función tenga nombres. 
-- **type** espera un valor entre 1 y 9, para determinar el argoritmo usado para el cálculo de los cuantiles.
+En orden, el primer argumento es `x`, el segundo `probs`, y así sucesivamente.
 
-En orden, el primer argumento es **x**, el segundo **probs**, y así sucesivamente.
+Cuando usamos `quantile()` en un `apply()`, el argumento `x` de la función será cada elemento de nuestra matriz. Es decir, los vectores como renglones o columnas de los que está constituida la matriz.
 
-Cuando usamos **quantile( )** en un **apply**, el argumento **x** de la función será cada elemento de nuestra estructura de datos. Por lo tanto, si proporcionamos un argumento inválido, la función no se ejecutará y **apply** fallará.
+Esto funcionará siempre y cuando los argumentos sean apropiados para la función. Si proporcionamos un argumento inválido, la función no se ejecutará y **apply** fallará.
 
-Por ejemplo, intentamos obtener cuantiles de las columnas de una matriz en la que una de ellas es de tipo caracter.
+Por ejemplo, intentamos obtener cuantiles de las columnas de una matriz, en la que una de ellas es de tipo caracter.
 
-```{r, error=TRUE}
+Creamos una matriz.
+```{r, echo=TRUE}
 matriz2 <- matrix(c(1:2, "a", "b"), nrow = 2)
+
+# Resultado
+```
+
+Aplicamos la función y obtenemos un error.
+```{r, echo=TRUE, error=TRUE}
 apply(matriz2, 2, quantile)
 ```
 
-En adición a lo anterior, puesto que las matrices están formadas por vectores atómicos, **apply sólo puede ser usado con funciones que esperan vectores como argumentos**.
+Por lo tanto, **apply sólo puede ser usado con funciones que esperan vectores como argumentos**.
 
-### ¿Qué pasa si deseamos utilizar los demás argumentos de una función en un **apply**?
+### ¿Qué pasa si deseamos utilizar los demás argumentos de una función con apply?
+En los casos en los que una función tiene recibe más de un argumento, asignamos los valores de estos del nombre de la función, separados por comas, usando sus propios nombres (a este procedimiento es al que se refiere el argumento `...` descrito en la documentación de `apply`).
 
-En ese caso, asignamos valores a los demás argumentos después del nombre de la función, separados por coma, usando sus propios nombres. A esto es a lo que se refiere el argumento **...** descrito en la documentación de **apply**.
+Supongamos que deseamos encontrar los cuantiles de un vector, correspondientes a las probabilidades **.33** y **.66**. Esto es definido con el argumento `probs` de esta función. 
 
-Supongamos que deamos encontrar el cuantil que corresponde a las probabilidades .33 y .66 usando la función **quantile( )**.
-
-```{r}
-apply(matriz, 2, quantile, probs = c(.33, .66))
+Para ello, usamos `quantile()` y después de haber escrito el nombre de la función, escribimos el nombre del argumento probs y los valores que deseamos para este.
+```{r, echo = TRUE}
+apply(X = matriz, MARGIN = 2, FUN = quantile, probs = c(.33, .66))
 ```
 
-Si además quisieramos que el resultado aparezca sin nombres, entonces necesitamos agregamos la definición de este argumento.
+Como podrás ver, hemos obtenido los resultados esperados.
 
-```{r}
+Si además deseamos que el resultado aparezca sin nombres, entonces definimos el valor del argumento `names` de la misma manera.
+```{r, echo=TRUE}
 apply(matriz, 2, quantile, probs = c(.33, .66), names = FALSE)
 ```
 
-De este modo podemos aplicar funciones complejas, que aceptan múltiples argumentos, en pocas líneas de código.
+De este modo es posible aplicar funciones complejas que aceptan múltiples argumentos, con la ventaja que usamos pocas líneas de código.
 
 ### Sobre los tipos de resultado obtenidos
+Quizás notaste que en los ejemplos anteriores, el resultado de `apply` en ocasiones fue un vector y en otros una matriz. Este comportamiento se debe a que `apply` nos devolverá objetos del mismo tipo que la función aplicada devuelve. Dependiendo de la función será el tipo de objeto que obtengamos. Esta es una característica poco intuitiva de `apply` que puede causarte problemas.
 
-Quizás notaste que en los ejemplos anteriores, el resultado de **apply** en ocasiones fue un vector y en otros una matriz. Este comportamiento se debe a que **apply** nos devolverá objetos del mismo tipo que la función aplicada devuelve. Dependiendo de la función será el tipo de objeto que obtengamos. Esta es una característica poco intuitiva de **apply** que puede causarte problemas.
+Lo anterior te obliga a conocer de antemano el tipo de resultado que obtendrás, lo cual no siempre es fácil, en particular si las funciones que estás utilizando son poco comunes o tiene comportamientos inesperados. Cuando estás trabajando en proyectos en los que el resultado de una operación será usado en operaciones posteriores, corres el riesgo que en alguna parte del proceso, un `apply` te devuelva un resultado que te impida continuar.
 
-Lo anterior te obliga a conocer de antemano el tipo de resultado que obtendrás, lo cual no siempre es fácil, en particular si las funciones que estás utilizando son poco comunes o tiene comportamientos inesperados. Cuando estás trabajando en proyectos en los que el resultado de una operación será usado en operaciones posteriores, corres el riesgo que en alguna parte del proceso, un **apply** te devuelva un resultado que te impida continuar.
-
-Con práctica es más o menos sencillo identificar posibles problemas con los resultados de **apply**, pero es algo que debes tener en cuenta, pues puede explicar porqué tu código no funciona como esperabas.
+Con práctica es más o menos sencillo identificar posibles problemas con los resultados de `apply`, pero es algo que debes tener en cuenta, pues puede explicar porqué tu código no funciona como esperabas.
 
 ## lapply
 
-**lapply** es un caso especial de **apply**, diseñado para aplicar funciones a todos los elementos de una lista. La **l** de su nombre se refiere, precisamente, a **lista**. Esta función primero intentará coercionar al objeto que le demos como argumento a una lista y después aplicará a todos sus elementos una función.
+`lapply` es un caso especial de `apply`, diseñado para aplicar funciones a todos los elementos de una lista. La **l** de su nombre se refiere, precisamente, a **lista**. Esta función primero intentará coercionar al objeto que le demos como argumento a una lista y después aplicará a todos sus elementos una función.
 
-**lapply** siempre nos devolverá una lista como resultado. A diferencia de **apply**, siempre sabes qué obtendrás de aplicar una función.
+`lapply` siempre nos devolverá una lista como resultado. A diferencia de `apply`, siempre sabes qué obtendrás de aplicar una función.
 
-Dado que todas las estructuras de datos pueden coercionarse a una lista, lapply puede usarse en más casos que **apply**. Esto también abre la posibilidad de utilizar funciones que aceptan argumentos distintos a vectores atómicos.
+Dado que todas las estructuras de datos pueden coercionarse a una lista, lapply puede usarse en más casos que `apply`. Esto también abre la posibilidad de utilizar funciones que aceptan argumentos distintos a vectores atómicos.
 
 El modelo de esta función es:
 ```{r, eval=FALSE}
@@ -220,26 +246,26 @@ lapply(X, FUN)
 - **X** es una lista o un objeto coercionable a una lista.
 - **FUN** es la función a aplicar
 
-A diferencia de **apply**, aquí no especificamos **MARGIN**, pues las listas son estructuras unidimensionales.
+A diferencia de `apply`, aquí no especificamos **MARGIN**, pues las listas son estructuras unidimensionales.
 
-Probemos suando **lapply** con un data frame, en este caso, el conjunto de datos **trees**, que contiene el grueso, alto y volumen de distinto árboles de cerezo negro.
+Probemos suando `lapply` con un data frame, en este caso, el conjunto de datos **trees**, que contiene el grueso, alto y volumen de distinto árboles de cerezo negro.
 
-Aplicaremos la función **mean( )** a cada uno de los elementos del **trees**.
+Aplicaremos la función `mean()` a cada uno de los elementos del objeto **trees**.
 
 ```{r}
 lapply(trees, mean)
 ```
 
-Recuerda que un data frame esta formado por columnas y cada columna es un vector atómico. Por lo tanto, cuando usandos **lapply** en un data frame, la función que usemos será aplicada a cada columna. En este caso, obtuvimos la media de grueso, alto y volumen.
+Recuerda que un data frame esta formado por columnas y cada columna es un vector atómico. Por lo tanto, cuando usandos `lapply` en un data frame, la función que usemos será aplicada a cada columna. En este caso, obtuvimos la media de grueso, alto y volumen.
 
 Esto es conveniente. Para muchos casos en ciencias sociales, esto equivale a decir que vamos a aplicarle una función a todas las variables de nuestros datos.
 
-Al igual que con **apply**, podemos asignar argumentos adicionales a las funciones que usemos. 
+Al igual que con `apply`, podemos asignar argumentos adicionales a las funciones que usemos. 
 ```{r}
 lapply(trees, quantile, probs = .8)
 ```
 
-Si usamos **lapply** para aplicar funciones a una matriz, la función se aplicará a cada "celda" de la matriz.
+Si usamos `lapply` para aplicar funciones a una matriz, la función se aplicará a cada "celda" de la matriz.
 
 ```{r}
 matriz3 <- matrix(1:9, ncol = 3)
@@ -252,16 +278,15 @@ Sin embargo, podemos coercionar una matriz a un data frame para aplicar funcione
 lapply(as.data.frame(matriz3), quantile, probs = .8)
 ```
 
-**lapply** usado en vectores aplicará la función a cada elementos del vector, de manera similar a una vectorización de operaciones. En este caso, obtenemos la raíz cuadrada de un vector numérico del 1 al 4.
+`lapply` usado en vectores aplicará la función a cada elementos del vector, de manera similar a una vectorización de operaciones. En este caso, obtenemos la raíz cuadrada de un vector numérico del 1 al 4.
 ```{r}
 lapply(1:4, sqrt)
 ```
 
-Por esta razón, en muchos casos es posible reemplazar un bucle **for** por un **lapply**. Al final, el resultado es iterar una operación en todos los elementos de una estructura de datos.
+Por esta razón, en muchos casos es posible reemplazar un bucle `for` por un `lapply`. Al final, el resultado es iterar una operación en todos los elementos de una estructura de datos.
 
 ### Usando lapply con listas que contienen otras listas
-
-Todo lo anterior es conveniente, pero podríamos lograrglo con **apply**. Lo que sólo podemos hacer con **lapply** es aplicar una función a una lista de listas. O más generalmente, una lista de objetos que pueden coercionarse a listas.
+Todo lo anterior es conveniente, pero podríamos lograrglo con `apply`. Lo que sólo podemos hacer con `lapply` es aplicar una función a una lista de listas. O más generalmente, una lista de objetos que pueden coercionarse a listas.
 
 Para ilustrar esto, obtendremos el coeficiente de correlación de cuatro data frames contenidos en una sola lista.
 
@@ -274,11 +299,10 @@ tablas <- list(
   df3 = data.frame(g = rnorm(5), h = rnorm(5), i = rnorm(5))
 )
 
-
 tablas
 ```
 
-Deseamos obtener el coeficiente de correlación, así que usaremos la función **cor( )**. Esta función acepta como argumento un data frame. Si proporcionamos unos, calculará el coeficiente de correlación producto momento de Pearson que hay entre cada columna del data frame.
+Deseamos obtener el coeficiente de correlación, así que usaremos la función `cor()`. Esta función acepta como argumento un data frame. Si proporcionamos unos, calculará el coeficiente de correlación producto momento de Pearson que hay entre cada columna del data frame.
 
 El resultado nos es devuelto como una matriz de correlación.
 
@@ -287,7 +311,7 @@ Por ejemplo.
 cor(iris[1:4])
 ```
 
-Por lo tanto, si ejecutamos un **lapply** usando **cor( )**, aplicaremos esta función a cada uno de los data frames de nuestra lista. El resultado será una lista, en la que cada elemento será una matriz de correlaciones.
+Por lo tanto, si ejecutamos un `lapply` usando `cor()`, aplicaremos esta función a cada uno de los data frames de nuestra lista. El resultado será una lista, en la que cada elemento será una matriz de correlaciones.
 
 Esto lo realizamos con una sola línea de código.
 ```{r}
@@ -296,7 +320,7 @@ lapply(tablas, cor)
 
 ¡Y eso es todo! De esta manera puedes manipular información de múltiples data frames, matrices o listas con muy pocas líneas de código. 
 
-Finalmente, no olvides que debes asignar los resultados de un **lapply** a un objeto si quieres guardarlos y usarlos después.
+Finalmente, no olvides que debes asignar los resultados de un `lapply` a un objeto si quieres guardarlos y usarlos después.
 
 ```{r}
 correlaciones <- lapply(tablas, cor)
