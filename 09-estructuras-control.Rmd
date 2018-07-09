@@ -427,10 +427,10 @@ Estas dos estructuras de control nos dan uncontrol fino sobre nuestro código. a
 
 En realidad, **break** es indispensable en **repeat**.
 
-## Repeat
-Este es un bucle que se llevará a cabo el número de veces que especifiquemos, sin que esto dependa de una condición. Es decir, se asegura que ocurriran las operaciones que contenga al menos en una ocasión.
+## repeat
+Este es un bucle que se llevará a cabo el número de veces que especifiquemos, usando un `break` para detenerse. `repeat` asegura que las operaciones que contiene sean iteradas al menos en una ocasión.
 
-El modelo de **repeat** es el siguiente:
+La estructura de **repeat** es el siguiente:
 ```{r, echo=TRUE, eval=FALSE}
 repeat {
   operaciones
@@ -439,19 +439,22 @@ repeat {
 }
 ```
 
-Si no incluimos un `break`, el bucle se repetirá indefinidamente.
+Si no incluimos un `break`, el bucle se repetirá indefinidamente y sólo lo podremos detener pulsando la tecla ESC, así que hay que tener cuidado al usar esta estructura de control.
 
-El siguiente repeat sumará `+1` a valor hasta que sea igual a 5.
+Por ejemplo, el siguiente `repeat` sumará `+1` a `valor` hasta que este sea igual a cinco, entonces se detendrá.
 ```{r, echo=TRUE}
-valor = 0
+valor <-  0
 mi_vector <- NULL
+
 repeat{
   valor <- valor + 1
   if(valor == 5) {
     break
   }
 }
+
+# Resultado
 valor
 ```
 
-Este tipo de bucle es quizás el menos usado entre todos. Existen alternativas para lograr los mismos resultados de manera más sencilla y sin el riesgo de crear un bucle infinito. Pero, como siempre, hay problemas para los que es la mejor alternativa.
+Este tipo de bucle es quizás el menos utilizado de todos, pues en R existen alternativas para obtener los mismos resultados de manera más sencilla y sin el riesgo de crear un bucle infinito. Sin embargo, hay casos muy específicos en los que es la mejor opción.

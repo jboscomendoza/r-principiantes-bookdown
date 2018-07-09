@@ -1,6 +1,5 @@
 # Conceptos básicos
-
-Para trabajar con R es necesario que conozcamos un poco del vocabulario usado en en este lenguaje de programación. Los siguientes son conceptos básicos que usaremos a lo largo de todo el curso.
+Para trabajar con R es necesario conocer un poco del vocabulario usado en en este lenguaje de programación. Los siguientes son conceptos básicos que usaremos a lo largo de todo el libro.
 
 ## La consola de R
 Lo primero que nos encontramos al ejecutar R es una pantalla que nos muestra la versión de este lenguaje que estamos ejecutando y un *prompt*:
@@ -13,6 +12,7 @@ Podemos escribir código directamente en la consola y R nos dará el resultado d
 
 Si estás usando RStudio, te encontrarás la consola de R en uno de los páneles de este programa.
 
+
 ## Ejecutar, llamar, correr y devolver
 Cuando hablamos de ejecutar, llamar o correr nos referimos a pedir que R realice algo, en otras palabras, estamos dando una instrucción o una *entrada*. 
 
@@ -23,6 +23,13 @@ Por ejemplo, si escribimos los siguiene en la consola lo siguiente y damos Enter
 
 Y nos será devuelto su resultado:
 `[1] 2`
+
+## Objetos
+En R, todo es un objeto. Todos los datos y estructuras de datos son objetos. Además, todos los objetos tienen un nombre para identificarlos.
+
+La explicación de esto es un tanto compleja y se sale del alcance de este libro. Se relaciona con el paradigma de **programación orientada a objetos** y ese es todo un tema en sí mismo.
+
+Lo importante es que recuerdes que al hablar de un objeto, estamos hablando de cualquier cosa que existe en R y que tiene un nombre.
 
 ## Constantes y variables
 De manera análoga al uso de estos términos en lenguaje matemático, una constante es un objeto cuyo valor no podemos cambiar, en contraste, una variable es un objeto que puede cambiar de valor.
@@ -46,8 +53,13 @@ Es recomendable que al crear una variable usemos **nombres claros, no ambiguos y
 
 Los nombres de las variables pueden incluir letras, números, puntos y guiones bajos. Deben empezar siempre con una letra o un punto y si empiezan con un punto, a este no puede seguirle un número.
 
+Finalmente, cuando te encuentres con un renglón de código que inicia con un gato (hashtag), esto representa un comentario, es código que no se ejecutará, sólo se mostrará.
+```{r, echo=TRUE}
+# Este es un comentario
+```
+
 ## Funciones (introducción básica)
-Una función es **una serie de operaciones** a la que les hemos asignados un nombre. Las funciones aceptan **argumentos**, es decir, especificaciones sobre cómo deben funcionar.
+Una función es **una serie de operaciones a la que les hemos asignados un nombre**. Las funciones aceptan **argumentos**, es decir, especificaciones sobre cómo deben funcionar.
 
 Cuando llamamos una función, se realizan las operaciones que contiene, usando los argumentos que hemos establecido.
 
@@ -59,11 +71,11 @@ En R reconocemos a una función usando la notación: `nombre_de_la_función()`. 
 * `density()`
 * `c()`
 
-Al igual que con las variables, se recomienda que los nombres de las funciones sean claros, no ambiguos y descriptivos. Idealmente, el nombre de una función  describe lo que hace. 
+Al igual que con las variables, se recomienda que los nombres de las funciones sean claros, no ambiguos y descriptivos. Idealmente, el nombre de una función  describe lo que hace. De hecho, es probable que adivines qué hacen casi todas funciones de la lista de arriba a partir de su nombre.
 
-De hecho, es probable que adivines qué hacen casi todas funciones de la lista de arriba a partir de su nombre.
+Aunque estrictamente hablando una función es un objeto, para fines de explicación, en este libro nos referiremos a ambos como si fueran cosas diferentes.
 
-Las funciones son un tema que revisamos más adelante. Por el momento, recuerda que una función realiza operaciones y requiere argumentos para poder llevarlas a cabo.
+Las funciones son un tema que revisamos más adelante. Por el momento, recuerda que una función realiza operaciones y nos pide argumentos para poder llevarlas a cabo.
 
 # Directorio de trabajo
 El directorio o carpeta de trabajo es el lugar en nuestra computadora en el que se encuentran los archivos con los que estamos trabajando en R. Este es el lugar donde R buscara archivos para importarlos y al que serán exportados, a menos que indiquemos otra cosa.
@@ -79,4 +91,67 @@ Puedes cambiar el directorio de trabajo usando la función `setwd()`, dando como
 setwd("C:\otro_directorio")
 ```
 
-# Entorno de trabajo
+Por último, si deseas conocer el contenido de tu directorio de trabajo, puedes ejecutar. la función `list.files()`, sin argumentos, que devolverá una lista con el nombre de los archivos de tu directorio de trabajo. La función `list.dirs()`, también sin argumentos` te dará una lista de los directorios dentro del directorio de trabajo.
+
+```{r}
+
+```
+
+### Sesión
+Los objetos y funciones de R son almacenados en la memoria RAM de nuestra computadora.
+
+Cuando ejecutamos R, ya sea directamente o a través de RStudio, estamos creando una instancia del entorno del entorno computacional de este lenguaje de programación. **cada instancia es una sesión**.
+
+Todos los objetos y funciones creadas en una sesión, permanecen sólo en ella, no son compartidos entre sesiones, sin embargo una sesión puede tener el mismo directorio de trabajo que otra sesión.
+
+Es posible tener más de una sesión de R activa en la misma computadora. Aunque ambas
+
+Cuando cerramos R, también cerramos nuestra sesión. Se nos preguntará si deseamos guardar el contenido de nuestra sesión para poder volver a ella después. Esto se guarda en un archivo con extensión **.Rdata* en tu directorio de trabajo.
+
+Para conocer los objetos y funciones que contiene nuestra sesión, usamos la función `ls()`, que nos devolverá una lista con los nombres de todo lo guardado en la sesión.
+```{r, echo = TRUE, EVAL=FALSE}
+ls()
+```
+
+De manera más precisa, nuestra sesión es un **entorno** de trabajo y los objetos pertenecen a un entorno específico. 
+
+Los entornos son un concepto importante al hablar de lenguajes de programación, pero también son un tema que sale del alcance de este libro. 
+
+Con que recuerdes que **cada sesión de R tiene su propio entorno global**, eso será suficiente.
+
+## Paquetes
+R puede ser expandido con **paquetes**. Cada paquete es una colección de funciones diseñadas para atender una tarea específica. Por ejemplo, hay paquetes para trabajo visualización geoespacial, análisis psicométricos, mineria de datos, interacción con servicios de internet y muchas otras cosas más.
+
+Estos paquetes se encuentran alojados en **CRAN**, así que pasan por un control riguroso antes de estar disponibles para su uso generalizado.
+
+Podemos instalar paquetes usando la función `install.packages()`, dando como argumento el nombre del paquete que deseamos instalar, entre comillas.
+
+Por ejemplo, para instalar el paquete **readr**, corremos lo siguiente.
+```{r, echo=TRUE, eval=FALSE}
+install.packages("readr")
+```
+
+Hecho esto, apareceran algunos mensajes en la consola mostrando el avance de la instalación
+
+Una vez concluida la instalación de un paquete, podrás usar sus funciones con la función `library()`. Sólo tienes que llamar esta función usando como argument oel nombre del paquete que quieres utilizar
+```{r,echo=TRUE}
+library(readr)
+```
+
+Cuando haces esto, R importa las funciones contenidas en el paquete al entorno de trabajo actual. 
+
+Es importante que tengas en mente que debes hacer una llamada a  `library()` cada que inicies una sesión en R. Aunque hayas importado las funciones de un paquete con anterioridad, las sesiones de R se inician "limpias", sólo con los objetos y funciones de *base*.
+
+Este comportamiento es para evitar problemas de compatibilidad y  para propiciar buenas prácticas de colaboración. 
+
+Si importamos paquetes automáticamente y usamos sus funciones sin indicar de donde provienen, al compartir nuestro código con otras personas, estas no tendrán la información completa para entender qué estamos haciendo. R, al pedirnos que cada sesión indiquemos qué estamos importando, nos obliga a ser explícito con todo lo que estamos haciendo. Es un poco latoso, pero te acostumbras a ello.
+
+En caso de escribir en `install.packages()` el nombre de un paquete no disponible en **CRAN**, se nos mostrará una advertencia y no se instalará nada.
+```{r, eval=TRUE}
+install.packages("un_paquete_falso")
+```
+
+Los paquetes que hemos importado en nuestra sesión actual aparecen al llamar `sessionInfo()`.
+
+También podemos ver qué paquetes tenemos ya instalados ejecutando la función `installed.packages()` sin ningún argumento. Una instalación nueva de R tiene pocos paquetes instalados, pero esta lista puede crecer considerablemente con el tiempo.
+

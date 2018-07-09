@@ -1,18 +1,47 @@
 # Importar y exportar datos
+Hasta ahora, hemos trabajado con datos ya existentes en R *base* o que hemos generado nosotros mismos, sin embargo, lo usual es que usemos datos almacenados en archivos fuera de R.
 
-## Datos tabulares
+R puede importar datos de una amplia variedad de tipos de archivo con las funciones en *base* además de que esta capacidad es ampliada con el uso de paquetes específicos.
 
-### Importar
+Cuando importamos un archivo, estamos guardando su contenido en nuestra sesión como un objeto. Dependiendo del procedimiento que usemos será el tipo de objeto creado.
+
+De manera análoga, podemos exportar nuestros objetos de R a archivos en nuestra computadora.
+
+## Descargando datos
+Antes de empezar a importar datos, vale la pena señalar que  podemos descargar archivos de internet usando R con la función `download.file()`.
+
+De esta manera tendremos acceso a una vasta diversidad de fuentes de datos. Entre otras, podrás descargar los archivos 
+
+La función `download.file()` nos pide como argumento `url`, la dirección de internet del archivo que queremos descargar y `destfile` el nbombre que tendrá el archivo en nuestra computadora. Ambos argumentos como cadenas de texto, es decir, entre comillas.
+
+Por ejemplo, para descargar una copia del set *iris* disponible en el [*UCI Machine Learning Repository*](https://archive.ics.uci.edu) usamos la siguiente dirección como argumento `url`:
+
+* https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data
+
+Y asignamos "iris.data" al argumento `dest`.
+```{r, echo=TRUE, eval=FALSE}
+download.file(url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data", destfile = "iris.data")
+```
+
+El resultado es un archivo llamado "iris.data" en nuestro directorio de trabajo. 
+
+Este método funciona con prácticamente todo tipo de archivos, aunque en algunos casos será necesario agregar el argumento `method = "wb"`, por asegurar que el archivo obtenido funcione correctamente.
+
+## Tablas (datos rectangulares)
+Como vimos en el capítulo [7](#estructuras-de-datos), las estructura rectangular, en renglones y columnas, es común y conveniente para el análisis de datos. Nos referiremos a esta forma de organizar datos como **tabla**.
+
+R cuenta con la función genérica `read.table()`, que puede leer cualquier tipo de archivo que contenga una tabla.
+
+Probemos con un archivo.
+
+
+
 read.table
 read.csv
-read.fwf
-readLines()
-readRDS
 
-### Exportar
+### Exportar tablas
 write.table
 write.csv
-save
 
 ## El paquete readr
 
@@ -48,9 +77,6 @@ read_stata
 write_spss
 write_sas
 write_stata
-
-## Descargar datos
-download.file
 
 
 

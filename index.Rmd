@@ -2,7 +2,8 @@
 title: "R para principiantes"
 author: "Juan Bosco Mendoza Vega"
 site: bookdown::bookdown_site
-#github-repo: "jboscomendoza/r-principiantes-bookdown"
+cover-image: "images/r-principiantes-cover.png"
+github-repo: "jboscomendoza/r-principiantes-bookdown"
 output:
   bookdown::gitbook:
     highlight: haddock
