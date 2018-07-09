@@ -1,0 +1,60 @@
+# Importar y exportar datos
+
+## Datos tabulares
+
+### Importar
+read.table
+read.csv
+read.fwf
+readLines()
+readRDS
+
+### Exportar
+write.table
+write.csv
+save
+
+## El paquete readr
+
+### Importar
+read_csv
+read_lines
+read_fwf
+read_rds
+
+### Exportar
+write_csv
+write_rds
+
+## Hojas de cálculo de Excel
+library(readxl)
+
+### Importar
+read_excel
+excel_sheets
+
+### Exportar
+write_csv
+
+## SPSS, SAS y Stata
+library(haven)
+
+### Importar
+read_spss
+read_sas
+read_stata
+
+### Exportar
+write_spss
+write_sas
+write_stata
+
+## Descargar datos
+download.file
+
+
+
+
+
+
+

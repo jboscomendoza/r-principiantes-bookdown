@@ -3,3 +3,4 @@ language:
   ui:
     chapter_name: "Capítulo "
 delete_merged_file: true
+edit: https://github.com/jboscomendoza/r-principiantes-bookdown/edit/master/%s

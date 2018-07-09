@@ -65,5 +65,18 @@ De hecho, es probable que adivines qué hacen casi todas funciones de la lista d
 
 Las funciones son un tema que revisamos más adelante. Por el momento, recuerda que una función realiza operaciones y requiere argumentos para poder llevarlas a cabo.
 
-# Carpeta y entorno de trabajo
-La carpeta de trabajo es el lugar en nuestra computadora en el que se encuentran los archivos con los que 
+# Directorio de trabajo
+El directorio o carpeta de trabajo es el lugar en nuestra computadora en el que se encuentran los archivos con los que estamos trabajando en R. Este es el lugar donde R buscara archivos para importarlos y al que serán exportados, a menos que indiquemos otra cosa.
+
+Puedes encontrar cuál es tu directorio de trabajo con la función `getwd()`. Sólo tienes que escribir la función en la consola y ejecutarla.
+```{r, echo = TRUE}
+getwd()
+```
+Se mostrará en la consola la ruta del directorio que está usando R.
+
+Puedes cambiar el directorio de trabajo usando la función `setwd()`, dando como argumento la ruta del directorio que quieres usar.
+```{r, echo = TRUE, eval = FALSE}
+setwd("C:\otro_directorio")
+```
+
+# Entorno de trabajo

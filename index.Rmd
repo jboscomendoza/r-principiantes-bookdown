@@ -1,19 +1,22 @@
 ---
 title: "R para principiantes"
 author: "Juan Bosco Mendoza Vega"
+site: bookdown::bookdown_site
+#github-repo: "jboscomendoza/r-principiantes-bookdown"
 output:
   bookdown::gitbook:
+    highlight: haddock
     lib_dir: assets
     split_by: section
     config:
       toolbar:
         position: static
-  # bookdown::pdf_book:
-  #   keep_tex: yes
-  #   #highlight: espresso
+  bookdown::pdf_book:
+    keep_tex: yes
+    highlight: haddock
   bookdown::html_book:
     css: toc.css
-    highlight: espresso
+    highlight: haddock
     documentclass: book
     theme: journal
 ---
