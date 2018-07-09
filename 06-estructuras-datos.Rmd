@@ -296,6 +296,26 @@ Intentamos dividir sus elementos entre dos.
 matriz / 2
 ```
 
+Finalmente, podemos usar la función `t()` para transponer una matriz, es decir, rotarla 90°.
+
+Creamos una matriz con tres renglones y dos columnas.
+```{r, echo=TRUE}
+matriz <- matrix(1:6, nrow = 3)
+
+# Resultado
+matriz
+```
+
+Usamos `t()` para transponer.
+```{r, echo=TRUE}
+matriz_t <- t(matriz)
+
+# Resultado
+matriz_t
+```
+
+Obtenemos una matriz con dos renglones y dos columnas.
+
 ## Data frames
 Los data frames son estructuras de datos de dos dimensiones (rectangulares) que pueden contener datos de diferentes tipos, por lo tanto, son heterogéneas. Esta estructura de datos es la más usada para realizar análisis de datos y seguro te resultará familiar si has trabajado con otros paquetes estadísticos.
 
@@ -431,13 +451,8 @@ class(lista_recursiva)
 ```
 
 Finalmente, no es posible vectorizar operaciones aritméticas usando listas. Al intentarlo nos es devuelto un error.
-```{r, echo=TRUE, echo=TRUE}
+```{r, echo=TRUE, error=TRUE}
 mi_lista / 2
 ```
 
 Si deseamos aplicar una función a cada elemento de una lista, usamos `lapply()`, como veremos en el [capítulo 10](#apply).
-
-
-
-
-

@@ -19,32 +19,15 @@ output:
 ---
 
 # Prefacio {-}
-Este libro esta dirigído a personas que nunca han usado R.
+Este libro esta dirigído a personas que nunca han usado R o ningún otro lenguaje de programación. No es necesario conocimiento previo de estadística.
 
 El propósito es que lector:
 
 *	conozca las características principales de R
 *	se familiarice con los tipos y estructuras de datos usados en R
-*	conozca el flujo de trabajo para el análisis de datos con R
-*	sea capaz de importar, manipular, visualizar y modelar datos usando R
-*	pueda odrá escribir funciones simples
-*	aqplie el contenido del curso-taller en un caso con datos reales
+*	pueda definir sus propias funciones
 
-Contenido
-
-*	Introducción: ¿Qué es R y para qué es usado?
-*	El vocabulario básico de R
-*	RStudio. Un entorno integrado de desarrollo
-*	El flujo de trabajo con R
-*	Importar
-  *	Ordenar
-  *	Transformar
-  *	Visualizar
-  *	Modelar
-*	Aplicando R en un caso real 
-
-**Equipo sugerido**
-Computadora con las siguientes especificaciones mínimas: Un puerto USB; 2 GB de RAM; 300 MB de espacio libro en disco duro; Sistema operativo Windows Vista o superior; o Mac OS X Mavericks (versión 10.9) o superior; o Linux con kernel reciente (requiere instalación desde repositorios dependiendo de la distribución).
+Este libro está enfocado a aprender el uso de R como un lenguaje de programación.
 
 **Bibliografía básica de referencia**
 

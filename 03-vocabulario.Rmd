@@ -64,3 +64,6 @@ Al igual que con las variables, se recomienda que los nombres de las funciones s
 De hecho, es probable que adivines qué hacen casi todas funciones de la lista de arriba a partir de su nombre.
 
 Las funciones son un tema que revisamos más adelante. Por el momento, recuerda que una función realiza operaciones y requiere argumentos para poder llevarlas a cabo.
+
+# Carpeta y entorno de trabajo
+La carpeta de trabajo es el lugar en nuestra computadora en el que se encuentran los archivos con los que 

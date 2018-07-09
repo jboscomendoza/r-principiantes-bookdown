@@ -223,107 +223,220 @@ apply(matriz, 2, quantile, probs = c(.33, .66), names = FALSE)
 
 De este modo es posible aplicar funciones complejas que aceptan múltiples argumentos, con la ventaja que usamos pocas líneas de código.
 
-### Sobre los tipos de resultado obtenidos
-Quizás notaste que en los ejemplos anteriores, el resultado de `apply` en ocasiones fue un vector y en otros una matriz. Este comportamiento se debe a que `apply` nos devolverá objetos del mismo tipo que la función aplicada devuelve. Dependiendo de la función será el tipo de objeto que obtengamos. Esta es una característica poco intuitiva de `apply` que puede causarte problemas.
+### ¿Qué tipo de resultados devuelve apply?
+En los ejemplos anteriores, el resultado de `apply()` en algunas ocasiones fue un vector y en otros fue una matriz. 
 
-Lo anterior te obliga a conocer de antemano el tipo de resultado que obtendrás, lo cual no siempre es fácil, en particular si las funciones que estás utilizando son poco comunes o tiene comportamientos inesperados. Cuando estás trabajando en proyectos en los que el resultado de una operación será usado en operaciones posteriores, corres el riesgo que en alguna parte del proceso, un `apply` te devuelva un resultado que te impida continuar.
+Si aplicamos `mean()`, obtenemos como resultado un vector.
+```{r, echo=TRUE}
+mat_media <- apply(matriz, 1, mean)
 
-Con práctica es más o menos sencillo identificar posibles problemas con los resultados de `apply`, pero es algo que debes tener en cuenta, pues puede explicar porqué tu código no funciona como esperabas.
+class(mat_media)
+```
+
+Pero si aplicamos `quantile()`, obtenemos una matriz.
+```{r, echo=TRUE}
+mat_cuant <- apply(matriz, 1, quantile)
+
+class(mat_cuant)
+```
+
+Este comportamiento se debe a que **`apply()` nos devolverá objetos del mismo tipo que la función aplicada devuelve**. Dependiendo de la función, será el tipo de objeto que obtengamos. 
+
+Sin embargo, este comportamiento puede causarte algunos problemas. En primer lugar, anterior te obliga a conocer de antemano el tipo del resultado que obtendrás, lo cual no siempre es fácil de determinar, en particular si las funciones que estás utilizando son poco comunes o tienen comportamientos poco convencionales.
+
+Cuando estás trabajando en proyectos en los que el resultado de una operación será usado en operaciones posteriores, corres el riesgo de que en alguna parte del proceso, un `apply()` te devuelva un resultado que te impida continuar adeñamte.
+
+Con algo de práctica es más o menos sencillo identificar problemas posibles con los resultados de `apply()`, pero es algo que debes tener en cuenta, pues puede explicar porqué tu código no funciona como esperabas.
+
+En este sentido, `lapply()` tiene la ventaja de que siempre devuelve una lista.
 
 ## lapply
+`lapply()` es un caso especial de `apply()`, diseñado para **aplicar funciones a todos los elementos de una lista**. La **l** de su nombre se refiere, precisamente, a **lista**. 
 
-`lapply` es un caso especial de `apply`, diseñado para aplicar funciones a todos los elementos de una lista. La **l** de su nombre se refiere, precisamente, a **lista**. Esta función primero intentará coercionar al objeto que le demos como argumento a una lista y después aplicará a todos sus elementos una función.
+`lapply()` intentará coercionar a una lista el objeto que demos como argumento y después aplicará una función a todos sus elementos. 
 
-`lapply` siempre nos devolverá una lista como resultado. A diferencia de `apply`, siempre sabes qué obtendrás de aplicar una función.
+`lapply` siempre nos devolverá una lista como resultado. A diferencia de `apply`, sabemos que siempre obtendremos ub objeto de tipo lista después de aplicar una función, sin importar cuál función sea.
 
-Dado que todas las estructuras de datos pueden coercionarse a una lista, lapply puede usarse en más casos que `apply`. Esto también abre la posibilidad de utilizar funciones que aceptan argumentos distintos a vectores atómicos.
+Dado que en R todas las estructuras de datos pueden coercionarse a una lista, `lapply()` puede usarse en un número más amplio de casos que `apply()`, además de que esto nos permite utilizar funciones que aceptan argumentos distintos a vectores.
 
-El modelo de esta función es:
+La estructura de esta función es:
 ```{r, eval=FALSE}
 lapply(X, FUN)
 ```
 
-- **X** es una lista o un objeto coercionable a una lista.
-- **FUN** es la función a aplicar
+En donde:
 
-A diferencia de `apply`, aquí no especificamos **MARGIN**, pues las listas son estructuras unidimensionales.
+* `X` es una lista o un objeto coercionable a una lista.
+* `FUN` es la función a aplicar.
 
-Probemos suando `lapply` con un data frame, en este caso, el conjunto de datos **trees**, que contiene el grueso, alto y volumen de distinto árboles de cerezo negro.
+Estos argumentos son idéntico a los de `apply()`, pero a diferencia aquí no especificamos `MARGIN`, pues las listas son estructuras con una unidimensionales, que sólo tienen largo.
 
-Aplicaremos la función `mean()` a cada uno de los elementos del objeto **trees**.
+### Usando lapply()
+Probemos `lapply()` aplicando una función a un data frame. Usaremos el conjunto de datos `trees`, incluido por defecto en R *base*.
 
-```{r}
-lapply(trees, mean)
+`trees` contiene datos sobre el grueso, alto y volumen de distinto árboles de cerezo negro. Cada una de estas variables está almacenada en una columna del data frame.
+
+Veamos los primeros cinco renglones de `trees`.
+```{r, echo=TRUE}
+trees[1:5, ]
 ```
 
-Recuerda que un data frame esta formado por columnas y cada columna es un vector atómico. Por lo tanto, cuando usandos `lapply` en un data frame, la función que usemos será aplicada a cada columna. En este caso, obtuvimos la media de grueso, alto y volumen.
-
-Esto es conveniente. Para muchos casos en ciencias sociales, esto equivale a decir que vamos a aplicarle una función a todas las variables de nuestros datos.
-
-Al igual que con `apply`, podemos asignar argumentos adicionales a las funciones que usemos. 
-```{r}
-lapply(trees, quantile, probs = .8)
+Aplicamos la función `mean()`, usando su nombre.
+```{r, echo=TRUE}
+lapply(X = trees, FUN = mean)
 ```
 
-Si usamos `lapply` para aplicar funciones a una matriz, la función se aplicará a cada "celda" de la matriz.
+Dado que un data frame esta formado por columnas y cada columna es un vector atómico, cuando usamos `lapply()` , la función es aplicada a cada columna. `lapply()`, a diferencia de `apply()` no puede aplicarse a renglones.
 
-```{r}
-matriz3 <- matrix(1:9, ncol = 3)
+En este ejemplo, obtuvimos la media de grueso (Girth), alto (Height) y volumen (Volume), como una lista.
 
-lapply(matriz3, quantile, probs = .8)
+Verificamos que la clase de nuestro resultado es una lista con `class()`.
+```{r, echo=TRUE}
+arboles <- lapply(X = trees, FUN = mean)
+
+class(arboles)
 ```
 
-Sin embargo, podemos coercionar una matriz a un data frame para aplicar funciones por columna.
-```{r}
-lapply(as.data.frame(matriz3), quantile, probs = .8)
+Esto es muy conveniente, pues la recomendacion para almacenar datos en un data frame es que cada columna represente una variable y cada renglón un caso (por ejemplo, el enfoque **tidy** de [Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10/v59i10.pdf)). Por lo tanto,  con `lapply()` podemos manipular y transformar datos, por variable.
+
+Al igual que con `apply()`, podemos definir argumentos adicionales a las funciones que usemos, usando sus nombres, después del nombre de la función.
+```{r, echo=TRUE}
+lapply(X = trees, FUN = quantile, probs = .8)
 ```
 
-`lapply` usado en vectores aplicará la función a cada elementos del vector, de manera similar a una vectorización de operaciones. En este caso, obtenemos la raíz cuadrada de un vector numérico del 1 al 4.
-```{r}
-lapply(1:4, sqrt)
+Si usamos `lapply` con una matriz, la función se aplicará a cada **celda** de la matriz, no a cada columna.
+
+Creamos una matriz.
+```{r, echo=TRUE}
+matriz <- matrix(1:9, ncol = 3)
+
+# Resultado
+matriz
 ```
 
-Por esta razón, en muchos casos es posible reemplazar un bucle `for` por un `lapply`. Al final, el resultado es iterar una operación en todos los elementos de una estructura de datos.
-
-### Usando lapply con listas que contienen otras listas
-Todo lo anterior es conveniente, pero podríamos lograrglo con `apply`. Lo que sólo podemos hacer con `lapply` es aplicar una función a una lista de listas. O más generalmente, una lista de objetos que pueden coercionarse a listas.
-
-Para ilustrar esto, obtendremos el coeficiente de correlación de cuatro data frames contenidos en una sola lista.
-
-Empezaremos creando una lista llamada tablas.
+Llamamos a  `lapply()`.
 ```{r}
-set.seed(2018)
+lapply(matriz, quantile, probs = .8)
+```
+
+Para usar una matriz con `lapply()` y que la función se aplique a cada columna, primero la coercionamos a un data frame con la función `as.data.frame()`
+```{r, echo=TRUE}
+lapply(as.data.frame(matriz), quantile, probs = .8)
+```
+
+Si deseamos aplicar una función a los renglones de una matriz, una manera de lograr es transponer la matriz con `t()` y después coercionar a un data frame.
+```{r, echo=TRUE}
+matriz_t <- t(matriz)
+
+lapply(as.data.frame(matriz_t), quantile, probs = .8)
+```
+
+Con vectores como argumento, `lapply()` aplicará la función a cada elementos del vector, de manera similar a una vectorización de operaciones. 
+
+Por ejemplo, usamos `lapply()` para obtener la raíz cuadrada de un vector numérico del 1 al 4, con la función `sqrt()`.
+```{r, echo=TRUE}
+mi_vector <- 1:4
+
+lapply(mi_vector, sqrt)
+```
+
+### Usando lapply() en lugar de un bucle for
+En muchos casos es posible reemplazar un bucle `for()` por un `lapply()`. 
+
+De hecho, `lapply()` está haciendo lo mismo que un `for()`, está iterando una operación en todos los elementos de una estructura de datos.
+
+Por lo tanto, el siguiente código con un `for()`...
+```{r, echo=TRUE}
+mi_vector <- 6:12
+resultado <- NULL
+posicion <- 1
+
+for(numero in mi_vector) {
+  resultado[posicion] <- sqrt(numero)
+  posicion <- posicion + 1
+}
+
+resultado
+```
+
+... nos dará los mismos resultados que el siguiente código con `lapply()`.
+```{r, echo=TRUE}
+resultado <- NULL
+
+resultado <- lapply(mi_vector, sqrt)
+
+resultado
+```
+
+El código con `lapply()` es mucho más breve y más sencillo de entender, al menos para otros usuarios de R.
+
+El inconveniente es que obtenemos una lista como resultado en lugar de un vector, pero eso es fácil de resolver usando la función `as.numeric()` para hacer coerción a tipo numérico.
+```{r, echo=TRUE}
+as.numeric(resultado)
+```
+
+El siguiente código es la manera en la que usamos `for()` si deseamos aplicar una función a todas sus columnas, tiene algunas partes que no hemos discutido, pero es sólo para ilustrar la diferencia simplemente usar `trees_max <- lapply(trees, max)`.
+```{r, echo=TRUE}
+trees_max <- NULL
+i <- 1
+columnas <- ncol(trees)
+
+for(i in 1:columnas) {
+  trees_max[i] <- max(trees[, i])
+  i <- i +1
+}
+
+trees_max
+```
+
+### Usando lapply con listas
+Hasta hora hemos hablado de usar `lapply()` con objetos que pueden coercionarse a una lista, pero ¿qué pasa si usamos esta función con una lista que contiene a otros objetos?
+
+Pues la función se aplicará a cada uno de ellos. Por lo tanto, así podemos utilizar funciones que acepten todo tipo de objetos como argumento. Incluso podemos aplicar funciones a listas recursivas, es decir, listas de listas.
+
+Por ejemplo, obtendremos el coeficiente de correlación de cuatro data frames contenidos en una sola lista. Esto no es posible con `apply()`, porque sólo podemos usar funciones que aceptan vectores como argumentos, pero con `lapply()` no es ningún problema.
+
+Empezaremos creando una lista de data frames. Para esto, usaremos las función `rnorm()`, que genera números al azar y `set.seed()`, para que obtengas los mismos resultados aquí mostrados.
+
+`rnorm()` creara `n` números al azar (pseudoaleatorios, en realidad), sacados de una distribución normal con media 0 y desviación estandar 1. `set.seed()` es una función que "fija" los resultados de una generación de valores al azar. Cada que ejecutas `rnorm()` obtienes resultados diferentes, pero si das un número como argumento `seed` a `set.seed()`, siempre obtendrás los mimos números.
+```{r, echo = TRUE}
+# Fijamos seed
+set.seed(seed = 2018)
+
+# Creamos una lista con tres data frames dentro
 tablas <- list(
-  df1 = data.frame(a = rnorm(5), b = rnorm(5), c = rnorm(5)),
-  df2 = data.frame(d = rnorm(5), e = rnorm(5), f = rnorm(5)),
-  df3 = data.frame(g = rnorm(5), h = rnorm(5), i = rnorm(5))
+  df1 = data.frame(a = rnorm(n = 5), b = rnorm(n = 5), c = rnorm(n = 5)),
+  df2 = data.frame(d = rnorm(n = 5), e = rnorm(n = 5), f = rnorm(n = 5)),
+  df3 = data.frame(g = rnorm(n = 5), h = rnorm(n = 5), i = rnorm(n = 5))
 )
 
+# Resultado
 tablas
 ```
 
-Deseamos obtener el coeficiente de correlación, así que usaremos la función `cor()`. Esta función acepta como argumento un data frame. Si proporcionamos unos, calculará el coeficiente de correlación producto momento de Pearson que hay entre cada columna del data frame.
+Para obtener el coeficiente de correlación usaremos la función `cor()`. 
 
-El resultado nos es devuelto como una matriz de correlación.
+Esta función acepta como argumento una data frame o una matriz. Con este objeto, calculará el coeficiente de correlación **R de Pearson** existente entre cada una de sus columnas. Como resultado obtendremos una matriz de correlación.
 
-Por ejemplo.
-```{r}
+Por ejemplo, este es el resultado de aplicar `cor()` a `iris`.
+```{r, echo=TRUE}
 cor(iris[1:4])
 ```
 
-Por lo tanto, si ejecutamos un `lapply` usando `cor()`, aplicaremos esta función a cada uno de los data frames de nuestra lista. El resultado será una lista, en la que cada elemento será una matriz de correlaciones.
+Con `lapply` aplicaremos `cor()` a cada uno de los data frames contenidos en nuestra lista. El resultado será una lista de matrices de correlaciones.
 
-Esto lo realizamos con una sola línea de código.
-```{r}
-lapply(tablas, cor)
+Esto lo logramos con una línea de código.
+```{r, echo=TRUE}
+lapply(X = tablas, FUN = cor)
 ```
 
-¡Y eso es todo! De esta manera puedes manipular información de múltiples data frames, matrices o listas con muy pocas líneas de código. 
+De esta manera puedes manipular información de múltiples data frames, matrices o listas con muy pocas líneas de código y, en muchos casos, más rapidamente que con las alternativas existentes.
 
-Finalmente, no olvides que debes asignar los resultados de un `lapply` a un objeto si quieres guardarlos y usarlos después.
+Finalmente, si asignamos los resultados de las última operación a un objeto, podemos usarlos y manipularlos de la misma manera que cualquier otra lista.
 
-```{r}
+```{r, echo = TRUE}
 correlaciones <- lapply(tablas, cor)
 
+# Extraemos el primer elemento de la lista
 correlaciones[[1]]
 ```
