@@ -30,16 +30,126 @@ Este método funciona con prácticamente todo tipo de archivos, aunque en alguno
 ## Tablas (datos rectangulares)
 Como vimos en el capítulo [7](#estructuras-de-datos), las estructura rectangular, en renglones y columnas, es común y conveniente para el análisis de datos. Nos referiremos a esta forma de organizar datos como **tabla**.
 
-R cuenta con la función genérica `read.table()`, que puede leer cualquier tipo de archivo que contenga una tabla.
+R cuenta con la función genérica `read.table()`, que puede leer cualquier tipo de archivo que contenga una tabla. 
 
-Probemos con un archivo.
+La condición para que R interprete un archivo como una tabla es que tenga renglones y en cada renglon, los datos estén separados por comas, o algún otro caracter, indicando columnas. Es decir, algo que luzca de la siguiente manera.
 
+>1, 20,  8, 5
 
+>1, 31,  6, 5
 
-read.table
-read.csv
+>2, 18,  9, 5
+
+>2, 25, 10, 5
+
+Por supuesto, en lugar de comas podemos tener puntos y coma, dos puntos, tabuladores o cualquier otro signo de puntuación como **separador** de columnas.
+
+La función `read.table()` acepta un número considerable de argumentos. Los más importantes son los siguientes.
+
+* `file`: La ruta del archivo que importaremos, como cadena de texto. Si el archivo se encuentra en nuestro [directorio de trabajo](##directorio-de-trabajo), es suficientedar el nombre del archivo, sin la ruta completa.
+* `header`: Si nuestro archivo tiene encabezados, para ser interpretados como nombres de columna, definimos este argumento como `TRUE`.
+* `sep`: El caracter que es usado como separador de columnas. Por defecto es ";".
+* `col.names`: Un vector opcional, de tipo caracter, con los nombres de las columnas en la tabla.
+* `stringsAsFactors`: Esta función convierte automáticamente los datos de texto a factores. Si este no es el comportamiento que deseamos, definimos este argumento como `FALSE`.
+
+Probemos con un archivo con extensión ".data", descargado desde el respositorio de [Github](http://www.github.com) de este libro. 
+```{r, echo=TRUE, eval=FALSE}
+download.file(
+  url = "https://raw.githubusercontent.com/jboscomendoza/r-principiantes-bookdown/master/datos/breast-cancer-wis.data", 
+  dest = "breast-cancer-wis.data"
+)
+```
+
+Estos datos pertenecen a una base de diagnósticos de cancer mamario de la Universidad de Wisconsin, usado para probar métodos de aprendizaje automático. Puedes encontrar la información completa sobre este conjunto de datos en el siguiente enlace:
+
+* https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Diagnostic%29
+
+Nos damos cuenta de que hemos tenido éxito en la descarga si aparece un mensaje en la consola de R indicando los resultados de nuesta operación.
+
+Usamos sin especificar ningún otro argumento.
+```{r, echo=TRUE}
+bcancer <- read.table(file = "breast-cancer-wis.data")
+```
+
+Veamos los primeros renglones de nuestros datos usando la función `head()`
+```{r, echo=TRUE}
+head(bcancer)
+```
+
+Nuestros datos no lucen particularmente bien. Necesitamos ajustar algunos parámetros al importarlos.
+
+No hay datos de encabezado, por lo que `header` será igual a `FALSE` y  el separador de columnas es una coma, así que el valor de `sep` será ",". No conocemos cuál es el nombre de las columnas, así que por el momento no proporcionaremos uno.
+
+```{r, echo=TRUE}
+bcancer <- read.table(file = "breast-cancer-wis.data", header = FALSE, sep = ",")
+
+# Resultado
+head(bcancer)
+```
+
+Luce mejor, pero los nombres de las columnas son poco descriptivos. Si no damos nombres de variables, cada columna tendrá como nombre "V" seguida de números del 1 adelante.
+
+Para este ejemplo, contamos con un archivo de información, que describe el contenido de los datos que hemos importado.
+
+* https://raw.githubusercontent.com/jboscomendoza/r-principiantes-bookdown/master/datos/breast-cancer-wis.names
+
+Si descargas este archivo, puedes abrirlo usando el bloc o navegador de internet de tu computadora.
+
+Guardaremos en un vector las abreviaturas de los nombres de columna descritos en el documento anterior.
+```{r, echo=TRUE}
+nombres <- c("id", "clump_t", "u_csize", "u_cshape", "m_adh", "spcs", "b_nuc", 
+             "b_chr", "n_nuc", "mit", "class")
+```
+
+Ahora usaremos este vector como argumento `col.names` en `read.table()`, para importar nuestros datos con nombres de columna.
+```{r, echo=TRUE}
+bcancer <- read.table(file = "breast-cancer-wis.data", header = FALSE, sep = ",",
+                      col.names = nombres)
+
+# Resultado
+head(bcancer)
+```
+
+Nuestros datos han sido importados correctamente. Además, el objeto resultante es un data frame, listo para que trabajemos con él.
+```{r, echo=TRUE}
+class(bcancer)
+```
+
+### Archivos CSV
+Un caso particular de las tablas, son los archivos separados por comas, con extensión **.csv**, por *Comma Separated Values*, sus siglas en inglés. Este es un tipo de archivo comunmente usado para compartir datos, pues es compatible con una amplia variedad de sistemas diferentes además de que ocupa relativamente poco espacio de almacenamiento.
+
+Este tipo de archivos también se pueden importar usando la función `read.table()`.
+
+Probemos descargando los mismos datos que en el ejemplo anterior, pero almacenados en un archivo con extensión **.csv**.
+```{r, echo=TRUE, eval=FALSE}
+download.file(
+  url = "https://raw.githubusercontent.com/jboscomendoza/r-principiantes-bookdown/master/datos/breast-cancer-wis.csv", 
+  dest = "breast-cancer-wis.csv"
+)
+```
+
+Podemos usar `read.table()` con los mismos argumentos que en el ejemplo anterior, con la excepción de que este archivo sí tiene encabezados de columna, por lo que cambiamos `header` de `TRUE` a `FALSE`.
+```{r, echo=TRUE}
+bcancer <- read.table(file = "breast-cancer-wis.csv", header = FALSE, sep = ",",
+                      col.names = nombres)
+
+# Resultado
+head(bcancer)
+```
+
+Una ventaja de usar estos archivos es que podemos usar la función `read.csv()`, que es una versión de `read.table()` específica para archivos con extensión **.csv**.
+
+`read.csv()` acepta los mismos argumentos que `read.table()`, pero si la usamos con un archivo **.csv**, en casi todo los casos, no necesitamos especificar nada excepto la ruta del archivo que importaremos.
+```{r, echo=TRUE}
+bcancer <- read.csv("breast-cancer-wis.csv")
+
+# Resultado
+head(bcancer)
+```
 
 ### Exportar tablas
+
+
 write.table
 write.csv
 

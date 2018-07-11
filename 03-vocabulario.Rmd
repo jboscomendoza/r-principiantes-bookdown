@@ -77,7 +77,7 @@ Aunque estrictamente hablando una función es un objeto, para fines de explicaci
 
 Las funciones son un tema que revisamos más adelante. Por el momento, recuerda que una función realiza operaciones y nos pide argumentos para poder llevarlas a cabo.
 
-# Directorio de trabajo
+## Directorio de trabajo
 El directorio o carpeta de trabajo es el lugar en nuestra computadora en el que se encuentran los archivos con los que estamos trabajando en R. Este es el lugar donde R buscara archivos para importarlos y al que serán exportados, a menos que indiquemos otra cosa.
 
 Puedes encontrar cuál es tu directorio de trabajo con la función `getwd()`. Sólo tienes que escribir la función en la consola y ejecutarla.
@@ -134,7 +134,7 @@ install.packages("readr")
 Hecho esto, apareceran algunos mensajes en la consola mostrando el avance de la instalación
 
 Una vez concluida la instalación de un paquete, podrás usar sus funciones con la función `library()`. Sólo tienes que llamar esta función usando como argument oel nombre del paquete que quieres utilizar
-```{r,echo=TRUE}
+```{r,echo=TRUE, eval=FALSE}
 library(readr)
 ```
 
@@ -147,11 +147,10 @@ Este comportamiento es para evitar problemas de compatibilidad y  para propiciar
 Si importamos paquetes automáticamente y usamos sus funciones sin indicar de donde provienen, al compartir nuestro código con otras personas, estas no tendrán la información completa para entender qué estamos haciendo. R, al pedirnos que cada sesión indiquemos qué estamos importando, nos obliga a ser explícito con todo lo que estamos haciendo. Es un poco latoso, pero te acostumbras a ello.
 
 En caso de escribir en `install.packages()` el nombre de un paquete no disponible en **CRAN**, se nos mostrará una advertencia y no se instalará nada.
-```{r, eval=TRUE}
+```{r, echo=TRUE, eval=FALSE}
 install.packages("un_paquete_falso")
 ```
 
 Los paquetes que hemos importado en nuestra sesión actual aparecen al llamar `sessionInfo()`.
 
 También podemos ver qué paquetes tenemos ya instalados ejecutando la función `installed.packages()` sin ningún argumento. Una instalación nueva de R tiene pocos paquetes instalados, pero esta lista puede crecer considerablemente con el tiempo.
-
