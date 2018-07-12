@@ -7,3 +7,7 @@ _bookdown_files
 rsconnect
 breast-cancer-wis.data
 breast-cancer-wis.csv
+mi_lista.txt
+iris.txt
+iris.csv
+mi_lista.rds

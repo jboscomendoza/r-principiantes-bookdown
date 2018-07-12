@@ -23,6 +23,10 @@ output:
 ---
 
 # Prefacio {-}
+```{r, echo=FALSE}
+knitr::include_graphics("images/r-principiantes-cover.png")
+```
+
 Este libro esta dirigído a personas que nunca han usado R o ningún otro lenguaje de programación. No es necesario conocimiento previo de estadística.
 
 El propósito es que lector:
