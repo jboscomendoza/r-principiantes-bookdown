@@ -26,9 +26,9 @@ Este es un vector de largo igual a 5.
 length(nivel)
 ```
 
-¿Cómo obtendríamos el tercer elemento de este vector usando indices? ¿Y del primer al cuarto elemento? ¿O el segundo y quinto elemento?
+¿Cómo obtendríamos el tercer elemento de este vector usando índices? ¿Y del primer al cuarto elemento? ¿O el segundo y quinto elemento?
 
-Sabemos que los índices son posicionales y que se usan corchetes para realizar la operación de extración, por lo tanto,  las respuestas a las preguntas anteriores son relativamente intuitivas.
+Sabemos que los índices son posicionales y que se usan corchetes para realizar la operación de extracción, por lo tanto,  las respuestas a las preguntas anteriores son relativamente intuitivas.
 
 Para extraer el tercer elemento hacemos lo siguiente.
 ```{r, echo=TRUE, error=TRUE}
@@ -37,7 +37,7 @@ nivel[3]
 
 A diferencia de la mayoría de los lenguajes de programación, los índices en R empiezan en 1, no en 0. El índice del primer elemento de una estructura de datos siempre es 1.
 
-Por lo tanto, para extrar del primer al cuarto elemento de un vector, usamos los números del 1 al 4.
+Por lo tanto, para extraer del primer al cuarto elemento de un vector, usamos los números del 1 al 4.
 ```{r, echo=TRUE}
 nivel[1:4]
 ```
@@ -194,7 +194,7 @@ mi_lista["cinco"]
 
 ```
 
-También podemos usar el signo de dólar (**$**) para extrar subconjuntos usando nombres. 
+También podemos usar el signo de dólar `$` para extraer subconjuntos usando nombres. 
 
 Este método permite extraer sólo un elemento a la vez y en un data frame, siempre devolverá una columna.
 Si lo deseamos, podemos escribir el nombre que nos interesa obtener sin comillas.
@@ -240,8 +240,8 @@ iris["15", c("Sepal.Length", "Sepal.Width")]
 iris[c("88", "96"), c("Sepal.Length","Sepal.Width")]
 ```
 
-** Subconjutos por indice y nombre
-Al extraer subconjuntos podemos usar tanto índices como nombres dentro del mismo corchete.
+## Subconjuntos por índice y nombre
+Al extraer subconjuntos combinar índices con nombres dentro del mismo corchete.
 
 Esta es una herramienta muy poderosa al manipular datos pues nos proporciona una flexibilidad para extrar subconjuntos.
 
@@ -267,9 +267,9 @@ mi_df["nombre"]
 mi_df$nombre
 ```
 
-Para entender lo que esta ocurriendo necesitamos recordar que **un data frame está formado por vectores**. Esto vectores nunca dejan de ser vectores, aunque estén contenidos dentro de un data frame. Por lo tanto, es posible extraerlos.
+Para entender que está ocurriendo, recordemos que **un data frame está formado por vectores**. Estos vectores nunca dejan de ser vectores, aunque estén contenidos dentro de un data frame, por lo tanto, es posible extraerlos de esta estructura de datos.
 
-Además, necesitamos entender que **cuando extramos un subconjunto de un objeto usando corchetes, obtenemos como resultado un objeto de su misma clase**.
+Además, necesitamos entender que **cuando extraemos un subconjunto de un objeto usando corchetes, obtenemos como resultado un objeto de su misma clase**.
 
 Esto suena a un trabalenguas, pero todo lo que quiere decir es que extraemos un subconjunto de una lista, obtenemos una lista; si lo hacemos de un data frame, obtenemos un data frame; y lo mismo para todas las estructuras de datos.
 

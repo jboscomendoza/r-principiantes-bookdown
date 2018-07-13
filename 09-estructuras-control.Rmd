@@ -16,7 +16,7 @@ Las estructuras de control más usadas en R son las siguientes.
 | `next`                | Siguiente
 
 ## if, else
-`if` (si) es usado cuando deseamos que una operación de ejecute únicamente cuando una condición se cumple. 
+`if` (si) es usado cuando deseamos que una operación se ejecute únicamente cuando una condición se cumple. 
 
 `else` (de otro modo) es usado para indicarle a R qué hacer en caso de la condición de un `if` no se cumpla. 
 
@@ -50,7 +50,7 @@ if(4 > 5) {
 
 Un `if` con `else` es la manera de decirle a R:
 
-* **SI** esta condición es es cierta, **ENTONCES** haz estas operaciónes, **DE OTRO MODO** haz estas otras operaciones.
+* **SI** esta condición es es cierta, **ENTONCES** haz estas operaciones, **DE OTRO MODO** haz estas otras operaciones.
 
 El modelo para un **if** con un **else** es:
 ```{r, eval=FALSE}
@@ -119,7 +119,7 @@ promedio(c(5, 8, 5, 6, 5))
 
 Está funcionando, aunque los resultados podrían tener una mejor presentación.
 
-Usaremos la función `paste0()` para pegar el promedio de calificaciones, como texto, con el resultado de "Aprobado" o "Reprobado". Esta función acepta como argumentos cadenas de texto y las pega (concatena) entre sí, devolviendo como resulta una nueva cadena.
+Usaremos la función `paste0()` para pegar el promedio de calificaciones, como texto, con el resultado de "Aprobado" o "Reprobado". Esta función acepta como argumentos cadenas de texto y las pega (concatena) entre sí, devolviendo como resultado una nueva cadena.
 
 Primero concatenaremos la palabra "Calificación: " a la media obtenida con la función `promedio()` y después el resultado de esta operación con la palabra "aprobado" o "reprobado", según corresponda.
 ```{r, echo=TRUE}
@@ -154,7 +154,7 @@ if(1:10 < 3) {
 ```
 Este mensaje nos dice que sólo se usará el primer elemento del vector para evaluar su la condición es verdadera y lo demás será ignorado.
 
-En cambio, con `ifelse` se nos devolverá un valor para cada elemento de un vector en el que la condición sea `TRUE`, además nos devolvera otro valor para los elementos en que la condición sea `FALSE`. 
+En cambio, con `ifelse` se nos devolverá un valor para cada elemento de un vector en el que la condición sea `TRUE`, además nos devolverá otro valor para los elementos en que la condición sea `FALSE`. 
 
 Esta función tiene la siguiente forma.
 ```{r, echo=TRUE, eval=FALSE}
@@ -181,7 +181,7 @@ num <- 1:20
 ifelse(num %% 2 == 0 & num %% 3, "Divisible", "No divisible")
 ```
 
-Desde luego, esto es paricularmente útil para recodificar datos.
+Desde luego, esto es particularmente útil para recodificar datos.
 ```{r, echo = TRUE}
 num <- c(0, 1, 0, 0, 0, 1, 1)
 
@@ -261,7 +261,7 @@ En nuestro ejemplo, pasamos por los valores de dado, cara por cara. La primera c
 
 Podemos usar estos valores para asignar cada valor resultante de nuestras operaciones a una posición específica en un vector, incluso si este está vacio.
 
-Creamos un vector vacio, asignándole como `NULL` como valor.
+Creamos un vector vacío, asignándole como `NULL` como valor.
 ```{r, echo=TRUE}
 mi_vector <- NULL
 ```
@@ -327,7 +327,7 @@ while(1 < 2) {
 }
 ```
 
-El siguiente es un error común. Estamos sumando 1 a `i` con cada iteración del bucle, pero como no estamos asignando este nuevo valor a `i`, su valor se  mantiene igual, entonces la condición nunca se cumplirá y el bucle será infinito.
+El siguiente es un error común. Estamos sumando 1 a `i` con cada iteración del bucle, pero como no estamos asignando este nuevo valor á `i`, su valor se  mantiene igual, entonces la condición nunca se cumplirá y el bucle será infinito.
 
 De nuevo, si corres lo siguiente, presiona la tecla **ESC** para detener la ejecución.
 ```{r, echo=TRUE, eval=FALSE}
@@ -337,7 +337,7 @@ while(i < 10) {
 }
 ```
 
-Un uso común de **while** realizae operaciones que queremos detener cuando se cumple una condición, pero desconocemos cuándo ocurrirá eso.
+Un uso común de **while** es que realice operaciones que queremos detener cuando se cumple una condición, pero desconocemos cuándo ocurrirá est
 
 Supongamos que, por alguna razón queremos sumar calificaciones, del 1 al 10 al azar, hasta llegar a un número que mayor o igual a 50. Además nos interesa saber cuántas calificaciones sumaron y cuál fue el resultado al momento de cumplir la condición.
 
@@ -353,7 +353,7 @@ valor <- 0
 
 Nuestro `while` hará dos cosas. 
 
-Primero, tomará un numero al azar del 1 al 10, y lo sumará a `valor`. Segundo, le sumará 1 a `conteo` cada que esto ocurra, de esta manera sabremos cuantas iteraciones ocurrieron para llegar a un valor que no sea menor a 50.
+Primero, tomará un número al azar del 1 al 10, y lo sumará a `valor`. Segundo, le sumará 1 a `conteo` cada que esto ocurra, de esta manera sabremos cuántas iteraciones ocurrieron para llegar a un valor que no sea menor a 50.
 ```{r,echo=TRUE}
 while(valor < 50) {
   valor <- valor + sample(x = 1:10, size = 1)
@@ -381,7 +381,7 @@ conteo
 ## break y next
 `break` y `next`  son  **palabras reservadas** en R, no podemos asignarles nuevos valores y realizan una operación específica cuando aparecen en nuestro código.
 
-`break` nos permite **interrumpir** un bucle, mientras que `next` nos deja avanzar a la **siguiente** iteración del bucle, "saltandose" la actual. Ambas funcionan para `for` y `while`.
+`break` nos permite **interrumpir** un bucle, mientras que `next` nos deja avanzar a la **siguiente** iteración del bucle, "saltándose" la actual. Ambas funcionan para `for` y `while`.
 
 ### Usando break
 Para interrumpir un bucle con `break`, necesitamos que se cumpla una condición. Cuando esto ocurre, el bucle se detiene, aunque existan elementos a los cuales aún podría aplicarse.
@@ -423,9 +423,9 @@ for(i in 1:4) {
 }
 ```
 
-Estas dos estructuras de control nos dan uncontrol fino sobre nuestro código. aunque los dos ejemplos de arriba son con **for**, también funcionan con **while** y **repeat**. 
+Estas dos estructuras de control nos dan un control fino sobre nuestro código. aunque los dos ejemplos de arriba son con **for**, también funcionan con **while** y **repeat**. 
 
-En realidad, **break** es indispensable en **repeat**.
+En realidad, **break** es indispensable para **repeat**.
 
 ## repeat
 Este es un bucle que se llevará a cabo el número de veces que especifiquemos, usando un `break` para detenerse. `repeat` asegura que las operaciones que contiene sean iteradas al menos en una ocasión.
@@ -457,4 +457,4 @@ repeat{
 valor
 ```
 
-Este tipo de bucle es quizás el menos utilizado de todos, pues en R existen alternativas para obtener los mismos resultados de manera más sencilla y sin el riesgo de crear un bucle infinito. Sin embargo, hay casos muy específicos en los que es la mejor opción.
+Este tipo de bucle es quizás el menos utilizado de todos, pues en R existen alternativas para obtener los mismos resultados de manera más sencilla y sin el riesgo de crear un bucle infinito. Sin embargo, puede ser la mejor alternativa para problemas específicos.

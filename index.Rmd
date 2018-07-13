@@ -27,9 +27,9 @@ output:
 knitr::include_graphics("images/r-principiantes-cover.png")
 ```
 
-Este libro esta dirigído a personas que nunca han usado R o ningún otro lenguaje de programación. No es necesario conocimiento previo de estadística.
+Este libro está dirigído a personas que nunca han usado R o ningún otro lenguaje de programación. No es necesario conocimiento previo de estadística.
 
-El propósito es que lector:
+El propósito es que el lector:
 
 *	conozca las características principales de R
 *	se familiarice con los tipos y estructuras de datos usados en R

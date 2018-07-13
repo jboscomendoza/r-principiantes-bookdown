@@ -9,16 +9,16 @@ Complejo        | 1+0i    | complex
 Cadena de texto | "uno"   | character
 Factor          | uno     | factor
 Lógico          | TRUE    | logical
-Perdido         | NA      | NA
-Vacio           | NULL    | null
+Perdido         | `NA`    | NA
+Vacio           | `NULL`  | null
 
 Cada tipo de dato tiene características particulares que lo hace diferente a los demás.
 
 Los datos numéricos también son llamados **dobles** o **floats (flotantes)**. Su nombre se deb a que son números de doble precisión, pues tienen una parte entera y una fraccionaria decimal, y son llamados floats debido a que se usa un punto flotante para su representación computacional. Para fines prácticos todos estos términos son sinónimos y son usados de manera mas o menos intercambiable en libros y documentación, lo mismo ocurrirá en este libro.
 
-Los datos de tipo lógico sólo tienen dos valores posibles: **TRUE** (verdadero) y **FALSE** (falso). Este tipo de datos es esencial para trabajar con álgebra booleana.
+Los datos de tipo lógico sólo tienen dos valores posibles: `TRUE` (verdadero) y `FALSE`(falso). Este tipo de datos es esencial para trabajar con álgebra booleana.
 
-**NA** se usa para representar datos perdidos y en R es diferente a **NULL**. **NULL** representa la ausencia de datos, es decir, que no hay nada que recuperar, mientras que **NA** representa un valor específico, de un dato que se reporta como perdido o ausente.
+`NA` se usa para representar datos perdidos y en R es diferente a `NULL`. `NULL` representa la ausencia de datos, es decir, que no hay nada que recuperar, mientras que `NA` representa un valor específico, de un dato que se reporta como perdido o ausente.
 
 El tipo *character* representa cadenas de texto y es fácil reconocerlo porque un dato siempre esta rodeado de comillas, simples o dobles.
 
@@ -26,10 +26,10 @@ Las cadenas de texto son diferentes a los factores aunque suelen lucir igual en 
 
 Por ejemplo, podemos tener un conjunto de datos de tipo factor con dos niveles, **femenino (1)** y **masculino (2)**. Para nuestra computadora, femenino tiene un valor de 1, pero a nosotros se nos muestra la palabra *femenino*. Por su parte, las cadenas de texto no son representaciones de datos numéricos, son 
 
-Por esta razón, si intentamos coercionar un factor a tipo numérico, tendremos éxito, pero si intentamos lo mismo con una cadena de texto, se nos mostrara una advertencia y el resultado será **NA**.
+Por esta razón, si intentamos coercionar un factor a tipo numérico, tendremos éxito, pero si intentamos lo mismo con una cadena de texto, se nos mostrará una advertencia y el resultado será **NA**.
 
 Podemos usar la función **class()** para determinar el tipo de un dato.
-```{r, echo=TRUE}
+```{r class, echo=TRUE}
 class(3)
 class("3")
 class(TRUE)
@@ -50,15 +50,15 @@ Las coerciones siguen este orden:
 
 Podemos pedir a R que haga coerción usando la familia de funciones `as()`.
 
-Función         | Tipo al que hace coerción
------           | -----
-as.integer()    | Entero
-as.numeric()    | Numerico
-as.complex()    | Complejo
-as.character()  | Cadena de texto
-as.factor()     | Factor
-as.logical()    | Lógico
-as.null()       | NULL
+Función           | Tipo al que hace coerción
+-----             | -----
+`as.integer()`    | Entero
+`as.numeric()`    | Numerico
+`as.complex()`    | Complejo
+`as.character()`  | Cadena de texto
+`as.factor()`     | Factor
+`as.logical()`    | Lógico
+`as.null()`       | `NULL`
 
 Por ejemplo, con `as.character()`, podemos convertir un número en una cadena de texto.
 ```{r, echo=TRUE}
@@ -73,18 +73,18 @@ as.logical("palabra")
 ## Verificar el tipo de un dato
 También podemos verificar si un dato es de un tipo específico con la familia de funciones `is()`. 
 
-Función         | Tipo que verifican
------           | -----
-is.integer()    | Entero
-is.numeric()    | Numerico
-is.complex()    | Complejo
-is.character()  | Cadena de texto
-is.factor()     | Factor
-is.logical()    | Lógico
-is.null()       | NULL
+Función           | Tipo que verifican
+-----             | -----
+`is.integer()`    | Entero
+`is.numeric()`    | Numerico
+`is.complex()`    | Complejo
+`is.character()`  | Cadena de texto
+`is.factor()`     | Factor
+`is.logical()`    | Lógico
+`is.null()`       | `NULL`
 
 Si el dato es del tipo que estamos verificando, estas funciones nos devolverán `TRUE` y en caso contrario devolverán `FALSE`.
-```{r, echo=TRUE}
+```{r is, echo=TRUE}
 is.numeric(5)
 
 is.character(5)

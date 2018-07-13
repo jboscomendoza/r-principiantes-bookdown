@@ -147,7 +147,7 @@ head(bcancer)
 Una ventaja de usar documentos con extensión **.csv** es la posibilidad de usar la función `read.csv()`. Esta es una es una versión de `read.table()`, optimizada para importar archivos **.csv**.
 
 `read.csv()` acepta los mismos argumentos que `read.table()`, pero al usarla con un archivo **.csv**, en casi todo los casos, no hara falta especificar nada salvo la ruta del archivo.
-```{r, echo=TRUE}
+```{r readcsv, echo=TRUE}
 bcancer <- read.csv("breast-cancer-wis.csv")
 
 # Resultado
@@ -156,11 +156,38 @@ head(bcancer)
 
 `read.csv()` también devuelve un data frame como resultado
 
+## Archivos con una estructura desconocida
+Habrá ocasiones en las que no estamos seguros del contenido de los archivos que deseamos importar. En estos casos, podemos pedirle a R que intente abrir el archivo en cuestión, usando la función `file.show()`.
+
+Por ejemplo, intentamos abrir el archivo con extensión **.csv** que importamos antes.
+```{r fileshow bc csv, echo=TRUE, eval=FALSE}
+file.show("breast-cancer-wis.csv")
+```
+
+R intentará usar el programa que en nuestro equipo, por defecto, abre el tipo de archivo que le hemos indicado. Si no tenemos un programa configurado para abrir el tipo de archivo que deseamos, nuestro sistema operativo nos pedira que elijamos uno.
+
+Lo anterior puede ocurrir si intentas abrir el archivo con extensión **.data** que hemos importado en este capítulo.
+```{r file.show bc data, echo=TRUE, eval=FALSE}
+file.show("breast-cancer-wis.data")
+```
+
+Podemos usar la función `readLines()` para leer un archivo línea por línea. Establecemos el argumento `n = 4` para obtener sólo los primeros cuatro renglones del documento.
+```{r, echo = TRUE}
+readLines("breast-cancer-wis.data", n = 4)
+```
+
+La salida es una lista de vectores, uno por linea en el archivo. 
+
+Observando la salida de `readLines()` podremos determinar si el archivo que nos interesa puede ser importado usando con los métodos que hemos revisado o necesitaremos de herramientas diferentes.
+
+El documento "R Data Import/Export" (R Core Team, 2018) contiene una guía avanzada sobre el proceso de importar y exportar todo tipo de datos. Puedes consultarlo en el siguiente enlace:
+
+* https://cran.r-project.org/doc/manuals/r-release/R-data.pdf
+
 ## Exportar datos
-Algo muy importante en trabajar con R es exportar los datos que hemos generado. 
+Un paso muy importante en el trabajo con R es exportar los datos que hemos generado, ya sea para que sean usados por otras personas o para almacenar información en nuestro disco duro en lugar de nuestro RAM. 
 
 Dependiendo del tipo de estructura de dato en el que se encuentran contenidos nuestros datos son las opciones que tenemos para exportarlos.
-
 
 ### Data frames y matrices
 Si nuestros datos se encuentran contenidos en una estructura de datos rectangular, podemos exportarlos con diferentes funciones.
@@ -294,7 +321,7 @@ readLines("data_frames.xlsx", n = 5)
 ```
 
 En caso de que tengamos instalado *Excel* o algún otro programa compatible con archivos de hoja de cálculo, como *LibreOffice Calc* o *Number*, podemos pedir a R que abra este archivo con `file.show()`. De este modo podemos explorar su contenido.
-```{r show.file xlsx, echo=TRUE, eval=FALSE}
+```{r file.show xlsx, echo=TRUE, eval=FALSE}
 file.show("data_frames.xlsx")
 ```
 
@@ -351,64 +378,41 @@ trees_excel
 
 Esta vez hemos tenido éxito y los datos importados son los correctos.
 
-El paquete **readxl** tiene más funciones para trabajar con hojas de cálculo además de `read_excel()` y `excel_sheets()`, pero revisar cada una de ellas sale del alcance de este libro. Puedes conocer más sobre ellas en la documentación de **readxl**.
+El paquete **readxl** tiene más funciones para trabajar con hojas de cálculo además de `read_excel()` y `excel_sheets()`, pero revisar cada una de ellas sale del alcance de este libro. Puedes conocer más sobre ellas en la documentación de **readxl**, llamando `help(package = "readxl")`.
 
-## Archivos con una estructura desconocida
-Habrá ocasiones en las que no estamos seguros del contenido de los archivos que deseamos importar. En estos casos, podemos pedirle a R que intente abrir el archivo en cuestión, usando la función `file.show()`.
+## Datos de paquetes estadísticos comerciales (SPSS, SAS y STATA)
+En ciertas disciplinas, el uso de determinados paquetes estadísticos comerciales es sumamente común. Si
 
-Por ejemplo, intentamos abrir el archivo con extensión **.csv** que importamos antes.
-```{r, echo=TRUE, eval=FALSE}
-show.file("breast-cancer-wis.csv")
+Por ejemplo, en Psicología el paquete [*SPSS Statistics*](https://www.ibm.com/products/spss-statistics) de IBM es el paquete estadístico comercial más usado. Si eres psicólogo o psicóloga, o colaboras con psicólogos, es áltamente probable que te encuentres con datos contenidos en archivos con extensión **.sav**, el tipo de archivo nativo de **SPSS Statistics**.
+
+Por lo tanto, es conveniente ser capaces de importar y exportar datos almacenados en archivos compatibles con paquetes estadísticos comerciales, pues esto nos permitirá  usar datos ya existentes compatibles con ellos y colaborar con otras personas.
+
+Para este fin, usamos el paquete **haven**.
+```{r haven instalar, echo=TRUE, eval=FALSE}
+install.packages("haven")
 ```
 
-R intentará usar el programa que en nuestro equipo, por defecto, abre el tipo de archivo que le hemos indicado. Si no tenemos un programa configurado para abrir el tipo de archivo que deseamos, nuestro sistema operativo nos pedira que elijamos uno.
-
-Lo anterior puede ocurrir si intentas abrir el archivo con extensión **.data** que hemos importado en este capítulo.
-```{r, echo=TRUE, eval=FALSE}
-show.file("breast-cancer-wis.data")
-```
-
-Podemos usar la función `readLines()` para leer un archivo línea por línea. Establecemos el argumento `n = 4` para obtener sólo los primeros cuatro renglones del documento.
-```{r, echo = TRUE}
-readLines("breast-cancer-wis.data", n = 4)
-```
-
-La salida es una lista de vectores, uno por linea en el archivo. 
-
-Observando la salida de `readLines()` podremos determinar si el archivo que nos interesa puede ser importado usando con los métodos que hemos revisado o necesitaremos de herramientas diferentes.
-
-El documento "R Data Import/Export" (R Core Team, 2018) contiene una guía avanzada sobre el proceso de importar y exportar todo tipo de datos. Puedes consultarlo en el siguiente enlace:
-
-* https://cran.r-project.org/doc/manuals/r-release/R-data.pdf
-
-## El paquete readr
-
-### Importar
-read_csv
-read_lines
-read_fwf
-read_rds
-
-### Exportar
-write_csv
-write_rds
-
-## SPSS, SAS y Stata
+Para usar las funciones de **haven**, lo cargamos a nuestra sesión de trabajo.
+```{r haven library, echo=TRUE}
 library(haven)
+```
 
-### Importar
-read_spss
-read_sas
-read_stata
+Las siguientes funciones de **haven** son usadas para importar datos. Todas estas funciones nos piden como argumento `file` la ruta y nombre del archivo a importar, si no especificamos ruta, será buscado en nuestro directorio de trabajo.
 
-### Exportar
-write_spss
-write_sas
-write_stata
+* `read_spss()`: *SPSS Statistics*, archivos con extensión **sav**, **zsav** y **por**.
+* `read_sav()`: *SPSS Statistics*, sólo archivos **sav**, **zsav**.
+* `read_sas()`: *SAS*, archivos **sas7bdat**.
+* `read_xpt`: *SAS*, archivos **xpt**.
+* `read_stata()`: *Stata*, archivos **dta**.
 
+Todas importan los datos como un data frame.
 
+También podemos exportar nuestros data frames creados en R como archivos compatibles con estos programas con las siguientes funciones. Todas piden el argumento `file`, con la ruta y nombre del archivo a crear. Es muy importante que demos como nombre de archivo uno con la extensión correcta para cada paquete.
 
+* write_sav(): *SPSS Statistics*, archivos **sav**, **zsav** o **por**.
+* write_sas(): *SAS*, archivos **sas7bda**.
+* write_xpt(): *SAS*, archivos **xpt**.
+* write_dta(): *Stata*, archivos **dta**.
 
-
-
+Como siempre, puedes leer sobre las demás funciones en el paquete **haven** en su documentación, llamando `help(package = "haven")`.
 

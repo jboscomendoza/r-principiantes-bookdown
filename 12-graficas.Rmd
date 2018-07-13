@@ -1,0 +1,77 @@
+# Gráficas
+R cuenta con un sistema de generación de gráficas poderoso y flexible.
+
+```{r dl bank, echo=TRUE, eval=FALSE}
+download.file(
+  url = "https://raw.githubusercontent.com/jboscomendoza/r-principiantes-bookdown/master/datos/bank.csv", 
+  destfile = "bank.csv"
+  )
+```
+
+```{r, echo=TRUE, eval=FALSE}
+banco <- read.csv("bank.csv", sep = ";")
+```
+
+## Histogramas
+```{r hist age, echo=TRUE}
+hist(x = banco$age)
+```
+
+```{r hist, echo=TRUE, error=TRUE}
+hist(x = banco$job)
+```
+
+```{r}
+hist(x = banco$age, col = "purple")
+```
+
+```{r hist breaks, echo=TRUE}
+hist(x = banco$age, breaks = 4, col = "purple")
+```
+
+
+## Gráficas de barras
+
+```{r table bar, echo=TRUE}
+tab_banco <- table(banco$education, banco$loan)
+```
+
+```{r bar, echo=TRUE}
+barplot(t(tab_banco))
+```
+
+```{r proptable bar, echo=TRUE}
+ptab_banco <- prop.table(table(banco$loan, banco$education), margin = 2)
+```
+
+```{r proptable barplot, echo = TRUE}
+barplot(ptab_banco)
+```
+```{r barplot legend, echo=TRUE}
+barplot(ptab_banco, col = c("purple", "white"))
+legend("topright", legend = c("Si", "no"), fill = c("purple", "white"))
+```
+
+
+## Diagramas de dispersión
+
+```{r}
+plot(x = banco$balance, banco$duration)
+```
+
+
+## Diagrama de caja
+```{r}
+plot(banco$education, banco$balance)
+
+```
+
+```{r, echo=TRUE}
+boxplot(formula = balance ~ education, data =  banco)
+```
+
+```{r, echo=TRUE}
+boxplot(formula = balance ~ education * housing, data =  banco)
+```
+
+## Mosaico

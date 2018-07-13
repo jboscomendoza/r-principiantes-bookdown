@@ -3,7 +3,7 @@ La familia de funciones `apply` es usada para aplicar una función a cada elemen
 
 Con esta familia de funciones podemos automatizar tareas complejas usando poca líneas de código y es una de las características distintivas de R como lenguaje de programación.
 
-La familía de funciones `apply` es una expresión de los rasgos del paradigma funcional de programación presentes en R. Sobre esto no profundizaremos demasiado, pero se refiere saber que en R las funciones son "ciudadanos de primera", con la misma importancia que los objetos, y por lo tanto, operamos en ellas. 
+La familia de funciones `apply` es una expresión de los rasgos del paradigma funcional de programación presentes en R. Sobre esto no profundizaremos demasiado, pero se refiere saber que en R las funciones son "ciudadanos de primera", con la misma importancia que los objetos, y por lo tanto, operamos en ellas. 
 
 La familia de funciones apply no sólo recibe datos como argumentos, también recibe funciones.
 
@@ -11,7 +11,7 @@ La familia de funciones apply no sólo recibe datos como argumentos, también re
 Para entender más fácilmente el uso de la familia apply, recordemos la [vectorización de operaciones](###vectorización-de-operaciones).
 
 Hay operaciones que, si las aplicamos a un vector, son aplicadas a todos sus elementos.
-```{r, echo=TRUE}
+```{r recordar vectorizacion, echo=TRUE}
 mi_vector <- 1:10
 
 mi_vector
@@ -35,7 +35,7 @@ La familia apply esta formada por las siguientes funciones:
 * `tapply()`
 * `vapply()`
 
-Es una familia numerosa, pues  variedad de funciones se debe a que varias de ellas tienen aplicaciones sumamente específicas.
+Es una familia numerosa y esta variedad de funciones se debe a que varias de ellas tienen aplicaciones sumamente específicas.
 
 Todas las funciones de esta familia tienen una característica en común: **reciben como argumentos a un objeto y al menos una función**. 
 
@@ -46,7 +46,7 @@ Nosotros trabajaremos con las funciones más generales y de uso común de esta f
 * `apply()`
 * `lapply()`
 
-Estas dos funciones nos permitiran solucionar casi todos los problemas a los que nos encontremos. Además, conociendo su uso, las demás funciones de la familia **apply** serán relativamente fáciles de entender.
+Estas dos funciones nos permitirán solucionar casi todos los problemas a los que nos encontremos. Además, conociendo su uso, las demás funciones de la familia **apply** serán relativamente fáciles de entender.
 
 ## apply
 `apply` aplica una función a todos los elementos de una **matriz**.
@@ -83,9 +83,7 @@ is.matrix(mi_matriz)
 mi_matriz
 ```
 
-
-
-Aunque tambien podemos coercionar listas y arrays a matrices, los resultados que obtenemos no siempre son apropiados para `apply()`, por lo que no es recomendable usarl estos objetos como argumentos.
+Aunque también podemos coercionar listas y arrays a matrices, los resultados que obtenemos no siempre son apropiados para `apply()`, por lo que no es recomendable usarl estos objetos como argumentos.
 
 ### ¿Qué es MARGIN?
 Recuerda que las matrices y los data frames están formadas por vectores y que estas estructuras tienen dos dimensiones, ordenadas en renglones y columnas. Esto lo vimos en en [Matrices y arrays](##matrices-y-arrays) y [Data frames](##data-frames).
@@ -139,7 +137,7 @@ FUN es un argumento que nos pide el **nombre de una función que se se aplicarla
 
 El ejemplo de la sección anterior aplicamos las funciones `mean()` y `sum()` usando sus nombres, sin paréntesis, esto es, sin especificar argumentos.
 
-Podemos dar como argumento cualquier nombre de función, siempre y cuando esta acepte vectores como argumentos.
+Podemos dar como argumento cualquier nombre de función, siempre y cuando ésta acepte vectores como argumentos.
 
 Probemos cambiando el argumento `FUN`. Usaremos la función `mean()` para obtener la media de cada renglón y de cada columna.
 
@@ -165,17 +163,17 @@ apply(matriz, 1, FUN = max)
 apply(matriz, 1, FUN = quantile)
 ```
 
-## ¿Cómo sabe FUN cuáles son sus argumentos?
+### ¿Cómo sabe FUN cuáles son sus argumentos?
 Recuerda que podemos llamar una función y proporcionar sus argumentos en orden, tal como fueron establecidos en su definición.
 
-Por lo tanto, **el primer argumento que espera la función, sera la `X` del `apply()`**.
+Por lo tanto, **el primer argumento que espera la función, será la `X` del `apply()`**.
 
 Para ilustrar esto, usaremos la función `quantile()`. Llama `?quantile` en la consola para ver su documentación.
 ```{r, echo=TRUE, eval=FALSE}
 ?quantile
 ```
 
-`quantile()` espera siempre un argumento `x`, que debe ser un vector numerico, además tener varios argumentos adicionales. 
+`quantile()` espera siempre un argumento `x`, que debe ser un vector numérico, además tener varios argumentos adicionales. 
 
 * `probs` es un vector numérico con las probabilidades de las que queremos extraer cuantiles.
 * `na.rm`, si le asignamos `TRUE` quitará de x los `NA` y `NaN` antes de realizar operaciones. 
@@ -244,9 +242,9 @@ Este comportamiento se debe a que **`apply()` nos devolverá objetos del mismo t
 
 Sin embargo, este comportamiento puede causarte algunos problemas. En primer lugar, anterior te obliga a conocer de antemano el tipo del resultado que obtendrás, lo cual no siempre es fácil de determinar, en particular si las funciones que estás utilizando son poco comunes o tienen comportamientos poco convencionales.
 
-Cuando estás trabajando en proyectos en los que el resultado de una operación será usado en operaciones posteriores, corres el riesgo de que en alguna parte del proceso, un `apply()` te devuelva un resultado que te impida continuar adeñamte.
+Cuando estás trabajando en proyectos en los que el resultado de una operación será usado en operaciones posteriores, corres el riesgo de que en alguna parte del proceso, un `apply()` te devuelva un resultado que te impida continuar adelante.
 
-Con algo de práctica es más o menos sencillo identificar problemas posibles con los resultados de `apply()`, pero es algo que debes tener en cuenta, pues puede explicar porqué tu código no funciona como esperabas.
+Con algo de práctica es más o menos sencillo identificar problemas posibles con los resultados de `apply()`, pero es algo que debes tener en cuenta, pues puede explicar por qué tu código no funciona como esperabas.
 
 En este sentido, `lapply()` tiene la ventaja de que siempre devuelve una lista.
 
@@ -286,7 +284,7 @@ Aplicamos la función `mean()`, usando su nombre.
 lapply(X = trees, FUN = mean)
 ```
 
-Dado que un data frame esta formado por columnas y cada columna es un vector atómico, cuando usamos `lapply()` , la función es aplicada a cada columna. `lapply()`, a diferencia de `apply()` no puede aplicarse a renglones.
+Dado que un data frame está formado por columnas y cada columna es un vector atómico, cuando usamos `lapply()` , la función es aplicada a cada columna. `lapply()`, a diferencia de `apply()` no puede aplicarse a renglones.
 
 En este ejemplo, obtuvimos la media de grueso (Girth), alto (Height) y volumen (Volume), como una lista.
 
@@ -297,7 +295,7 @@ arboles <- lapply(X = trees, FUN = mean)
 class(arboles)
 ```
 
-Esto es muy conveniente, pues la recomendacion para almacenar datos en un data frame es que cada columna represente una variable y cada renglón un caso (por ejemplo, el enfoque **tidy** de [Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10/v59i10.pdf)). Por lo tanto,  con `lapply()` podemos manipular y transformar datos, por variable.
+Esto es muy conveniente, pues la recomendación para almacenar datos en un data frame es que cada columna represente una variable y cada renglón un caso (por ejemplo, el enfoque **tidy** de [Wickham (2014)](https://www.jstatsoft.org/article/view/v059i10/v59i10.pdf)). Por lo tanto,  con `lapply()` podemos manipular y transformar datos, por variable.
 
 Al igual que con `apply()`, podemos definir argumentos adicionales a las funciones que usemos, usando sus nombres, después del nombre de la función.
 ```{r, echo=TRUE}
@@ -398,7 +396,7 @@ Por ejemplo, obtendremos el coeficiente de correlación de cuatro data frames co
 
 Empezaremos creando una lista de data frames. Para esto, usaremos las función `rnorm()`, que genera números al azar y `set.seed()`, para que obtengas los mismos resultados aquí mostrados.
 
-`rnorm()` creara `n` números al azar (pseudoaleatorios, en realidad), sacados de una distribución normal con media 0 y desviación estandar 1. `set.seed()` es una función que "fija" los resultados de una generación de valores al azar. Cada que ejecutas `rnorm()` obtienes resultados diferentes, pero si das un número como argumento `seed` a `set.seed()`, siempre obtendrás los mimos números.
+`rnorm()` creara `n` números al azar (pseudoaleatorios, en realidad), sacados de una distribución normal con media 0 y desviación estandar 1. `set.seed()` es una función que "fija" los resultados de una generación de valores al azar. Cada que ejecutas `rnorm()` obtienes resultados diferentes, pero si das un número como argumento `seed` a `set.seed()`, siempre obtendrás los mismos números.
 ```{r, echo = TRUE}
 # Fijamos seed
 set.seed(seed = 2018)
@@ -430,7 +428,7 @@ Esto lo logramos con una línea de código.
 lapply(X = tablas, FUN = cor)
 ```
 
-De esta manera puedes manipular información de múltiples data frames, matrices o listas con muy pocas líneas de código y, en muchos casos, más rapidamente que con las alternativas existentes.
+De esta manera puedes manipular información de múltiples data frames, matrices o listas con muy pocas líneas de código y, en muchos casos, más rápidamente que con las alternativas existentes.
 
 Finalmente, si asignamos los resultados de las última operación a un objeto, podemos usarlos y manipularlos de la misma manera que cualquier otra lista.
 

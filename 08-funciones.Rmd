@@ -9,7 +9,7 @@ La instalación base de R tiene suficientes funciones para que realicemos todas 
 Sin embargo, constantemente necesitamos realizar tareas para las que no existe una función que resuelva un problema en particular. O existen funciones que nos dan una solución, pero que requieren de combinarlas o utilizarlas en sucesión, complicando el código que debemos escribir para análisis repetidos.
 
 Ilustremos lo anterior con un caso. Supongamos que nuestro jefe nos ha pedido crear un histograma con datos de edad que hemos recogido en una encuesta. Esto es sencillo de resolver, la función `hist()` hace exactamente esto, basta con proporcionarle un vector numérico para que nos devuelva un gráfico.
-```{r, echo=TRUE}
+```{r primer hist, echo=TRUE}
 # Simulamos datos sacados de una distribución normal.
 set.seed(173)
 edades<- rnorm(1500, mean = 15, sd = .75)
@@ -24,7 +24,7 @@ hist(edades)
 Nuestro jefe está satisfecho... pero (siempre hay un pero) le gustaría que en el histograma se muestre la media y desviación estándar de los datos. ¡Ah! Y que tenga un título descriptivo. Y que los ejes  estén etiquetados en español. Y que las barras del histograma sean de color dorado.
 
 ¡No hay problema! Podemos calcular la media de los datos usando la función `mean()`, la desviación estándar con `sd()` y podemos agregar los resultados de este cálculo al histograma usando la función `abline()`. Para agregar título, etiquetas en español y colores al histograma sólo basta agregar los argumentos apropiados a la función `hist()`.
-```{r, echo=TRUE}
+```{r hist media sd, echo=TRUE}
 # Calculamos media y desviación estándar
 media <- mean(edades)
 desv_est <- sd(edades)
@@ -51,7 +51,7 @@ Y si tu jefe en esta caso hipotético quiere que agregues, quites o modifiques t
 
 ¿No sería mejor tener una función que se llamara crear_histograma e hiciera todo lo que queremos con una sóla instrucción?
 
-Es en situaciones como esta en las que se hace evidente la necesidad de crear nuestras propias funciones, capaces de realizar una tarea específica a nuestros probolemas, y que pueda usarse de manera repetida. Con esto reducimos errores, facilitamos hacer correcciones o cambios y nos hacemos la vida más fácil, a nosotros y a quienes usen nuestro código.
+Es en situaciones como esta en las que se hace evidente la necesidad de crear nuestras propias funciones, capaces de realizar una tarea específica a nuestros problemas, y que pueda usarse de manera repetida. Con esto reducimos errores, facilitamos hacer correcciones o cambios y nos hacemos la vida más fácil, a nosotros y a quienes usen nuestro código.
 
 ## Definiendo funciones en R
 Las funciones definidas por el usuario son creadas usando el siguiente modelo. 
@@ -71,7 +71,7 @@ Los argumentos son las variables que necesita  la función para realizar sus ope
 
 Dentro de la función, los argumentos se convertirán en el nombre de los valores que asignemos a ellos. Los argumentos pueden ser datos, estructuras de datos, conexiones a archivos u otras funciones y todos deben tener nombres diferentes.
 
-El cuerpo de la función contiene, entre llaves, todas las operaciones que se ejecutaran cuando la función sea llamada. El cuerpo de una función puede ser tan sencillo o complejo como nosotros deseemos, incluso podemos definir funciones dentro de una función (y definir funciones dentro de una función dentro de otra función, aunque esto se vuelve confuso rápidamente). 
+El cuerpo de la función contiene, entre llaves, todas las operaciones que se ejecutarán cuando la función sea llamada. El cuerpo de una función puede ser tan sencillo o complejo como nosotros deseemos, incluso podemos definir funciones dentro de una función (y definir funciones dentro de una función dentro de otra función, aunque esto se vuelve confuso rápidamente). 
 
 Si el código del cuerpo de la función tiene errores, la función no se ejecutará y nos será devuelto un mensaje de error **al ejecutarla**. R no nos avisa si nuestra función va a funcionar o no hasta que intenta correrla. 
 

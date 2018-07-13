@@ -15,14 +15,14 @@ Como su nombre lo indica, este tipo de operador es usado para operaciones aritm�
 
 En R tenemos los siguientes operadores aritméticos:
 
-Operador| Operación       | Ejemplo | Resultado
-----    |----             |----     |----
-+       | Suma            | 5 + 3   | 8
--       | Resta           | 5 - 3   | 2
-*       | Multiplicación  | 5 * 3   | 18
-/       | División        | 5 /3    | 1.666667
-^       | Potencia        | 5 ^ 3   | 125
-%%      | División entera | 5 %% 3  | 2
+Operador  | Operación       | Ejemplo | Resultado
+----      |----             |----     |----
+`+`       | Suma            | `5 + 3` | 8
+`-`       | Resta           | `5 - 3` | 2
+`*`       | Multiplicación  | `5 * 3` | 18
+`/`       | División        | `5 /3`  | 1.666667
+`^`       | Potencia        | `5 ^ 3` | 125
+`%%`      | División entera | `5 %% 3`| 2
 
 Es posible realizar operaciones aritméticas con datos de tipo **entero** y **numérico**. 
 
@@ -50,9 +50,9 @@ NA ^ 13
 ```
 
 ### La división entera
-Entre los operadores aritméticos, el de división entera o **modulo** requiere una explicación adicional sobre su uso. La operación que realiza es una división de un número entre otro, pero en lugar de devolver el cociente, nos devuelve el residuo.
+Entre los operadores aritméticos, el de división entera o **módulo** requiere una explicación adicional sobre su uso. La operación que realiza es una división de un número entre otro, pero en lugar de devolver el cociente, nos devuelve el residuo.
 
-Por ejemplo, si hacermos una división entera de 4 entre 2, el resultado será 0. Esta es una división exacta y no tiene residuo.
+Por ejemplo, si hacemos una división entera de 4 entre 2, el resultado será 0. Esta es una división exacta y no tiene residuo.
 ```{r, echo =TRUE}
 4 %% 2
 ```
@@ -65,14 +65,14 @@ En cambio, si hacemos una división entera de 5 entre 2, el resultado será 1, p
 ## Operadores relacionales
 Los operadores lógicos son usados para hacer comparaciones y siempre devuelven como resultado `TRUE` o `FALSE` (verdadero o falso, respectivamente).
 
-Operador| Comparación           | Ejemplo | Resultado
-----    |----                   |----     |----
-<       | Menor que             | 5 < 3   | FALSE
-<= 	    | Menor o igual que     | 5 <= 3  | FALSE
->       |	Mayor que             | 5 > 3   | TRUE
->= 	    | Mayor o igual que     | 5 >= 3  | TRUE
-== 	    | Exactamente igual que | 5 == 3  | FALSE
-!= 	    | No es igual que       | 5 != 3  | TRUE
+Operador| Comparación           | Ejemplo   | Resultado
+----    |----                   |----       |----
+`<`     | Menor que             | `5 < 3`   | `FALSE`
+`<=` 	  | Menor o igual que     | `5 <= 3`  | `FALSE`
+`>`     |	Mayor que             | `5 > 3`   | `TRUE`
+`>=` 	  | Mayor o igual que     | `5 >= 3`  | `TRUE`
+`==` 	  | Exactamente igual que | `5 == 3`  | `FALSE`
+`!=` 	  | No es igual que       | `5 != 3`  | `TRUE`
 
 Es posible comparar cualquier tipo de dato sin que resulte en un error.
 
@@ -83,7 +83,7 @@ Por ejemplo, `"casa" > "barco"` nos devuelve `TRUE`.
 "casa" > "barco"
 ```
 
-Este resultado se debe a que se ha hecho una comparación por orden alfabético. En este caso, la palabra "casa" tendría yba posición posterior a "barco", pues empieza con "c" y está letra tiene una posición posterior a la "b" en el alfabeto. Por lo tanto, es verdadero que sea "mayor".
+Este resultado se debe a que se ha hecho una comparación por orden alfabético. En este caso, la palabra "casa" tendría una posición posterior a "barco", pues empieza con "c" y esta letra tiene una posición posterior a la "b" en el alfabeto. Por lo tanto, es verdadero que sea "mayor".
 
 Cuando intentamos comparar factores, siempre obtendremos como resultado `NA` y una advertencia acerca de que estos operadores no son significativos para datos de tipo factor.
 ```{r, echo=TRUE}
@@ -93,12 +93,12 @@ as.factor("casa") > "barco"
 ## Operadores lógicos
 Los operadores lógicos son usados para operaciones de **álgebra Booleana**, es decir, para describir relaciones lógicas, expresadas como verdadero (`TRUE`) o falso (`FALSO`).
   
-Operador  | Comparación                   | Ejemplo       | Resultado
-----      |----                           |----           |----
-x | y     |	x Ó y es verdadero            | TRUE | FALSE  | TRUE
-x & y     |	x Y y son verdaderos          | TRUE & FALSE  | FALSE
-!x        |	x no es verdadero (negación)  | !TRUE         | FALSE
-isTRUE(x) |	x es verdadero (afirmación)   | isTRUE(TRUE)  | TRUE
+Operador    | Comparación                   | Ejemplo         | Resultado
+----        |----                           |----             |----
+`x | y`     |	x Ó y es verdadero            | `TRUE | FALSE`  | `TRUE`
+`x & y`     |	x Y y son verdaderos          | `TRUE & FALSE`  | `FALSE`
+`!x`        |	x no es verdadero (negación)  | `!TRUE`         | `FALSE`
+`isTRUE(x)` |	x es verdadero (afirmación)   | `isTRUE(TRUE)`  | `TRUE`
 
 Los operadores `|` y `&` siguen estas reglas:
 
@@ -129,7 +129,7 @@ Por ejemplo, la negación `FALSE` Y `FALSE` dará como resultado `TRUE`.
 !(FALSE | FALSE)
 ```
 
-También podeos combinar operadores lógicos y relacionales, dado que esto últimos dan como resultado `TRUE` y `FALSE`.
+También podemos combinar operadores lógicos y relacionales, dado que esto últimos dan como resultado `TRUE` y `FALSE`.
 ```{r, echo=FALSE}
 (4 < 6) | (6 == 6)
 ```
@@ -139,10 +139,10 @@ Este es probablemente el operador más importante de todos, pues nos permite asi
 
 Operador  | Operación   
 ----      |----         
-<-        | Asigna un valor a una variable
-=         | Asigna un valor a una variable
+`<-`      | Asigna un valor a una variable
+`=`       | Asigna un valor a una variable
 
-Aunque podemos usar el signo igual para una asignación, a lo largo de este libro utlizaremos `<-`, por ser característico de R y fácil de reconocer visualmente.
+Aunque podemos usar el signo igual para una asignación, a lo largo de este libro utilizaremos `<-`, por ser característico de R y fácil de reconocer visualmente.
 
 Después de realizar la operación de asignación, podemos usar el nombre de la variable para realizar operaciones con ella, como si fuera del tipo de datos que le hemos asignado. Si asignamos un valor a una variable a la que ya habíamos asignado datos, nuestra variable conserva el valor más reciente.
 
@@ -159,7 +159,7 @@ estatura
 peso
 ```
 
-Usamos los valores asignados para realizar operacions.
+Usamos los valores asignados para realizar operaciones.
 ```{r, echo=TRUE}
 peso / estatura ^ 2
 ```
@@ -198,3 +198,38 @@ variacion_tiempo <- tiempo_final - tiempo_inicial
 
 variacion_velocidad / variacion_tiempo
 ```
+
+## Orden de operaciones
+En R, al igual que en matemáticas, las operaciones tienen un orden de evaluación definido. 
+
+Cuanto tenemos varias operaciones ocurriendo al mismo tiempo, en realidad, algunas de ellas son realizadas antes que otras y el resultado de ellas dependerá de este orden.
+
+El orden de operaciones incluye a las aritméticas, relacionales, lógicas y de asignación.
+
+En la tabla siguiente se presenta el orden en que ocurren las operaciones que hemos revisado en este capítulo.
+
+Orden | Operadores
+---   |---
+1     | `^`          
+2     | `*` `/`
+3     | `+` `-`
+4     | `<` `>` `<=` `>=` `==` `!=`
+5     | `!`
+6     | `&`
+7     | `|`
+8     | `<-`
+
+Si deseamos que una operación ocurra antes que otra, rompiendo este orden de evaluación, usamos paréntesis.
+
+
+```{r}
+
+```
+
+
+Podemos tener paréntesis anidados.
+```{r}
+
+```
+
+

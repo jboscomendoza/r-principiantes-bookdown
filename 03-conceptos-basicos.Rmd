@@ -8,7 +8,7 @@ Lo primero que nos encontramos al ejecutar R es una pantalla que nos muestra la 
 
 Esta es la consola de R y corresponde al **entorno computacional** de este lenguaje. Es aquí donde nuestro código es interpretado.
 
-Podemos escribir código directamente en la consola y R nos dará el resultado de lo pidamos allí mismo. Esta es la razón pora la que se dice que R permite el uso interactivo, pues no es necesario compilar nuestro código para ver sus resultados.
+Podemos escribir código directamente en la consola y R nos dará el resultado de lo pidamos allí mismo. Esta es la razón por la que se dice que R permite el uso interactivo, pues no es necesario compilar nuestro código para ver sus resultados.
 
 Si estás usando RStudio, te encontrarás la consola de R en uno de los páneles de este programa.
 
@@ -18,7 +18,7 @@ Cuando hablamos de ejecutar, llamar o correr nos referimos a pedir que R realice
 
 Cuando decimos que R nos devuelve algo, es que ha realizado algo que le hemos pedido, es decir, nos está dando una *salida*.
 
-Por ejemplo, si escribimos los siguiene en la consola lo siguiente y damos Enter, estamos pidiendo que se ejecute esta operación:
+Por ejemplo, si escribimos los siguiente en la consola lo siguiente y damos Enter, estamos pidiendo que se ejecute esta operación:
 `> 1 + 1`
 
 Y nos será devuelto su resultado:
@@ -40,10 +40,10 @@ $a = \pi r ^ 2$
 
 Las constantes y variables en R tienen nombres que nos permiten hacer referencia a ellas en operaciones.
 
-Las constantes ya están establecidas por R, mientras que nosotros podemos crear variables, asignandoles valores a nombres.
+Las constantes ya están establecidas por R, mientras que nosotros podemos crear variables, asignándoles valores a nombres.
 
 En R usamos `<-` para hacer asignaciones. De este modo, podemos asignar el valor **3** a la variable **radio**
-```{r, echo = TRUE}
+```{r ejemplo asignar, echo = TRUE}
 radio <- 3
 ```
 
@@ -77,6 +77,30 @@ Aunque estrictamente hablando una función es un objeto, para fines de explicaci
 
 Las funciones son un tema que revisamos más adelante. Por el momento, recuerda que una función realiza operaciones y nos pide argumentos para poder llevarlas a cabo.
 
+## Documentación
+Las funciones de R *base* y aquellas que forman parte de paquete tienen un archivo de documentación.
+
+Este archivo describe qué hace la función, sus argumentos, detalles sobre las operaciones que realiza,los resultados que devuelve y ejemplos de uso.
+
+Para obtener la documentación de una función, escribimos el `?` antes de su nombre y lo ejecutamos. También podemos usar la función `help()`, con el nombre de la función.
+
+Los dos procedimientos siguientes son equivalentes.
+```{r ayuda, echo=TRUE, eval=FALSE}
+?mean()
+
+help("mean")
+```
+
+Si usas RStudio, la documentación de la función se mostrará en uno de los paneles de este IDE. Si estas usando R directamente, se abrirá una ventana de tu navegador de internet.
+
+También podemos obtener la documentación de un paquete, si damos el argumento `package` a la función `help()`, con el nombre de un paquete.
+
+Por ejemplo, la documentación del paquete **stats**, instalado por defecto en R *base*.
+```{r, echo=TRUE, eval=FALSE}
+help(package = "stats")
+```
+
+
 ## Directorio de trabajo
 El directorio o carpeta de trabajo es el lugar en nuestra computadora en el que se encuentran los archivos con los que estamos trabajando en R. Este es el lugar donde R buscara archivos para importarlos y al que serán exportados, a menos que indiquemos otra cosa.
 
@@ -93,8 +117,12 @@ setwd("C:\otro_directorio")
 
 Por último, si deseas conocer el contenido de tu directorio de trabajo, puedes ejecutar. la función `list.files()`, sin argumentos, que devolverá una lista con el nombre de los archivos de tu directorio de trabajo. La función `list.dirs()`, también sin argumentos` te dará una lista de los directorios dentro del directorio de trabajo.
 
-```{r}
+```{r list files y dirs, echo=TRUE, eval=FALSE}
+# Ver archivos
+list.files()
 
+# Ver directorios
+list.dirs()
 ```
 
 ### Sesión

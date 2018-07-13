@@ -21,11 +21,11 @@ Todos los vectores tienen tres propiedades:
 
 * **Tipo**. Un vector tiene el mismo tipo que los datos que contiene. Si tenemos un vector que contiene datos de tipo numérico, el vector será también de tipo numérico. Los vectores son **atómicos**, pues sólo pueden contener datos de un sólo tipo, no es posible mezclar datos de tipos diferentes dentro de ellos.
 * **Largo**. Es el número de elementos que contiene un vector. El largo es la única **dimensión** que tiene esta estructura de datos.
-* **Atributos**. Los vectores pueden tener metadatos de muchos tipos, los cuales describen características de los datos que contienen. Todos ellos son incluidos en esta propiedad. Nosotros no usaremos vectores con metadatos, por ser una propiedad con usos muy específicos que van más allá del alcance de este libro.
+* **Atributos**. Los vectores pueden tener metadatos de muchos tipos, los cuales describen características de los datos que contienen. Todos ellos son incluidos en esta propiedad. En este libro no se usarán vectores con metadatos, por ser una propiedad con usos van más allá del alcance de este libro.
 
-Cuando una estructura unicamente puede contener datos de un sólo tipo, como es el caso de los vectores, decimos que es **homogénea**, pero no implica que necesariamente sea **atómica**. Regresaremos sobre esto al hablar de matrices y arrays.
+Cuando una estructura únicamente puede contener datos de un sólo tipo, como es el caso de los vectores, decimos que es **homogénea**, pero no implica que necesariamente sea **atómica**. Regresaremos sobre esto al hablar de matrices y arrays.
 
-Como los vectores son la estrucutra de datos más sencilla de R, datos simples como el número **3**, son en realidad vectores. En este caso, un vector de tipo númerico y largo igual a 1.
+Como los vectores son la estructura de datos más sencilla de R, datos simples como el número **3**, son en realidad vectores. En este caso, un vector de tipo numérico y largo igual a 1.
 ```{r, echo=TRUE}
 3
 ```
@@ -89,7 +89,7 @@ mi_vector <- c(1, 2, 3)
 class(mi_vector)
 ```
 
-Si intentamos agregar un dato de tipo cadena de texto, nuestro vector ahora sera de tipo cadena de texto.
+Si intentamos agregar un dato de tipo cadena de texto, nuestro vector ahora será de tipo cadena de texto.
 ```{r}
 mi_vector_nuevo <- c(mi_vector, "a")
 
@@ -103,11 +103,46 @@ mi_vector_mezcla <- c(FALSE, 2, "tercero", 4.00)
 class(mi_vector_mezcla)
 ```
 
+Podemos crear vectores de secuencias numéricas usando `:`. De un lado de los dos puntos escribimos el número de inicio de la secuencia y del otro el final.
+
+Por ejemplo, creamos una secuencia del 1 al 10.
+```{r dos puntos, echo=TRUE}
+1:10
+```
+
+También podemos crear una secuencia del 10 al 1.
+```{r dos puntos dec, echo=TRUE}
+10:1
+```
+
+Las secuencias creadas con `:` son consecutivas con incrementos o decrementos de 1. Estas secuencias pueden empezar con cualquier número, incluso si este es negativo o tiene cifras decimales
+
+```{r dos puntos otros, echo=TRUE}
+# Número negativo
+-43:-30
+
+# Número con cifras decimales
+67.23:75
+```
+
+Si nuestro número de inicio tiene cifras decimales, estas serán respetadas al hacer los incrementos o decrementos de uno en uno. En contraste, si es nuestro número de final el que tiene cifras decimales, este será redondeado.
+```{r dos puntos dec 2, echo=TRUE}
+# Se conservan los decimales del inicio
+-2.48:2
+
+56.007:50
+
+# Se redondean los decimales del final
+166:170.05
+
+968:960.928
+```
+
 ### Vectorización de operaciones
 Existen algunas operaciones al aplicarlas a un vector, se aplican a cada uno de sus elementos. A este proceso le llamamos **vectorización**.
 
 Por ejemplo, las operaciones aritméticas pueden vectorizarse. Si las aplicamos a un vector, la operación se realizará para cada uno de los elementos que contiene.
-```{r, echo=TRUE}
+```{r ejemplo vectorizacion, echo=TRUE}
 # Nuestro vector
 mi_vector <- c(2, 3, 6, 7, 8, 10, 11)
 
@@ -130,7 +165,7 @@ En un sentido estricto, las matrices son una caso especial de un array, que se d
 
 Como las matrices son usadas de manera regular en matemáticas y estadística, es una estructura de datos de uso común en R común y en la que nos enfocaremos en este libro.
 
-Los arrays, por su parte, pueden tener un número arbitrario de dimensiones. Pueden ser cubos, hipercubos y otras formas. Su uso no es muy común en R, aunque a veces es deseable contar con objetos n-dimensionales para manipular datos. Como los arrays tienen la restricción de que todos sus datosdeben ser del mismo tipo, no importando en cuantas dimensiones se encuentren, esto limita sus usos prácticos. 
+Los arrays, por su parte, pueden tener un número arbitrario de dimensiones. Pueden ser cubos, hipercubos y otras formas. Su uso no es muy común en R, aunque a veces es deseable contar con objetos n-dimensionales para manipular datos. Como los arrays tienen la restricción de que todos sus datos deben ser del mismo tipo, no importando en cuántas dimensiones se encuentren, esto limita sus usos prácticos. 
 
 En general, es preferible usar listas en lugar de arrays, una estructura de datos que además tienen ciertas ventajas que veremos más adelante.
 
@@ -159,7 +194,7 @@ Si multiplicamos el número de renglones por el número de columnas, obtendremos
 
 Cuando intentamos acomodar un número diferente de elementos y celdas, ocurren dos cosas diferentes. 
 
-Si el número de elementos es mayor al número de celdas, se acomodaran todos los datos que sean posibles y los demás se omitirán. 
+Si el número de elementos es mayor al número de celdas, se acomodarán todos los datos que sean posibles y los demás se omitirán. 
 ```{r, echo=TRUE}
 matrix(1:12, nrow = 3, ncol = 3)
 ```
@@ -174,7 +209,7 @@ Otro procedimiento para crear matrices es la unión vectores con las siguientes 
 * `cbind()` para unir vectores, usando cada uno como una columna.
 * `rbind()` para unir vectores, usando cada uno como un renglón.
 
-De este modo podemos crear cuatro vectores y unirlos para formar una matriz. Cada vector será un renglon en esta matriz.
+De este modo podemos crear cuatro vectores y unirlos para formar una matriz. Cada vector será un renglón en esta matriz.
 
 Creamos cuatro vectores, cada uno de largo igual a cuatro.
 ```{r, echo = TRUE}
@@ -266,7 +301,7 @@ mi_matriz <- matrix(1:9, nrow = 3, ncol = 3)
 mi_matriz
 ``` 
 
-Intenemos sumar, multiplicar y elevar a la tercera potencia.
+Intentemos sumar, multiplicar y elevar a la tercera potencia.
 ```{r}
 # Suma
 mi_matriz + 1
@@ -333,7 +368,7 @@ Para crear un data frame usamos la función `data.frame()`. Esta función nos pe
 
 Esto es muy importante: **Un data frame está compuesto por vectores**.
 
-Más adelante se hará evidente porque esta característica de un data frame es sumamente importante y también, como podemos sacarle provecho.
+Más adelante se hará evidente porque esta característica de un data frame es sumamente importante y también, cómo podemos sacarle provecho.
 
 Además, podemos asignar un nombre a cada vector, que se convertirá en el nombre de la columna. Como todos los nombres, es recomendable que este sea claro, no ambiguo y descriptivo.
 ```{r, echo = TRUE}
@@ -440,12 +475,12 @@ El largo de una lista es igual al número de elementos que contiene, sin importa
 length(lista_recursiva)
 ```
 
-Dado que una lista siempre tiene una sóla dimensión, la función `dim()` nos devuelve `NULL`.
+Dado que una lista siempre tiene una sola dimensión, la función `dim()` nos devuelve `NULL`.
 ```{r, echo=TRUE}
 dim(lista_recursiva)
 ```
 
-Las listas tienen clase **list**, sin importar qué elementos contengan.
+Las listas tienen clase **list**, sin importar qué elementos contienen.
 ```{r, echo=TRUE}
 class(lista_recursiva)
 ```
