@@ -33,7 +33,7 @@ Depende del tipo de datos que demos como argumento a esta función, será el tip
 Sin embargo, algunas gráficas tienen funciones específicas para generarse.
 
 ## Histogramas
-```{r hist age, echo=TRUE}
+```{r hist_age, echo=TRUE}
 hist(x = banco$age)
 ```
 
@@ -47,7 +47,7 @@ El argumento
 hist(x = banco$age, col = "purple")
 ```
 
-```{r hist breaks, echo=TRUE}
+```{r hist_breaks, echo=TRUE}
 hist(x = banco$age, breaks = 4, col = "purple")
 ```
 
@@ -62,14 +62,14 @@ tab_banco <- table(banco$education, banco$loan)
 barplot(t(tab_banco))
 ```
 
-```{r proptable bar, echo=TRUE}
+```{r proptable_bar, echo=TRUE}
 ptab_banco <- prop.table(table(banco$loan, banco$education), margin = 2)
 ```
 
-```{r proptable barplot, echo = TRUE}
+```{r proptable_barplot, echo = TRUE}
 barplot(ptab_banco)
 ```
-```{r barplot legend, echo=TRUE}
+```{r barplot_legend, echo=TRUE}
 barplot(ptab_banco, col = c("purple", "white"))
 legend("topright", legend = c("Si", "no"), fill = c("purple", "white"))
 ```
@@ -83,16 +83,16 @@ plot(x = banco$balance, banco$duration)
 
 
 ## Diagrama de caja (boxplot)
-```{r boxplot plot, echo=TRUE}
+```{r boxplot_plot, echo=TRUE}
 plot(banco$education, banco$balance)
 
 ```
 
-```{r boxplot fun, echo=TRUE}
+```{r boxplot_fun, echo=TRUE}
 boxplot(formula = balance ~ education, data =  banco)
 ```
 
-```{r boxplot formula, echo=TRUE}
+```{r boxplot_formula, echo=TRUE}
 boxplot(formula = balance ~ education * housing, data =  banco)
 ```
 
@@ -109,7 +109,7 @@ plot(x = banco$marital, y = banco$education)
 ```
 
 Podemos cambiar el color de los mosaicos con el argumento `col`. Debemos proporcionar un color por cada nivel del vector en el eje Y.
-```{r mosaico, echo =TRUE}
+```{r mosaico_color, echo =TRUE}
 plot(x = banco$marital, y = banco$education, 
      col = c("#99cc99", "#cc9999", "#9999cc", "#9c9c9c"))
 ```
