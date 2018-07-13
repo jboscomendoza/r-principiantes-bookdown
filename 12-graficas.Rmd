@@ -1,6 +1,10 @@
 # Gráficas
 R cuenta con un sistema de generación de gráficas poderoso y flexible.
 
+
+Para las siguientes secciones de este capítulo, usaremos un conjunto de datos sobre marketing de un banco.
+
+Descargamos el archivo **csv** que usaremos.
 ```{r dl bank, echo=TRUE, eval=FALSE}
 download.file(
   url = "https://raw.githubusercontent.com/jboscomendoza/r-principiantes-bookdown/master/datos/bank.csv", 
@@ -8,19 +12,37 @@ download.file(
   )
 ```
 
-```{r, echo=TRUE, eval=FALSE}
-banco <- read.csv("bank.csv", sep = ";")
+Demos un vistazo al contenido del archivo **bank.csv** con `readLines()`.
+```{r lines banco, echo=TRUE}
+readLines("bank.csv", n = 4) 
 ```
+
+Por la estructura de los datos, podremos usar la función  `read.csv()`, con el argumento `sep = ";"` para importarlos.
+```{r importar banco, echo=TRUE}
+banco <- read.csv(file = "bank.csv", sep = ";")
+
+# Resultado
+head(banco)
+```
+
+## La función `plot()`
+En R, la función `plot()` es universal y tiene un funcionamiento que puede parecer mágico.
+
+Depende del tipo de datos que demos como argumento a esta función, será el tipo de gráfico que nos devolverá.
+
+Sin embargo, algunas gráficas tienen funciones específicas para generarse.
 
 ## Histogramas
 ```{r hist age, echo=TRUE}
 hist(x = banco$age)
 ```
 
+Si intentamos crear un histograma dando datos que no sean numéricos, la función nos devolverá un error y no se generará un gráfico.
 ```{r hist, echo=TRUE, error=TRUE}
 hist(x = banco$job)
 ```
 
+El argumento
 ```{r}
 hist(x = banco$age, col = "purple")
 ```
@@ -54,24 +76,48 @@ legend("topright", legend = c("Si", "no"), fill = c("purple", "white"))
 
 
 ## Diagramas de dispersión
-
-```{r}
+Este tipo de gráfico es usado para mostrar la relación entre dos variables numéricas continuas.
+```{r scatter, echo=TRUE}
 plot(x = banco$balance, banco$duration)
 ```
 
 
-## Diagrama de caja
-```{r}
+## Diagrama de caja (boxplot)
+```{r boxplot plot, echo=TRUE}
 plot(banco$education, banco$balance)
 
 ```
 
-```{r, echo=TRUE}
+```{r boxplot fun, echo=TRUE}
 boxplot(formula = balance ~ education, data =  banco)
 ```
 
-```{r, echo=TRUE}
+```{r boxplot formula, echo=TRUE}
 boxplot(formula = balance ~ education * housing, data =  banco)
 ```
 
 ## Mosaico
+Los gráficos de mosaico o diagramas de Marimekko son usados para mostrar la relación entre dos variables discretas, ya sean factores o cadenas de texto.
+
+Este tipo de grafico recibe su nombre porque consiste en una cuadricula, en la que cada rectángulo representa el numero de casos que corresponden a un cruce específico de variables. Entre más casos se encuentren en ese cruce, más grande será el rectángulo.
+
+Por ejemplo, intentemos graficar el estado marital con el nivel educativo de las personas.
+
+Para obtener un gráfico de mosaico, damos como vectores de factor o cadena de texto como argumentos `x` y `y` a la función `plot()`.
+```{r mosaico, echo =TRUE}
+plot(x = banco$marital, y = banco$education)
+```
+
+Podemos cambiar el color de los mosaicos con el argumento `col`. Debemos proporcionar un color por cada nivel del vector en el eje Y.
+```{r mosaico, echo =TRUE}
+plot(x = banco$marital, y = banco$education, 
+     col = c("#99cc99", "#cc9999", "#9999cc", "#9c9c9c"))
+```
+
+De esta manera es más claro que el grupo más numeroso de personas es de casadas con educación secundaria y el más pequeño, divorciadas con educación primaria.
+
+## Exportar gráficos
+Exportar los gráficos que hemos creado es un poco complicado.
+
+
+
