@@ -3,9 +3,10 @@ R cuenta con un sistema de generación de gráficas poderoso y flexible. Si nemb
 
 En este capítulo revisaremos como crear las gráficas más comunes con R *base*, así como algunos de los parámetros que podemos ajustar para mejorar su presentación. 
 
-Al crear gráficas, notarás que ponemos en práctica todo lo que hemos visto en los capítulos anteriores, empezando por importar los datos que usaremos.
 
-### Datos usados en el capítulo
+Al crear gráficas, notarás que ponemos en práctica todo lo que hemos visto en los capítulos anteriores, incluyendo importar datos, hacer subconjuntos de un objeto y uso de funciones.
+
+## Datos usados en el capítulo
 Para las siguientes secciones utilizaremos de nuevo una copia de los datos disponibles en el [*UCI Machine Learning Repository*](https://archive.ics.uci.edu/ml/index.php).
 
 Usaremos un conjunto de datos llamado *"Bank Marketing Data Set"*, que contiene información de personas contactadas en una campaña de *marketing* directo puesta en marcha por un banco de Portugal.
@@ -76,6 +77,10 @@ En donde los tipos de dato son:
 * **Discreto**: Un vector de factores o cadenas de texto.
 
 Además de `plot()`, hay funciones que generan tipos específicos de gráfica. Por ejemplo, podemos crear una gráfica de barras con `plot()` pero existe también la función `barplot()`. También existen también casos como el de los histogramas, que sólo pueden ser creados con la función `hist()`.
+
+Cuando llamas a la función `plot()` o alguna otra similar, R abre una ventana mostrando ese gráfico. Si estás usando RStudio, el gráfico aparece en el panel **Plot**. Si llamas de nuevo la función `plot()`, el gráfico generado más reciente reemplazará al más antiguo y en RStudio se creará una nueva pestaña en en el planel **Plot**. El gráfico reemplazado se perderá.
+
+Por lo tanto, a menos que nosotros los indiquemos, nuestros gráficos se pierden al crear uno nuevo. Al final de este capítulo veremos cómo exportar gráficos de manera más permanente.
 
 ## Histogramas
 Un histograma es una gráfica que nos permite observar la distribución de datos numéricos usando barras. Cada barra representa el número de veces (frecuencia) que se observaron datos en un rango determinado.
@@ -223,37 +228,145 @@ Nosotros podemos consultar directamente con los datos, pero una persona que vea 
 Para solucionar este problema, usamos leyendas.
 
 ## Leyendas
+Las leyendas son usadas para identificar con mayor claridad los distintos elementos en un gráfico, tales como colores y formas.
 
+En R usamos la función `legend()` para generar leyendas. Esta función debe ser llamada después de crear un gráfico. En cierto modo es una anotación a un gráfico ya existente. `legend()` es una función relativamente compleja, así que sólo revisaremos lo esencial. 
+
+`legend()` siempre nos pide siempre los siguientes argumentos.
+
+* `legend`: Las etiquetas de los datos que queremos describir con la leyenda. Por ejemplo, si tenemos cuatro categorías a describir, proporcionamos un vector de cuatro cadenas de texto.
+* `fill`: Los colores que acompañan a las etiquetas definidas con `legend`. Estos colores tienen que coincidir con los que hemos usado en el gráfico.
+* `x` y `y`: Las coordenadas en pixeles, en las que estará ubicada la leyenda. Podemos dar como argumento a `x` alguno de los siguientes, para ubicar automáticamente la leyenda:  "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right", "center".
+* `title`: Para poner título a la leyenda.
+
+Además, tenemos muchos otros argumentos opcionales, que puedes consultar en la documentación  llamando `?legend()`.
+
+Vamos a agregar una leyenda a la última gráfica de barras que creamos en la sección anterior de este capítulo.
+
+Entonces necesitamos conocer las etiquetas que daremos como argumento `legend` y a qué colores corresponden al vector `banco$loan`.
+
+Usamos la función `unique` para determinar cuántos valores únicos hay en este vector. Cada uno de estos valores corresponde a una etiqueta. Esta función, si la aplicamos a un vector de tipo factor, nos devuelve sus niveles.
+```{r unique_loan, echo?TRUE}
+unique(banco$loan)
+```
+
+Tenemos dos etiquetas, "no" y "yes" (no y sí, respectivamente), en ese orden, por lo que ese será nuestro argumento `legend`.
+
+Nosotros determinamos los colores en la sección anterior como "royalblue" y "grey", en ese orden. Por lo tanto, tendremos que "no" será coloreado con "royalblue", y "yes" con "grey". como vamos a rellenar una barra, esto colores los daremos al argumento `fill`.
+
+Por último, daremos como "topright" como argumento `x` para que nuestra leyenda se unique en la parte superior derecha de nuestro gráfico.
+
+Aplicamos todo, incluído generar el gráfico al que agregaremos la leyenda.
+```{r leyenda, echo = TRUE}
+barplot(ptab_banco,  main = "Préstamos por nivel educativo",
+     xlab = "Nivel educativo", ylab = "Proporción", 
+     col = c("royalblue", "grey"))
+legend(x = "topright", legend = c("No", "Yes"), fill = c("royalblue", "grey"), 
+       title = "Loan")
+```
+
+Se ve mucho más clara la información, pues ahora estamos mostrando a qué categoría corresponden los colores que hemos empleado en el gráfico.
+
+En las secciones siguientes agregaremos leyendas a otros gráficos, con lo cual quedará un poco más claro el uso de `legend()`.
 
 ## Diagramas de dispersión
-Este tipo de gráfico es usado para mostrar la relación entre dos variables numéricas continuas.
+Este tipo de gráfico es usado para mostrar la relación entre dos variables numéricas continuas, usando puntos. Cada punto representa la intersección entre los valores de ambas variables.
+
+Para generar un diagrama de dispersión, damos vectores numéricos como argumentos `x` y `y` a la función `plot()`.
+
+Veamos la relación entre las variables **age** y **balance** de `banco`.
 ```{r scatter, echo=TRUE}
-plot(x = banco$balance, banco$duration)
+plot(x = banco$age, y = banco$balance)
 ```
 
+Tenemos algunos datos extremos tanto en **balance**. Para fines de tener una gráfica más informativa, vamos a recodificarlos usando `ifelse()`, cambiando todos los valores mayores a 15 000.
+```{r recode_banco, echo=TRUE}
+banco$balance <- ifelse(banco$balance > 15000, 15000, banco$balance)
+```
 
-## Diagrama de caja (boxplot)
+```{r scatter_recode, echo=TRUE}
+plot(x = banco$age, y = banco$balance)
+```
+
+En los diagramas de dispersión, podemos usar el argumento `col` para camiar el color de los puntos usando como referencia una tercera variable.
+
+La variable que usaremos será, de nuevo, **loan**
+```{r, echo = TRUE}
+plot(x = banco$age, y = banco$balance, col= banco$loan)
+```
+
+Nos sería de utilidad una leyenda para interpretar más fácilmente los colores. 
+
+Ya sabemos que los niveles de **loan** son "no" y "yes", además de que los colores han sido rojo y nregro, así que agregar una leyenda será relativamente fácil.
+
+```{r legend, echo=TRUE}
+plot(x = banco$age, y = banco$balance, col= banco$loan)
+legend(x = "topleft", legend = c("No", "Yes"), fill = c("Black", "Red"), title = "Loan")
+```
+
+Desafortunadamente esta gráfica no es muy informativa para nuestros datos. Por fortuna, podemos probar con un conjunto de datos diferente.
+
+Si usamos diagramas de dispersión con `iris` obtendremos gráficos mucho más interesantes. 
+
+Creamos un gráfico con las medidas de pétalo, aplicando lo que hemos visto para generar diagramas de dispersión.
+```{r irisscatter, echo=TRUE}
+plot(x = iris$Petal.Length, y = iris$Petal.Width, col = iris$Species, 
+     main = "Iris - Pétalo", xlab = "Largo", ylab = "Ancho")
+legend(x = "topleft", legend = c("Setosa", "Versicolor", "Virginica"), 
+       fill = c("black", "red", "green"), title = "Especie")
+```
+
+## Diagramas de caja
+Los diagrams de caja, también conocidos como de caja y bigotes son gráficos que muestra la distribución de una variable usando cuartiles, de modo que de manera visual podemos inferir algunas cosas sobre su dispersión, ubicación y simetría.
+
+Una gráfica de este tipo dibuja un rectángulo cruzado por una línea recta horizontal. Esta linea recta representa la mediana, el segundo cuartil, su base representa el pimer cuartil y su parte superior el tercer cuartil. Al rango entre el primer y tercer cuartil se le conoce como intercuartílico (RIC). Esta es la caja.
+
+Además, de la caja salen dos líneas. Una que llega hasta el mínimo valor de los datos en la variable o hasta el primer cuartil menos hast 1.5 veces el RIC; y otra que llegar hasta el valor máximo de los datos o el tercer cuartil más hasta 1.5 veces el RIC. Estos son los bigotes.
+
+Usamos la función `plot()` para crear este tipo de gráfico, dando como argumento `x` un vector de factor o cadena de texto, y como argumento `y` un vector numérico.
+
+Una ventaja de este tipo de gráfico es que podemos comparar las distribución de una misma variable para diferentes grupos.
+
+Vamos a ver cómo se distribuye la edad por nivel de educación en nuestro objeto `banco`, esto es, las variables **education** y  **age**.
 ```{r boxplot_plot, echo=TRUE}
-plot(banco$education, banco$balance)
-
+plot(x = banco$education, y = banco$age)
 ```
 
-```{r boxplot_fun, echo=TRUE}
-boxplot(formula = balance ~ education, data =  banco)
+Podemos ver que las personas con menor nivel educativo tienden a tener una edad mayor. La mayoría de las personas con educación primaria tienen entre 40 y 50 años, mientras que la mayoría con educación terciaria tiene entre 35 y 45 años, aproximadamente.
+
+Por supuesto, podemos cambiar los parámetros gráficos a un diagrama de caja.
+```{r boxplot_leyenda, echo=TRUE}
+plot(x = banco$education, y = banco$age, main = "Edad por nivel educativo", 
+     xlab = "Nivel educativo", ylab = "Edad", 
+     col = c("orange3", "yellow3", "green3", "grey"))
 ```
 
+También podemos crear diagramas de caja con la función `boxplot()`.  Esta función puede generar diagramas de caja de dos maneras distintas.
+
+En la primera manera, si damos como argumento `x` un vector numérico, nos dará un diagrama de caja de esa variable.
+```{r boxplot_x, echo=TRUE}
+boxplot(x = banco$age)
+```
+
+En la segunda manera necesitamos dar dos argumentos:
+
+* `formula`: Para esta función las fórmulas tienen el formato `y ~ x`, donde x es el nombre de la variable continua a graficar, y la x es la variable que usaremos como agrupación.
+* `data`: Es el data frame del que serántomadas las variables.
+
+Por ejemplo, para mostrar diagramas de caja por nivel educativo, nuestra variable y es **age** y nuestra variable x es **education**, por lo tanto, `formula` será `age ~ education`.
 ```{r boxplot_formula, echo=TRUE}
-boxplot(formula = balance ~ education * housing, data =  banco)
+boxplot(formula = age ~ education, data =  banco)
 ```
 
-## Mosaico
+
+## Gráficos de mosaico
 Los gráficos de mosaico o diagramas de Marimekko son usados para mostrar la relación entre dos variables discretas, ya sean factores o cadenas de texto.
 
 Este tipo de grafico recibe su nombre porque consiste en una cuadricula, en la que cada rectángulo representa el numero de casos que corresponden a un cruce específico de variables. Entre más casos se encuentren en ese cruce, más grande será el rectángulo.
 
-Por ejemplo, intentemos graficar el estado marital con el nivel educativo de las personas.
-
 Para obtener un gráfico de mosaico, damos como vectores de factor o cadena de texto como argumentos `x` y `y` a la función `plot()`.
+
+Por ejemplo, intentemos graficar el estado marital con el nivel educativo de las personas en `banco`
 ```{r mosaico, echo =TRUE}
 plot(x = banco$marital, y = banco$education)
 ```
@@ -264,10 +377,53 @@ plot(x = banco$marital, y = banco$education,
      col = c("#99cc99", "#cc9999", "#9999cc", "#9c9c9c"))
 ```
 
-De esta manera es más claro que el grupo más numeroso de personas es de casadas con educación secundaria y el más pequeño, divorciadas con educación primaria.
+De esta manera es más claro que el grupo más numeroso de personas son las casadas con educación secundaria y el más pequeño, divorciadas con educación primaria.
 
 ## Exportar gráficos
-Exportar los gráficos que hemos creado es un poco complicado.
+Exportar los gráficos que hemos creado es un proceso que puede parecer un poco confuso.
 
+Cuando llamamos una de estas funciones, le estamos indicando a R que "mande" nuestro gráfico a un **dispositivo gráfico** (*graphic device*) en nuestra computadora, donde podemos verlo, que por defecto es **una ventana en nuestro escritorio** o el panel **Plot** si estás usando *RStudio*.
 
+Una consecuencia de esto es que si creas y lo mandas a un dispositivo gráfico en uso, el gráfico nuevo reemplazará al anterior. Por ejemplo, si usas `plot()` para crear un gráfico, se mostrará en una ventana de tu escritorio, pero si usas `plot()` de generar un gráfico distinto, el contenido de esta ventana será reemplazada con este nuevo gráfico. Lo mismo pasa con todos los dispositivos gráficos.
 
+Además, los gráficos no pueden ser guardados en un objetos para después ser exportados. Es necesario mandar nuestros gráficos a un dispositivo como JPG, PNG o algún otro tipo de archivo que pueda ser almacenado en nuestro disco duro.
+
+Para exportar un gráfico usamos alguna de las siguientes funciones, cada una corresponde con un tipo de archivo distinto. No son las únicas, pero son las más usadas. 
+
+* `bpm()`
+* `jpeg()`
+* `pdf()`
+* `png()`
+* `tiff()`
+
+Cada una de estas funciones tiene los siguientes argumentos tres argumentos principales.
+
+* `filename`: El nombre y ruta del archivo de imagen a crear. Si no especificamos una ruta completa, entonces el el archivo será creado en nuestro directorio de trabajo.
+* `width`: El **ancho** del archivo de imagen a crear, por defecto en pixeles.
+* `height`: El **alto** del archivo de imagen a crear, por defecto en pixeles.
+
+La manera de utilizar estas funciones llamándolas **antes** de llamar a una función que genere una gráfica. Al hacer esto, le indicamos a R que en lugar de mandar nuestro gráfico a una ventana del escritorio, lo mande a un dispositivo gráfico distinto.
+
+Finalmente, llamamos a la función `dev.off()`, para cerrar el dispositivo gráfico que hemos elegido, de este modo se creará un archivo y podremos crear más gráficos después.
+
+Por ejemplo, para exportar un gráfico con leyenda como un archivo PNG llamamos lo siguiente. Nota que tenemos que dar la misma extensión de archivo que la función que estamos llamando, en este caso **.png**.
+```{r crear_png, echo=TRUE}
+png(filename = "loan_age.png", width = 800, height = 600)
+plot(x = banco$age, y = banco$duration, col = banco$loan, 
+     main = "Edad y Duración", xlab = "Edad", ylab = "Duración")
+legend(x = "top", legend = c("No", "Yes"), fill = c("Black", "Red"), 
+       title = "Loan")
+dev.off()
+```
+
+Si aparece un mensaje como el siguiente, es que hemos tenido éxito.
+
+>null device 
+          1 
+
+Podemos ver el resultado usando `file.show()`.
+```{r, echo=TRUE, eval=FALSE}
+file.show("loan_age.png")
+```
+
+De esta manera podemos exportar cualquier tipo de gráfico generado con R.

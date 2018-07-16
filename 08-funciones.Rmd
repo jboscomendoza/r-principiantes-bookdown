@@ -1,180 +1,197 @@
 # Funciones
-Después de que hemos superado la parte más básica aburrida de R podemos pasar a lo divertido: programar. Es decir, lograr que R realice tareas de manera automatizada a partir de nuestras propias especificaciones.
+La instalación base de R tiene suficientes funciones para que realicemos todas las tareas básicas de análisis de datos, desde importar información hasta crear documentos para comunicarla (¡este libro ha sido creado con R!).
 
-Para eso, tenemos que conocer las funciones definidas por el usuario.
+Sin embargo, es comun que necesitemos realizar tareas para las que no existe una función específica o que para encontrar solución necesitemos combinarl o utilizar funciones en sucesión, lo cual puede complicar nuestro código.
+
+Ilustremos lo anterior con un ejemplo.
 
 ## ¿Por qué necesitamos crear nuestrar propias funciones?
-La instalación base de R tiene suficientes funciones para que realicemos todas las tareas básicas de análisis de datos, desde importar información hasta crear documentos para comunicarla (¡este librp ha sido creado con R!).
+Supongamos que tenemos un jefe que nos ha pedido crear un histograma con datos de edad que hemos recogido en una encuesta. 
 
-Sin embargo, constantemente necesitamos realizar tareas para las que no existe una función que resuelva un problema en particular. O existen funciones que nos dan una solución, pero que requieren de combinarlas o utilizarlas en sucesión, complicando el código que debemos escribir para análisis repetidos.
+Esto es sencillo de resolver pues contamos con la función `hist()` que hace exactamente esto. Sólo tenemos que dar un vector numérico como argumento para generar una gráfica (veremos esto con más detalle en el [capítulo 12](#graficas)).
 
-Ilustremos lo anterior con un caso. Supongamos que nuestro jefe nos ha pedido crear un histograma con datos de edad que hemos recogido en una encuesta. Esto es sencillo de resolver, la función `hist()` hace exactamente esto, basta con proporcionarle un vector numérico para que nos devuelva un gráfico.
-```{r primer hist, echo=TRUE}
-# Simulamos datos sacados de una distribución normal.
+Primero, generaremos datos aleatorios sacados de una distribución normal con la función `rnorm()`. Esta función tiene los siguientes argumentos:
+
+* `n`: Cantidad de números a generar.
+* `mean`: Media de la distribución de la que sacaremos nuestros números.
+* `sd`: Desviación estándar de la distribución de la que sacaremos nuestros números.
+
+Además, llamaremos `set.seed()` para que estos resultados sean replicables. Cada que llamamos `rnorm()` se generan número aleatorios diferentes, pero si antes llamamos a `set.seed()`, con un número específico como argumento obtendremos los mismos resultados.
+
+Obtendremos 1500 números con media 15 y desviación estándar .75.
+```{r rnorm_edad, echo=TRUE}
 set.seed(173)
-edades<- rnorm(1500, mean = 15, sd = .75)
-
-# Un vistazo a los primeros diez datos
-edades[1:10]
-
-# Histograma
-hist(edades)
+edades <- rnorm(n = 1500, mean = 15, sd = .75)
 ```
 
-Nuestro jefe está satisfecho... pero (siempre hay un pero) le gustaría que en el histograma se muestre la media y desviación estándar de los datos. ¡Ah! Y que tenga un título descriptivo. Y que los ejes  estén etiquetados en español. Y que las barras del histograma sean de color dorado.
+Veamos los primero diez números de nuestro objeto.
+```{r rnorm_10, echo=TRUE}
+edades[1:10]
+```
 
-¡No hay problema! Podemos calcular la media de los datos usando la función `mean()`, la desviación estándar con `sd()` y podemos agregar los resultados de este cálculo al histograma usando la función `abline()`. Para agregar título, etiquetas en español y colores al histograma sólo basta agregar los argumentos apropiados a la función `hist()`.
+Ahora, sólo tenemos que ejecutar `hist()` con el argumento `x` igual a nuestro vector y obtendremos un histograma.
+```{r primer_hist, echo=TRUE}
+# Histograma
+hist(x = edades)
+```
+
+Estupendo. Hemos logrado nuestro objetivo.
+
+Nuestro jefe está satisfecho, pero le gustaría que en el histograma se muestre la media y desviación estándar de los datos, que tenga un título descriptivo y que los ejes estén etiquetados en español, además de que las barras sean de color dorado.
+
+Suena complicado, pero podemos calcular la media de los datos usando la función `mean()`, la desviación estándar con `sd()` y podemos agregar los resultados de este cálculo al histograma usando la función `abline()`. Para agregar título, etiquetas en español y colores al histograma sólo basta agregar los argumentos apropiados a la función `hist()`.
+
+No te preocupes mucho por los detalles de todo esto, lo veremos más adelante.
+
+Calculamos media y desviación estándar de nuestros datos.
 ```{r hist media sd, echo=TRUE}
-# Calculamos media y desviación estándar
 media <- mean(edades)
 desv_est <- sd(edades)
+```
 
-# Agregamos líneas, media de rojo y desviación estándar con azúl.
+Agregamos líneas con `abline()`, para la media de rojo y desviación estándar con azúl. También ajustamos los argumentos de `hist()`.
+```{r hist}
 hist(edades, main = "Edades", xlab = "Datos", ylab = "Frecuencia", col = "gold")
 abline(v = media, col = "red")
 abline(v = media + (desv_est * c(1, -1)), col = "blue")
 ```
 
-¡Estupendo! Nuestro jefe ahora sí que ha quedado complacido. Tanto, que nos pide que hagamos un histograma igual para todas las variables numéricas de esa encuesta. 
-
-¿Para **todas** las cincuenta variables? Le preguntas a tu jefe, aunque ya sabes qué te va a responder.
-
-Sí, para **TODAS**, te contesta, justo como esperabas. Además las quiere para el viernes antes de las 2. Después de decirte esto y antes de que puedas preguntar nada más, parte muy apresurado a otra reunión urgentísima.
+Con esto nuestro jefe ahora sí ha quedado complacido. Tanto, que nos pide que hagamos un histograma igual para todas las variables numéricas de esa encuesta. Que son cincuenta en total.
 
 Para cumplir con esta tarea podríamos usar el código que ya hemos escrito. Simplemente lo copiamos y pegamos cincuenta veces, cambiando los valores para cada una de variables que nos han pedido.
 
-Sin embargo, esta es una manera de hacer las cosas que propicia errores y es difícil de corregir y actualizar.
+Pero hacer las cosas de este modo propicia errores y es difícil de corregir y actualizar.
 
-Si copias el código anterior cincuenta veces, tendrás un script con más de **400 líneas**. Si en algún momento te equivocas porque escribiste "Enceusta" en lugar de "Encuesta", incluso con las herramientas de búsqueda de RStudio, encontrar donde está el error será una tarea larga y tediosa.
+Para empezar, si copias el código anterior cincuenta veces, tendrás un script con más de **400 líneas**. Si en algún momento te equivocas porque escribiste "Enceusta" en lugar de "Encuesta", incluso con las herramientas de búsqueda de RStudio, encontrar donde está el error será una tarea larga y tediosa.
 
-Y si tu jefe en esta caso hipotético quiere que agregues, quites o modifiques tu histograma, tendrás que hacer el cambio cincuenta veces, una para cada copia del código. De nuevo, con esto se incrementa el riesgo de que ocurran errores y dificulta localizarlos.
+Y si tu jefe en esta ejemplo quiere que agregues, quites o modifiques tu histograma, tendrás que hacer el cambio cincuenta veces, una para cada copia del código. De nuevo, con esto se incrementa el riesgo de que ocurran errores.
 
-¿No sería mejor tener una función que se llamara crear_histograma e hiciera todo lo que queremos con una sóla instrucción?
+Es en situaciones como esta en las que se hace evidente la necesidad de crear nuestras propias funciones, capaces de realizar una tarea específica a nuestros problemas, y que pueda usarse de manera repetida. Así reducimos errores, facilitamos hacer correcciones o cambios y nos hacemos la vida más fácil, a nosotros y a quienes usen nuestro código después.
 
-Es en situaciones como esta en las que se hace evidente la necesidad de crear nuestras propias funciones, capaces de realizar una tarea específica a nuestros problemas, y que pueda usarse de manera repetida. Con esto reducimos errores, facilitamos hacer correcciones o cambios y nos hacemos la vida más fácil, a nosotros y a quienes usen nuestro código.
-
-## Definiendo funciones en R
-Las funciones definidas por el usuario son creadas usando el siguiente modelo. 
-```{r, echo=TRUE}
+## Funciones definidas por el usuario
+Una función tiene un nombre, argumentos y un cuerpo. Las funciones definidas por el usuario son creadas usando la sigiente estructura.
+```{r, echo=TRUE, eval=FALSE}
 nombre <- function(argumentos) {
-  cuerpo (operaciones)
+  operaciones
 }
 ```
 
-Cuando asignamos una función a un nombre decimos que hemos definido una función.
+Cuando asignamos una función a un nombre decimos que hemos **definido una función**.
 
-El nombre que asignamos a una función nos permite llamarla y hacer referencia a ella. Podemos asignar la misma función a diferentes nombres o cambiar la función que ya le hemos asignado a un nombre. Como siempre, es recomendable elegir nombres claros, no ambiguos y descriptivos. 
+El **nombre** que asignamos a una función nos permite ejecutarla y hacer referencias a ella. Podemos asignar la misma función a diferentes nombres o cambiar una función a la que ya le hemos asignado un nombre. Es recomendable elegir nombres claros, no ambiguos y descriptivos. 
 
-Una vez que la función tiene nombre, podemos llamarla usando la forma `nombre()`, como con las funciones por defecto de R.
+Una vez que la función tiene nombre, podemos llamarla usando su nombre, al igua lque con las funciones por defecto de R.
 
-Los argumentos son las variables que necesita  la función para realizar sus operaciones. Aparecen entre paréntesis, separados por comas. Los valores de los argumentos son asignados por el usuario cada vez que ejecuta una función. Esto permite que usemos nuestras funciones en distintas situaciones con diferentes datos y especificaciones.
+Los **argumentos** son las variables que necesita la función para realizar sus operaciones. Aparecen entre paréntesis, separados por comas. Los valores son asignados al nombre del argumento por el usuario cada vez que ejecuta una función. Esto permite que usemos nuestras funciones en distintas situaciones con diferentes datos y especificaciones.
 
-Dentro de la función, los argumentos se convertirán en el nombre de los valores que asignemos a ellos. Los argumentos pueden ser datos, estructuras de datos, conexiones a archivos u otras funciones y todos deben tener nombres diferentes.
+Los argumentos pueden ser datos, estructuras de datos, conexiones a archivos u otras funciones y todos deben tener nombres diferentes.
 
-El cuerpo de la función contiene, entre llaves, todas las operaciones que se ejecutarán cuando la función sea llamada. El cuerpo de una función puede ser tan sencillo o complejo como nosotros deseemos, incluso podemos definir funciones dentro de una función (y definir funciones dentro de una función dentro de otra función, aunque esto se vuelve confuso rápidamente). 
+El **cuerpo** de la función contiene, entre llaves, todas las operaciones que se ejecutarán cuando la función sea llamada. El cuerpo de una función puede ser tan sencillo o complejo como nosotros deseemos, incluso podemos definir funciones dentro de una función (y definir funciones dentro de una función dentro de otra función, aunque esto se vuelve confuso rápidamente). 
 
-Si el código del cuerpo de la función tiene errores, la función no se ejecutará y nos será devuelto un mensaje de error **al ejecutarla**. R no nos avisa si nuestra función va a funcionar o no hasta que intenta correrla. 
+Si el código del cuerpo de la función tiene errores, sus operaciones no se realizarán y nos será devuelto un mensaje de error **al ejecutarla**. R no avisa si nuestra función va a funcionar o no hasta que intentamos correrla. 
 
-Una ventaja de usar RStudio es que nos indica errores de sintaxis en nuestro código, lo cual nos puede salvar de cometer algunos errores. Sin embargo, hay problemas que esta característica de RStudio no detecta, como que intentemos realizar operaciones inválidas o que intentemos coerciones imposibles.
+Una ventaja de usar RStudio es que nos indica errores de sintaxis en nuestro código, lo cual puede prevenir algunos errores. Sin embargo, hay alguno que no detecta, como realizar operaciones o coerciones imposibles.
 
 Para ver esto en acción, crearemos una función sencilla para obtener el área de un cuadrilátero.
 
 ## Nuestra primera función
-Partimos de que podemos calcular el área de un cuadrilátero con el algoritmo: `media_de_lado x medida_de_lado`.
+Partimos del algoritmo para calcular el área de un cuadrilátero: `lado x lado`.
+
+Podemos convertir esto a operaciones de R y asignarlas a una función llamada `area_cuad` de la siguiente manera:
 ```{r, echo=TRUE}
 area_cuad <- function(lado1, lado2) {
   lado1 * lado2
 }
 ```
 
-Los partes de nuestra función son:
+Las partes de nuestra función son:
 
-* Nombre: area_cuad. 
-* Argumentos: lado1, lado2. Estos son los datos que necesita la función para calcular el área, representan el largo de los lados de un cuadrilátero.
-* Cuerpo: La operación `lado1 * lado2`, escrita de manera que R pueda interpretarla.
+* **Nombre**: `area_cuad`. 
+* **Argumentos**: `lado1`, `lado2`. Estos son los datos que necesita la función para calcular el área, representan el largo de los lados de un cuadrilátero.
+* **Cuerpo**: La operación `lado1 * lado2`, escrita de manera que R pueda interpretarla.
 
-Ejecutaremos nuestra función para comprobar que funciona. Nota que lo único que estamos haciendo cada que la llamamos es cambiar la medida de los lados del cuadrilátero para el que calcularemos un área, en lugar de escribir la operación `lado1 * lado2` en cada ocasión.
+Ejecutaremos nuestra función para comprobar que funciona. Nota que lo único que hacemos cada que la llamamos es cambiar la medida de los lados del cuadrilátero para el que calcularemos un área, en lugar de escribir la operación `lado1 * lado2` en cada ocasión.
 
-```{r, echo=TRUE}
+```{r area_cuad_test, echo=TRUE}
 area_cuad(lado1 = 4, lado2 = 6)
 
 area_cuad(lado1 = 36, lado2 = 36)
 ```
 
-En cada llamada a nuestra función estamos asignando distintos valores a los argumentos usando el signo de igual **=**. Si nos falta asignar valores a un argumento, se nos mostrará un error
+En cada llamada a nuestra función estamos asignando valores distintos a los argumentos usando el signo de igual. Si no asignamos valores a un argumento, se nos mostrará un error
 
-```{r, echo=TRUE, error=TRUE}
+```{r area_cuad_error, echo=TRUE, error=TRUE}
 area_cuad(lado1 = 14)
 ```
 
 En R, podemos especificar los argumentos por posición. El orden de los argumentos se determina cuando creamos una función. 
 
-En este caso, nosotros determinamos que el primer argumento que recibe area_cuad es lado1 y el segundo es lado2. Así, podemos escribir lo siguiente y obtener el resultado correcto.
-```{r, echo=TRUE}
+En este caso, nosotros determinamos que el primer argumento que recibe `area_cuad` es `lado1` y el segundo es `lado2.` Así, podemos escribir lo siguiente y obtener el resultado esperado.
+```{r area_cuad_posicion, echo=TRUE}
 area_cuad(128, 64)
 ```
-Esto es equivalente a escribir `lado1 = 128, lado2 = 64`.
-
-Con esto hemos definido nuestra primera función.
+Esto es equivalente a escribir `lado1 = 128, lado2 = 64` como argumentos.
 
 Podemos crear ahora una función ligeramente más compleja para calcular el volumen de un prisma rectangular 
 
-Siguiendo la misma lógica de transformar un algoritmo a código de R, podemos crear una función con el  algoritmo: `medida_de_arista x medida_de_arista x medida_de_arista`
-```{r, echo=TRUE}
-# Definimos la función
+Siguiendo la misma lógica de transformar un algoritmo a código de R, podemos crear una función con el  algoritmo: `arista x arista x arista`.
+
+Definimos la función `area_prisma()`.
+```{r area_prisma, echo=TRUE}
 area_prisma <- function(arista1, arista2, arista3) {
   arista1 * arista2 * arista3
 }
-
-# Probamos la función
-area_prisma(3, 6, 9)
 ```
 
-También podemos escribir esta función aprovechando la función **area_cuad** que ya hemos definido.
+Probemos nuestra función.
+```{r area_prisma_prueba, echo=TRUE}
+area_prisma(arista1 = 3, arista2 = 6, arista3 = 9)
+```
 
+También podríamos escribir esta función aprovechando nuestra función `area_cuad`.
 ```{r, echo=TRUE}
 area_prisma <- function(arista1, arista2, arista3) {
   area_cuad(arista1, arista2) * arista3
 }
 
+# Probemos la función
 area_prisma(3, 6, 9)
 ```
 
-Creo que estamos listos para definir una función para crear histogramas con las características que nos pidió nuestro hopotético jefe.
+Con esto estamos listos para definir una función para crear histogramas con las características que nos pidió nuestro jefe hipotético.
 
-## Nuestra función crear_histograma
-Ya hemos decidido (bueno, lo decidí yo) el nombre que tendrá la función que definiremos. 
+## Definiendo la función `crear_histograma()`
+Definiremos una función con el nombre `crear_histograma()` para generar un gráfico con las especificaciones que se nos han pedido. 
 
-```{r, echo=TRUE}
+Partimos de una función sin argumentos y el cuerpo vacio.
+```{r crear_histograma vacio, echo=TRUE}
 crear_histograma <- function() {
 
 }
 ```
 
-Nos falta especificar cuáles serán sus argumentos y qué operaciones contendrá su cuerpo.
-
-Para que esta función ejecute lo que queremos necesita de dos cosas:
+Para que esta función realice lo que deseamos necesitamos:
 
 * Los datos que serán graficados.
 * El nombre de la variable graficada
 
-Por lo tantos, nuestros argumentos serán:
+Por lo tanto, nuestros argumentos serán:
 
-* datos
-* nombre
+* `datos`
+* `nombre`
 
-```{r, echo=TRUE}
+```{r crear_histograma args, echo=TRUE}
 crear_histograma <- function(datos, nombre) {
   
 }
 ```
 
-Como ya sabemos las operaciones que queremos realizar, al haber elaborado nuestro histograma antes, es cuestión de incluirlas al cuerpo de nuestro función.
+Ya sabemos las operaciones realizaremos, sólo tenemos que incluirlas al cuerpo de nuestro función.
 
-Reemplazaremos las variables que hacen referencia a un objeto en particular por el nombre de nuestros argumentos.
+Reemplazaremos las variables que hacen referencia a un objeto en particular por el nombre de nuestros argumentos. De esta manera será generalizable a otros casos.
 
-En este caso, cambiamos la referencia a la variable **edades** por referencias al argumento **datos** y la referencia a **"Edades"**, que usaremos como título del histograma, por una referencia al argumento **nombre**.
-```{r, echo=TRUE}
+En este ejemplo, cambiamos la referencia a la variable **edades** por referencias al argumento `datos` y la referencia a **Edades**, que usaremos como título del histograma, por una referencia al argumento `nombre`.
+```{r crear_histograma cuerpo, echo=TRUE}
 crear_histograma <- function(datos, nombre) {
   media <- mean(datos)
   desv_est <- sd(datos)
@@ -185,29 +202,38 @@ crear_histograma <- function(datos, nombre) {
 }
 ```
 
-Probemos nuestra función usando datos distintos. En este caso, de ingreso al mes.
-```{r, echo=TRUE}
-ingreso <- rnorm(1500, mean = 15000, sd = 5000)
+Probemos nuestra función usando datos distintos, generados de manera similar a las edades, con la función `rnorm()`. 
 
+Generaremos datos de ingreso, con una media igual a 15000 y una desviación estándar de 4500.
+```{r rnorm_ingreso, echo=TRUE}
+ingreso <- rnorm(1500, mean = 15000, sd = 4500)
+
+# Resultado
+ingreso[1:10]
+```
+
+Corremos nuestra función.
+```{r crear_histograma ingreso, echo=TRUE}
 crear_histograma(ingreso, "Ingreso")
 ```
 
-Luce bien. Probemos ahora con datos sobre el peso de las personas.
-```{r, echo=TRUE}
+Luce bien. Probemos ahora con datos sobre el peso de las personas. siguiendo el mismo procedimiento.
+```{r crear_hist peso, echo=TRUE}
 peso <- rnorm(75, mean = 60, sd = 15)
 
 crear_histograma(peso, "Peso")
 ```
 
-Por supuesto, las funciones que nosotros mismo definimos pueden devolvernos errores. Por ejemplo, si introducimos datos que no son apropiados para las operaciones a realizar, nuestra función no se ejecutará correctamente.
-```{r, echo=TRUE, error = TRUE}
+Las funciones definidas por el usuario pueden devolvernos errores. Por ejemplo, si introducimos datos que no son apropiados para las operaciones a realizar, nuestra función no se ejecutará correctamente.
+```{r crear_hist error, echo=TRUE, error = TRUE}
 crear_histograma("Cuatro", ingreso)
 ```
 
 Por esta razón es importante crear **documentación** para las funciones que hayas creado. Puede ser tan sencilla como una explicación de qué hace la función y qué tipo de datos necesita para realizar sus operaciones.
 
-Puede parecerte increíble, pero tu Yo de un mes en el futuro puede haber olvidado por completo qué hizo tu Yo del día de hoy, así que la documentación es una manera de recordar tu trabajo.
+La primera persona beneficiada por esto eres tu, pues tu yo de un mes en el futuro puede haber olvidado por completo la lógica de una función específica, así que la documentación es una manera de recordar tu trabajo.
 
+Una manera simple de documentar tus funciones es con comentarios.
 ```{r, echo=TRUE}
 # crear_histograma
 # Devuelve un histograma con lineas indicando la media y desviación estándar de un vector de datos numérico
@@ -216,14 +242,13 @@ Puede parecerte increíble, pero tu Yo de un mes en el futuro puede haber olvida
 # - nombre: Una cadena de texto.
 ```
 
-¡Listo, tenemos una función que hace justo lo que deseamos en una línea de código!
-
-Ahora, podremos cumplir con la solicitud de nuestro jefe ficticio usando cincuenta llamadas a una función en lugar de corriendo más de cuatrocientas líneas de código. Aún es una cantidad considerable de trabajo, pero es mucho menos que antes y con una menor probabilidad de cometer un error que no podamos corregir fácilmente.
+### Ejecutando 
+Ahora, podremos cumplir con la solicitud de nuestro jefe ficticio usando cincuenta llamadas a una función en lugar de correr más de cuatrocientas líneas de código y que hemos reducido la probabilidad de cometer errores. 
 
 Además, si a nuestro jefe se le ocurren nuevas características para los histogramas, basta con cambiar el cuerpo de nuestra función una vez y esto se verá reflejado en nuestro cincuenta casos al correr de nuevo el código.
 
 Por ejemplo, supongamos que nuestro jefe también quiere que el histograma muestre la mediana de nuestros datos y que las barras sean de color naranja. Basta con hacer un par de cambios.
-```{r, echo=TRUE}
+```{r crear_hist_naranja, echo=TRUE}
 crear_histograma <- function(datos, nombre) {
   media <- mean(datos)
   desv_est <- sd(datos)
@@ -235,9 +260,8 @@ crear_histograma <- function(datos, nombre) {
   abline(v = mediana, col = "green")
 }
 
+# Resultado
 crear_histograma(peso, "Peso con mediana")
 ```
 
-Quizás estés pensando que escribir una función cincuenta veces es demasiado y aún se presta a cometer errores. Tienes razón, podríamos hacer más breve nuestro código y menos susceptible a equivocaciones. Si tan sólo hubiera una manera de **aplicar** una función muchas veces sin escribir tanto...
-
-Pero eso lo veremos en las siguientes sesiones.
+Quizás estés pensando que escribir una función cincuenta veces de todos modos es demasiada repetición y aún se presta a cometer errores. Lo cual es cierto, pero podemos hacer más breve nuestro código y menos susceptible a equivocaciones con la familia de funciones **apply**, que revisaremos en el [capítulo 10](#la-familia-apply).
