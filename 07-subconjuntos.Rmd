@@ -113,70 +113,100 @@ Si el espacio que dejamos vacío es el que se encuentra después de la coma, obt
 mi_df[ ,1]
 ```
 
-Al combinar índices para renglones y columnas
+Al combinar índices para renglones y columnas, obtenemos los datos que se encuentran en una posición específica.
 
-Con índices podemos extraer un dato que se encuentra en un renglón y columna específico.
+Por ejemplo, el dato en el tercer renglón y la tercer columna.
 ```{r, echo=TRUE}
-# Extraer dato en el tercer renglón y tercera columna
 mi_df[3, 3]
-
-# Extraer dato en el primer renglón y segunda columna
-mi_df[1, 2]
-
-# Extraer dato en el segundo renglón y el primer renglón
-mi_df[2, 1]
 ```
 
+También podemos usar vectores de más de un número. Por ejemplo, los datos en en el primer y segundo renglón, y en la segunda y cuarta columna.
+```{r, echo=TRUE}
+mi_df[1:2, c(2, 4)]
+```
+
+Por último, en todos los casos anteriores, hemos obtenido como resultado un data frame.
 
 ```{r, echo=TRUE}
-# Extraer dato en 
-mi_df[1:2, 3:4]
+sub_df <- mi_df[1:2, c(2, 4)]
 
-# Si dejamos vacio el índice para una dimensión, nos son devueltos todos 
-# los datos que contiene
-mi_df[ , 1]
-mi_df[1,  ]
-
-# Podemos usar vectores para elegir elementos no consecutivos
-mi_df[c(1, 3),  c(1, 4)]
+class(sub_df)
 ```
 
+### Índices inválidos
+Si damos un índice inválido para las columnas, es decir, un número de columna que no exista, se nos devuelve un renglón.
 
+Intentemos obtener la séptima columna de `mi_df`.
+```{r, echo = TRUE, error=TRUE}
+mi_df[7]
+```
 
-Para objetos de tres o más dimensiones se siguen las mismas reglas, aunque ya no es tan fácil hablar de renglones y columnas. Por ejemplo, un array de cuatro dimensiones.
+Sin embargo, para los renglones simplemente se nos devuelve `NA`.
 
+```{r, echo = TRUE}
+mi_df[7, ]
+```
+
+### Matrices
+Todo lo anterior funciona de la misma manera para las matrices, con una excepción.
+
+Si usamos como índice un sólo número, entonces obtendremos el valor que se encuentre en esa posición, contando celdas de arriba a abajo y de izquierda a derecha.
+
+Creamos una matriz con 4 renglones y dos columnas.
+```{r, echo=TRUE}
+mi_matriz <- matrix(1:8, nrow = 4)
+
+# Resultado
+mi_matriz
+```
+
+Si damos como índice el número 8, R no intentará devolvernos la octava columna de la matriz, sino la octava celda.
+```{r, echo=TRUE}
+mi_matriz[8]
+```
+
+Fuera de este caso, los índices de renglones y columna tienen el mismo comportamiento que en un data frame.
+```{r, echo=TRUE}
+# Tercer renglón
+mi_matriz[3, ]
+
+# Segunda columna
+mi_matriz[ ,2]
+
+# Tercer renglón y segunda columna
+mi_matriz[3, 2]
+```
+
+Nota que en este caso obtenemos vectores al extraer un subconjunto.
+
+### Arrays
+Para objetos de tres o más dimensiones se siguen las mismas reglas que con las matrices, aunque ya no es tan fácil hablar de renglones y columnas. 
+
+Creamos un array de cuatro dimensiones.
 ```{r, echo=TRUE}
 mi_array <- array(data = 1:16, dim = c(2, 2, 2, 2))
+```
 
-# Comprobamos las dimensiones
-dim(mi_array)
-
-# Así luce un array sencillo de cuatro dimensiones.
+Veamos nuestro resultado y comprobamos con `dim()` su número de dimensiones.
+```{r, echo=TRUE}
 mi_array
 
-# Un par de subconjuntos
+# Comprobamos el número de dimensiones de nuestro objeto
+dim(mi_array)
+```
+
+Intentemos extraer varios subconjuntos, sólo para ilustrar cómo funcionan los índices con arrays.
+```{r}
+mi_array[1, , , ]
+mi_array[1, 2, , ]
+mi_array[1, 2, 1, ]
 mi_array[1, 2, 1, 2]
-mi_array[ , 1, 1, 1]
-
 ```
 
-Finalmente, conviene saber que la posición de los elementos en una estructura se determinan en su creación.
-```{r, echo=TRUE}
-vector1 <- c("a", "b", "c")
-vector2 <- c("a", "c", "b")
-
-# Aunque los vectores tienen los mismos elementos, su orden es diferente
-vector1[2]
-vector2[2]
-
-```
-
-Esto es suficiente por ahora. La siguiente ocasión continuaremos con más métodos para crear subconjuntos.
-
-Esta ocasión terminaremos de revisar las formas de extraer subconjuntos de nuestros datos. Puede parecer que le estamos dedicando mucho tiempo a este tema, pero es crucial para ahorrarnos dolores de cabeza en el futuro.
+Nota que como resultados obtenemos matrices, a menos que hagamos una extraigamos el contenido de una sola celda.
 
 ## Subconjuntos por nombre
-Podemos usar los nombres de los elementos en una estructura de datos para extraer subconjuntos. Este método es usado principalmente para trabajar con data frames y listas. 
+Podemos usar los nombres de los elementos en una estructura de datos para extraer subconjuntos. Este método es usado principalmente con data frames y listas. 
 
 Al igual que con los índices, podemos usar corchetes cuadrados (**[ ]**) para obtener subconjuntos, pero en lugar de escribir un número de índice, escribimos el nombre del elemento que deseamos extraer como una cadena de texto, es decir, entre comillas.
 
