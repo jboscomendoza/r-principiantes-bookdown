@@ -1,85 +1,119 @@
 # Subconjuntos
-En R, podemos obtener subconjuntos de todas las estructuras de datos. Esto es, podemos extraer datos de las estructuras que tengan una o más características en especial.
+En R, podemos obtener subconjuntos de nuestras estructuras de datos. Es decir, podemos extraer partes de una estructura de datos (nuestro conjunto).
 
-Para esta extracción usaremos índices, operadores lógicos y álgebra Booleana. Aunque cada estructura de datos de R es diferente, existen procedimientos para obtener subconjuntos que pueden usarse con todas ellas. Por supuesto, hay otras que funcionan sólo con algunas estructuras.
+Hacemos esto para seleccionar datos que tienen características específicas, por ejemplo, todos los valores mayores a cierto número o aquellos que coinciden exactamente con un valor de nuestro interés.
+
+Para realizar esta operación haremos uso de índices, operadores lógicos y álgebra Booleana. Algunos procedimientos para obtener subconjuntos pueden usarse con cualquier estructura de datos, mientras que otras sólo funcionan con algunas de ellas.
+
+En este capítulo revisaremos cómo extraer subconjuntos de vectores, matrices, data frames y listas, usando índices, nombres y condicionales.
 
 ## Índices
-Crer subconjuntos usando índices es el procedimiento más universal en R, pues funciona con todas las estructuras de datos.
+Usar índices para obtener subconjuntos es el procedimiento más universal en R, pues funciona para todas las estructuras de datos.
 
-Los índices en R son **posicionales**. Cuando usamos este método le pedimos a R que extraiga de una estructura los datos que se encuentran en una o varias posiciones específicas.
+Un índice en R representa una **posición**. Cuando usamos índices le pedimos a R que extraiga de una estructura los datos que se encuentran en una o varias posiciones específicas dentro de ella.
 
-Escribimos corchetes `[]` después de un objeto para obtener subconjuntos con índices. Dentro de los corchetes escribimos el o los números que corresponden a la posición que nos interesa extraer del objeto. Por ejemplo:
+A diferencia de la mayoría de los lenguajes de programación, los índices en R empiezan en **1**, no en **0**. El índice del primer elemento de una estructura de datos siempre es 1, el segundo 2, y así sucesivamente.
 
-* `objeto[3]`
-* `lista[4:5]` 
-* `dataframe[c(2, 7), ]`
+Veamos un ejemplo para ilustrar lo anterior.
 
-Veamos un ejemplo con un vector. Creamos un vector que contiene los nombres de distintos niveles educativos. 
-```{r, echo=TRUE}
+Creamos un vector que contiene los nombres de distintos niveles educativos. 
+```{r vector_niveles, echo=TRUE}
 nivel <- c("Preescolar", "Primaria", "Secundaria", "Educación Media Superior",
            "Educación Superior")
 
 nivel
 ```
-Este es un vector de largo igual a 5.
+
+Este es un vector de largo igual a cinco.
 ```{r}
 length(nivel)
 ```
 
-¿Cómo obtendríamos el tercer elemento de este vector usando índices? ¿Y del primer al cuarto elemento? ¿O el segundo y quinto elemento?
+¿Cómo obtendríamos el tercer elemento de este vector usando índices? ¿O del primer al cuarto elemento? ¿O el segundo y quinto elemento?
 
-Sabemos que los índices son posicionales y que se usan corchetes para realizar la operación de extracción, por lo tanto,  las respuestas a las preguntas anteriores son relativamente intuitivas.
+Para obtener subconjuntos con índices escribimos corchetes `[]` después del nombre de un objeto.  Dentro de los corchetes escribimos el o los números que corresponden a la posición que nos interesa extraer del objeto.
 
-Para extraer el tercer elemento hacemos lo siguiente.
-```{r, echo=TRUE, error=TRUE}
+Por ejemplo:
+
+* `objeto[3]`
+* `lista[4:5]` 
+* `dataframe[c(2, 7), ]`
+
+Entonces, para extraer el tercer elemento de nuestro vector `nivel` hacemos lo siguiente.
+```{r, echo=TRUE}
 nivel[3]
 ```
 
-A diferencia de la mayoría de los lenguajes de programación, los índices en R empiezan en 1, no en 0. El índice del primer elemento de una estructura de datos siempre es 1.
-
-Por lo tanto, para extraer del primer al cuarto elemento de un vector, usamos los números del 1 al 4.
+Para extraer del primer al cuarto elemento de un vector, usamos un vector con una secuencia numérica del 1 al 4 creada con `:`.
 ```{r, echo=TRUE}
 nivel[1:4]
 ```
 
-Cuando deseamos extraer elementos en posiciones no consecutivas, usamos vectores. Por ejemplo, para extraer el segundo y quinto elemento del vector ***nivel**, lo siguiente no funciona.
+Sin embargo, si intentamos extraer el segundo y quinto elemento del vector `nivel` corriendo lo siguiente, obtendremos un error.
 ```{r, echo = TRUE, error = TRUE}
 nivel[2, 5]
 ```
 
-Si usamos un vector, tendremos éxito en extraer el segundo y quinto elemento de **nivel**.
+¿Porqué no ha funcionado lo anterior? 
+
+El mensaje de error nos da una pista muy importante. Al usar una coma dentro de los corchetes estamos dando la instrucción a R de buscar los índices solicitados en más de una dimensión. El número antes de la coma será buscado en la primera dimensión del objeto, y el segundo número, en su segunda dimensión.
+
+Entonces, al llamar `nivel[2, 5]`, lo que estamos pidiendo es que R extraiga el elemento que se encuentra en la posición **2** de la primera dimensión del vector, y el elemento en la posición **5** de su segunda dimensión.  Como los vectores son unidimensionales, es imposible cumplir esta instrucción y se produce un error.
+
+Recuerda que en R, un número sencillo es también un vector, por lo tanto, cuando escribimos `vector[3]`, en realidad estamos dando como índice un vector que contiene al número 3.
+
+Por lo tanto, si deseamos extraer elementos en posiciones no consecutivas, debemos usar vectores generados con `c()`. De este modo damos un vector, de más de un número de largo al corchete, pero todos se encuentran en una misma dimensión.
+
+Aplicando lo anterior, si escribimos dentro de los corchetes `c(2, 5)`, entonces tendremos éxito al extraer el segundo y quinto elemento de `nivel`.
 ```{r, echo=TRUE}
 nivel[c(2, 5)]
 ```
 
-¿Porqué no funcionó usar **nivel[2, 5]** para extraer dos elementos no consecutivos en nuestro vector? 
+Para estructuras de dos dimensiones, como són matrices y data frames, **el primer vector de un índice, antes de una coma, es la posición en los renglones y el segundo es la posición las columnas**. 
 
-El mensaje de error nos da una pista muy importante. Al usar una coma dentro de los corchetes estamos pidiendo a R que busque los índices solicitados en más de una dimensión. 
+Obtener subconjuntos por renglones y columnas es un tipo de operación muy común al trabajar con data frames y matrices.
 
-Entonces, al llamar `nivel[2, 5]` le pedimos a R que extraiga el elemento que se encuentA en la posición 2 de la primera dimensión del vector, y el elemento en la posición 5 de su segunda dimensión. Como los vectores son unidimensionales, es imposible cumplir esta instrucción y se produce un error.
-
-En cambio, usar `nivel[c(2, 5)]` funciona porque estamos dando un vector con dos números, pero ambos en una misma dimensión de nuestro objeto.
-
-Para estructuras con más de una dimensión, los índices hacen referencia a posiciones para cada una de ellas. En estructuras de dos dimensiones (matrices y data frames), **el primer índice es para los renglones y la segunda para las columnas**. 
-
-Este es un tipo de operación muy común al trabajar con data frames y matrices
-
-## Índices, data frames y matrices
-Para ilustrar cómo usar índices con objetos rectangulares, vamos a crear un data frame llamado **mi_df**. 
-```{r, echo=TRUE}
+## Índices con data frames y matrices
+Creamos un data frame llamado `mi_df`. 
+```{r mi_df, echo=TRUE}
 mi_df <- data.frame("nombre" = c("Armando", "Elsa", "Ignacio", "Olga"),
                     "edad" = c(20, 24, 22, 30),
                     "sexo" = c("H", "M", "M", "H"),
                     "grupo" = c(0, 1, 1, 0))
 
+# Resultado
 mi_df
 ```
 
-Confirmamos que nuestro data frame tiene dos dimensiones: tres renglones y tres columnas.
-```{r, echo=TRUE}
+Usamos `dim()` para confirmar que nuestro objeto tiene dos dimensiones: tres renglones y tres columnas.
+```{r dim_mi_df, echo=TRUE}
 dim(mi_df)
 ```
 
+Si usamos un índice con un sólo número, extraemos una columna completa, con todos sus renglones.
+```{r mi_df_columna}
+mi_df[1]
+```
+
+Si usamos un vector, sin comas, obtenemos varias columnas.
+```{r mi_df_doscol, echo=TRUE}
+mi_df[c(1, 3)]
+```
+
+Al usar comas, el vector antes de la coma nos devolverá un renglón completo.
+
+```{r, echo=TRUE}
+mi_df[3,]
+```
+
+Nota que si dejamos vació el espacio después de la coma, se nos devuelven todas las columnas del data frame.
+
+Si el espacio que dejamos vacío es el que se encuentra después de la coma, obtenemos columnas. Esto es equivalente a usar un solo vector dentro de los corchetes.
+```{r columna_coma, echo=true}
+mi_df[ ,1]
+```
+
+Al combinar índices para renglones y columnas
 
 Con índices podemos extraer un dato que se encuentra en un renglón y columna específico.
 ```{r, echo=TRUE}
