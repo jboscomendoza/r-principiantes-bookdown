@@ -120,6 +120,16 @@ Por ejemplo, el dato en el tercer renglón y la tercer columna.
 mi_df[3, 3]
 ```
 
+El segundo y tercer dato de la tercera columna.
+```{r, echo = TRUE}
+mi_df[2:3, 3]
+```
+
+El cuarto renglón de la tercera y cuarta columna.
+```{r, echo = TRUE}
+mi_df[4, 3:4]
+```
+
 También podemos usar vectores de más de un número. Por ejemplo, los datos en en el primer y segundo renglón, y en la segunda y cuarta columna.
 ```{r, echo=TRUE}
 mi_df[1:2, c(2, 4)]
@@ -206,63 +216,99 @@ mi_array[1, 2, 1, 2]
 Nota que como resultados obtenemos matrices, a menos que hagamos una extraigamos el contenido de una sola celda.
 
 ## Subconjuntos por nombre
-Podemos usar los nombres de los elementos en una estructura de datos para extraer subconjuntos. Este método es usado principalmente con data frames y listas. 
+Un segundo método para extrar subconjuntos es usar los nombres de los elementos en una estructura de datos. Este forma de obtener subconjuntos es usada principalmente con data frames y listas. 
 
-Al igual que con los índices, podemos usar corchetes cuadrados (**[ ]**) para obtener subconjuntos, pero en lugar de escribir un número de índice, escribimos el nombre del elemento que deseamos extraer como una cadena de texto, es decir, entre comillas.
+De manera similar a los índices, usamos corchetes cuadrados `[]` después del nombre de un objeto, pero en lugar de escribir un número, escribimos el nombre del elemento que deseamos extraer como una cadena de texto, es decir, entre comillas.
 
-Por ejemplo, usando el mismo data frame que la ocasión anterior.
+### Data frames
+Los elementos de un data frame son sus columnas y cada una de ellas tiene un nombre, lo que estamos pidiendo a R con este método es que nos devuelva los elementos cuyo nombre coincida con el que hemos proporcionado
+
+Para mostrar el uso de este método, utilizaremos el mismo data frame que en la sección anterior.
+
+Si escribimos entre corchetes "nombre", obtendremos toda la columna **nombre**.
 ```{r, echo=TRUE}
-mi_df <- data.frame("nombre" = c("Armando", "Elsa", "Ignacio", "Olga"), 
-                    "edad" = c(20, 24, 22, 30), "sexo" = c("H", "M", "M", "H"), 
-                    "grupo" = c(0, 1, 1, 0))
-
 mi_df["nombre"]
-
-mi_df["grupo"]
-
 ```
 
-En una data frame, cada uno de sus elementos representa una columna en los datos, así que en realidad estamos pidiendo a R que nos devuelva las columnas con los nombres que le indicamos.
+Al escribir "grupo", nos es devuelta toda la columna con ese nombre.
+```{r, echo=TRUE}
+mi_df["grupo"]
+```
 
-Podemos extraer más de un elemento si en lugar de una cadena de texto escribimos un vector de texto entre los corchetes.
+De igual manera que con los índices, al escribir una coma dentro de los corchetes, estamos pidiendo con ello extraer elementos en más de una dimensión. Lo que está antes escrito antes de la coma corresponde a renglones, y lo que está después, a columnas.
 
-```{r, echo = TRUE}
-# Esto funciona
-mi_df[c("edad", "sexo")]
-
-# Esto no funciona como esperamos
+Si ejecutamos lo siguiente, obtendremos `NA` en lugar de obtener las columnas **edad** y **sexo**.
+```{r, echo=TRUE}
 mi_df["edad", "sexo"]
+```
 
-# Además, las columnas son devueltas en el orden que las pedimos
+Lo anterior ocurre porque R intenta encontrar un renglón llamado "edad" y una columna llamada "sexo", al no encontrarlas, nos devuelve `NA`. Recuerda que aunque no es lo más común, los renglones de un data frame pueden tener nombres.
+
+Al igual que con los índices, si damos el nombre de un renglón que existe, obtenemos `NA`. Es sólo al solicitar un nombre de columna no válido que se nos devuelve un error.
+
+Pedimos un nombre de renglón inexistente y obtenemos `NA`.
+```{r, echo =TRUE}
+mi_df["localidad", ]
+```
+
+Pero si pedimos un nombre inválido de columna, nos es devuelto un error.
+```{r, echo=TRUE, error=TRUE}
+mi_df[, "localidad"]
+```
+
+Para extraer más de una columna, escribimos un vector de texto entre los corchetes.
+Por ejemplo
+```{r, echo = TRUE}
+mi_df[c("edad", "sexo")]
+```
+
+Además, las columnas son devueltas en el orden que las pedimos, lo cual es conveniente cuando estamos procesando y recodificando datos.
+```{r, echo=TRUE}
 mi_df[c("sexo", "edad")]
 ```
 
-Si pedimos un nombre que no existe en nuestros datos, obtenemos un error.
-```{r, echo = TRUE, error=TRUE}
-mi_df["calificacion"]
-```
+### Listas
+Para una lista, el procedimiento es prácticamente el mismo que para un data frame, pero en lugar de obtener columnas, obtenemos los elementos contenidos en ella.
 
-Para una lista, el procedimiento es el mismo que con un data frame. En lugar de obtener columnas, obtenemos los elementos contenidos en la lista para los que hemos proporcionado un nombre. 
+La primera diferencia con los data frame es que, dado que las listas son unidimensionales, si usamos una coma dentro de los corchetes, nos será devuelto un error.
 
-Una diferencia importante con los data frame es que si pedimos un nombre que no existe en la lista, se nos devuelve **NULL** en lugar de un error.
-
-```{r, echo = TRUE}
+Creamos una lista llamada `mi_lista`.
+```{r, echo=TRUE}
 mi_lista <- list("uno" = 1, "dos" = "2", "tres" = as.factor(3), 
                  "cuatro" = c(1:4))
-
-mi_lista["dos"]
-
-mi_lista[c("cuatro", "tres")]
-
-mi_lista["cinco"]
-
 ```
 
-También podemos usar el signo de dólar `$` para extraer subconjuntos usando nombres. 
+Intentamos obtener un subconjunto con una coma.
+```{r, echo=TRUE}
+mi_lista["uno", "dos"]
+```
 
-Este método permite extraer sólo un elemento a la vez y en un data frame, siempre devolverá una columna.
-Si lo deseamos, podemos escribir el nombre que nos interesa obtener sin comillas.
+Si pedimos un nombre que no existe en la lista, se nos devuelve `NULL` en lugar de un error.
+```{r, echo=TRUE}
+mi_lista["cinco"]
+```
 
+Para todo lo demás, los nombres tienen el mismo comportamiento que para los data frames.
+
+Extremos un elemento de la lista.
+```{r, echo = TRUE}
+mi_lista["dos"]
+```
+
+Extraemos más de un elemento de la lista.
+```{r, echo=TRUE}
+mi_lista[c("cuatro", "tres")]
+```
+
+### Usando el signo de dolar `$`
+Otra manera en la que podemos extraer subconjuntos usando nombres, es con el signo de dólar `$`.
+
+Para usar este método, escribir el signo `$` después del nombre de un objeto de la siguiente forma: `objeto$nombre`.
+
+Este método permite extraer un sólo elemento a la vez y en para los data frame, el elemento extraido siempre será una columna.
+
+
+Por ejemplo, 
 ```{r, echo = TRUE, error=TRUE}
 # Esto funciona
 mi_df$nombre
