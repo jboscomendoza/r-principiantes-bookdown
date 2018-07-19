@@ -141,17 +141,26 @@ Si nuestro número de inicio tiene cifras decimales, estas serán respetadas al 
 ### Vectorización de operaciones
 Existen algunas operaciones al aplicarlas a un vector, se aplican a cada uno de sus elementos. A este proceso le llamamos **vectorización**.
 
-Por ejemplo, las operaciones aritméticas pueden vectorizarse. Si las aplicamos a un vector, la operación se realizará para cada uno de los elementos que contiene.
-```{r ejemplo vectorizacion, echo=TRUE}
-# Nuestro vector
-mi_vector <- c(2, 3, 6, 7, 8, 10, 11)
+Las operaciones aritméticas y relacionales pueden vectorizarse. Si las aplicamos a un vector, la operación se realizará para cada uno de los elementos que contiene.
 
-# Las operaciones
+Por ejemplo, creamos un vector numérico.
+```{r mi_vector_vectorizacion, echo=TRUE}
+mi_vector <- c(2, 3, 6, 7, 8, 10, 11)
+```
+
+Si aplicamos operaciones aritméticas, obtenemos un vector con un resultado por cada elemento.
+```{r vecotirzacion_arit, echo=TRUE}
+# Operaciones aritméticas
 mi_vector + 2
 mi_vector * 2
-mi_vector / 2
-mi_vector ^ 2
 mi_vector %% 2
+```
+
+Al aplicar operaciones relacionales, obtenemos un vector de `TRUE`y `FALSE`, uno para cada elemento comparado.
+```{r vectorizacion_rela, echo=TRUE}
+mi_vector > 7
+mi_vector < 7
+mi_vector == 7
 ```
 
 Esta manera de aplicar una operación es muy eficiente. Comparada con otros procedimientos, requiere de menos tiempo de cómputo, lo cual a veces es considerable, en particular cuando trabajamos con un número grande de datos.
