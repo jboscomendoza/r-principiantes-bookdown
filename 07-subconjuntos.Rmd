@@ -553,7 +553,62 @@ Finalmente, si no escribimos una coma dentro del corchete después de la condici
 iris[iris$Petal.Width >= 5]
 ```
 
-### La función subset()
-Una alternativa para usar condicionales sin necesidad de corchetes, es la función `subset()`.
+### La función `subset()`
+Una alternativa para usar condicionales, sin necesidad de corchetes, es la función `subset()`.
+
+Esta función tiene los siguients argumentos:
+
+* `x`: Un objeto, generalmente un data frame.
+* `subset`: Una condición, expresada como operaciones relacionales o condicionales, que se aplicarán a una columna de `x`.
+* `select`: Un vector con los nombres de las columnas a conservar en el resultado. Si no asignamos un valor a este argumento, se nos devuelven todas las columnas de `x`.
+
+Puedes leer la documentación completa llamando `?subset`.
+
+Como podrás ver, `subset()` necesita como argumentos los mismos elementos que usamos para extraer subconjuntos con corchetes. La principal diferencia se encuentra en el argumento `subset`.
+
+Al usar corchetes, necesitamos aplicar una operación relacional a un vector, extraido de nuestro objeto original, por ejemplo `iris[iris$Species == "setosa", ]`. Con `subset()`, basta proporcionar el nombre del elemento al que aplicaremos las operaciones relacionales y condicionales. Para este caso, escribimos `Species == "setosa"`. Nota que el nombre de la columna está escrito sin comillas.
+
+Por ejemplo, para extraer de iris todos los datos en los que el largo del sépalo es mayor que 7.5, damos a `iris` como argumento `x` y `Sepal.Lenght` como argumento `subset`. Dejamos sin definir el argumento `select`, para obtener todas las columnas.
+```{r, echo=TRUE}
+subset(x = iris, subset = Sepal.Length > 7.5)
+```
+
+Obtenemos el mismo resultado que al llamar `iris[iris.Sepal.Length > 7.5, ]`.
+
+Damos además `c("Sepal.Length", "Species")` como argumento a `select` y con ello sólo nos serán devueltas las columnas con estos nombres.
+```{r, echo=TRUE}
+subset(x = iris, subset = Sepal.Length > 7.5, select = c("Sepal.Length", "Species"))
+```
+
+Desde luego, esto es equivalente a llamar `iris[iris.Sepal.Length > 7.5, c("Sepal.Length", "Species")]`.
+
+También podemos usar operaciones lógicas para el argumento `subset`. 
+
+Por ejemplo, los datos para los que el largo del sépalo sea mayor que 7.5 y el ancho del pétalo sea igual a 3.
+
+```{r, echo=TRUE}
+subset(x = iris, subset = Sepal.Length > 7.5 & Sepal.Width == 3)
+```
+
+Si damos como argumento a subset una comparación con un nombre de columna no válido, obtenemos un error.
+```{r, echo=TRUE, error=TRUE}
+subset(x = iris, subset = Sepal.Weight > 7.5 )
+```
+
+Al igual que si usamos corchetes, si pedimos una condición que para ningún caso es verdadera, nuestro resultado es un data frame sin renglones.
+```{r, echo=TRUE}
+subset(x = iris, subset = Sepal.Length > 9 )
+```
+
+Si damos como argumento `select` el nombre de una columna inválida, también se nos devuelve un error.
+```{r}
+subset(x = iris, subset = Sepal.Length > 7, select = "Sepal.Weight")
+```
 
 
+Finalmente, también podemos dar un vector lógico como argumento `subset` para obtener subconjuntos. Por ejemplo, el segundo y cuarto renglón de `mi_df `.
+```{r}
+subset(x = mi_df, subset = c(TRUE, FALSE, FALSE, TRUE))
+```
+
+La función `subset()` casi siempre resulta en código más breve y es más fácil de interpretar por el usuario que los subconjuntos condicionales con corchetes. Sin embargo, la mayor parte de las veces, usar uno u otro procedimiento depende de tu preferencia personal y de las necesidades de los proyectos en los que colaboras.
