@@ -500,3 +500,74 @@ mi_lista / 2
 ```
 
 Si deseamos aplicar una función a cada elemento de una lista, usamos `lapply()`, como veremos en el [capítulo 10](#apply).
+
+## Coerción
+Al igual que con los datos, cuando intentamos hacer operaciones con una estructura de datos, R intenta coercionarla al tipo apropiado para poder llevarlas a cabo con éxito.
+
+También podemos usar alguna de las funciones de la familia `as()` coercionar de un tipo de estructura de datos. A continuación se presentan las más comunes.
+
+Función           | Coerciona a | Coerciona exitosamente a
+----              |----         | ----
+`as.vector()`     | Vector      | Matrices
+`as.matrix()`     | Matrices    | Vectores, Data frames
+`as.data.frame()` | Data frame  | Vectores, Matrices              
+`as.list()`       | Lista       | Vectores, Matrices, Data frames
+
+Como podrás ver, las estructuras de datos más sencillas, (unidimensionales, homogeneas) pueden ser coercionadas a otras más complejas (multidimensionales, heterogeneas), pero la operación inversa casi nunca es posible.
+
+Veamos algunos ejemplos.
+
+Creamos un vector, una matriz, un data frame y una lista.
+```{r, echo=TRUE}
+mi_vector <- c("a", "b", "c")
+mi_matriz <- matrix(1:4, nrow = 2)
+mi_df <- data.frame("a" = 1:2, "b" = c("a", "b"))
+mi_lista <- list("a" = mi_vector, "b" = mi_matriz, "c" = mi_df)
+```
+
+Intentemos coercionar a vector con `as.vector()`.
+```{r, echo=TRUE}
+as.vector(mi_matriz)
+as.vector(mi_df)
+as.vector(mi_lista)
+```
+
+La coerción que intentamos sólo tuvo éxito para una matriz. Para data frame y lista, nos devolvió los mismos objetos.
+
+Nota que `as.vector()` no devolvió un error o una advertencia a pesar de que no tuvo éxito para al coercionar un data frame o una lista a un vector. Esto es importante, pues no puedes confiar que `as.vector()` tuvo éxito porque corrió sin errores, es necesaria una verificación adicional.
+
+Intentemos coercionar a matriz con `as.matrix()`.
+```{r, echo=TRUE}
+as.matrix(mi_vector)
+as.matrix(mi_df)
+as.matrix(mi_lista)
+```
+El vector fue coercionado a una matriz con una sola columna. 
+
+Por su parte, al correr la función con un data frame, coercionamos también todos los datos que contiene, siguiendo las reglas de coerción de tipos de dato que vimos en el [capítulo 4](## coercion).
+
+Al coercionar una lista a una matriz, efectivamente obtenemos un objeto de este tipo, sin embargo perdemos toda la información que contiene, por lo tanto, no podemos considerar que esta es una coerción exitosa. Del mismo modo que con `as.vector()`, no nos es mostrado ningún error ni advertencia.
+
+Intentemos coercionar a matriz con `as.data.frame()`.
+```{r, echo=TRUE}
+as.data.frame(mi_vector)
+as.data.frame(mi_matriz)
+as.data.frame(mi_lista)
+```
+
+Tuvimos éxito al coercionar vectores y matrices. 
+
+El vector, al igual que cuando fue coercionado a matriz, devolvió como resultado un objeto con una sola columna, mientras que la matriz conservó sus renglones y columnas.
+
+En este caso, al intentar la coerción de lista a data frame, obtenemos un error. Esta es la única situación en la que esto ocurre utilizando las funciones revisadas en esta sección.
+
+Por último, intentemos coercionar a matriz con `as.list()`.
+```{r, echo=TRUE}
+as.list(mi_vector)
+as.list(mi_matriz)
+as.list(mi_df)
+```
+
+Dado que las listas son el tipo de objeto más flexible de todos, hemos tenido éxito en todos los casos con nuestra coerción.
+
+Nota que para los vectores y matrices, 
