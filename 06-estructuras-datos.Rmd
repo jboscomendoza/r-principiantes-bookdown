@@ -534,7 +534,7 @@ as.vector(mi_lista)
 
 La coerción que intentamos sólo tuvo éxito para una matriz. Para data frame y lista, nos devolvió los mismos objetos.
 
-Nota que `as.vector()` no devolvió un error o una advertencia a pesar de que no tuvo éxito para al coercionar un data frame o una lista a un vector. Esto es importante, pues no puedes confiar que `as.vector()` tuvo éxito porque corrió sin errores, es necesaria una verificación adicional.
+Nota que `as.vector()` **no devolvió un error o una advertencia a pesar de que no tuvo éxito** al coercionar, en este caso un data frame o una lista. Esto es importante, pues no puedes confiar que `as.vector()` tuvo éxito porque corrió sin errores, es necesaria una verificación adicional. Como R intenta coercionar automáticamente, esto puede producir resultados inesperados si no tenemos cuidado.
 
 Intentemos coercionar a matriz con `as.matrix()`.
 ```{r, echo=TRUE}
@@ -570,4 +570,8 @@ as.list(mi_df)
 
 Dado que las listas son el tipo de objeto más flexible de todos, hemos tenido éxito en todos los casos con nuestra coerción.
 
-Nota que para los vectores y matrices, 
+Nota que para los vectores y matrices, cada uno de los elementos es transformado en un elemento dentro de la lista resultante. Si tuvieramos una matriz con cuarenta y ocho celdas, obtendríamos una lista con ese mismo número de elementos.
+
+En cambio, para un data frame, el resultado es una lista, en la que cada elemento contiene los datos de una columna del data frame original. Un data frame con diez columnas resultará en una lista de diez elementos.
+
+Conocer cómo ocurre la coerción de estructuras de datos te ayudará a entender mejor algunos resultados devueltos por funciones de R, además de que te facilitará la manipulación y procesamiento de datos.

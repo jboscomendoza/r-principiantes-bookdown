@@ -4,6 +4,7 @@ author: "Juan Bosco Mendoza Vega"
 site: bookdown::bookdown_site
 cover-image: "images/r-principiantes-cover.png"
 github-repo: "jboscomendoza/r-principiantes-bookdown"
+fig_height: 5 
 output:
   bookdown::gitbook:
     highlight: haddock
