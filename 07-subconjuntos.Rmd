@@ -538,7 +538,7 @@ mi_df[c(TRUE, FALSE, FALSE, TRUE), ]
 
 Si damos un vector lógico de largo menor que el número de renglones en un data frame, el vector es reciclado. 
 
-Al utilizar vector `c(FALSE, TRUE)`, nos serán devueltos el segundo y cuarto renlón de `mi_df`.
+Al utilizar vector `c(FALSE, TRUE)`, nos serán devueltos el segundo y cuarto renglón de `mi_df`.
 ```{r, echo=TRUE}
 mi_df[c(FALSE, TRUE), ]
 ```
@@ -596,18 +596,18 @@ subset(x = iris, subset = Sepal.Weight > 7.5 )
 ```
 
 Al igual que si usamos corchetes, si pedimos una condición que para ningún caso es verdadera, nuestro resultado es un data frame sin renglones.
-```{r, echo=TRUE}
+```{r subset_sinrenglones, echo=TRUE}
 subset(x = iris, subset = Sepal.Length > 9 )
 ```
 
 Si damos como argumento `select` el nombre de una columna inválida, también se nos devuelve un error.
-```{r}
+```{r subset_col_invalida, echo=TRUE, error=TRUE}
 subset(x = iris, subset = Sepal.Length > 7, select = "Sepal.Weight")
 ```
 
 
 Finalmente, también podemos dar un vector lógico como argumento `subset` para obtener subconjuntos. Por ejemplo, el segundo y cuarto renglón de `mi_df `.
-```{r}
+```{r, subset_logicos, echo=TRUE, error=TRUE}
 subset(x = mi_df, subset = c(TRUE, FALSE, FALSE, TRUE))
 ```
 

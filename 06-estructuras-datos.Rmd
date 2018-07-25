@@ -518,7 +518,7 @@ Como podrás ver, las estructuras de datos más sencillas, (unidimensionales, ho
 Veamos algunos ejemplos.
 
 Creamos un vector, una matriz, un data frame y una lista.
-```{r, echo=TRUE}
+```{r crear_estructuras, echo=TRUE}
 mi_vector <- c("a", "b", "c")
 mi_matriz <- matrix(1:4, nrow = 2)
 mi_df <- data.frame("a" = 1:2, "b" = c("a", "b"))
@@ -526,7 +526,7 @@ mi_lista <- list("a" = mi_vector, "b" = mi_matriz, "c" = mi_df)
 ```
 
 Intentemos coercionar a vector con `as.vector()`.
-```{r, echo=TRUE}
+```{r as_vector, echo=TRUE}
 as.vector(mi_matriz)
 as.vector(mi_df)
 as.vector(mi_lista)
@@ -549,7 +549,7 @@ Por su parte, al correr la función con un data frame, coercionamos también tod
 Al coercionar una lista a una matriz, efectivamente obtenemos un objeto de este tipo, sin embargo perdemos toda la información que contiene, por lo tanto, no podemos considerar que esta es una coerción exitosa. Del mismo modo que con `as.vector()`, no nos es mostrado ningún error ni advertencia.
 
 Intentemos coercionar a matriz con `as.data.frame()`.
-```{r, echo=TRUE}
+```{r as_dataframe, echo=TRUE, error=TRUE}
 as.data.frame(mi_vector)
 as.data.frame(mi_matriz)
 as.data.frame(mi_lista)
@@ -562,7 +562,7 @@ El vector, al igual que cuando fue coercionado a matriz, devolvió como resultad
 En este caso, al intentar la coerción de lista a data frame, obtenemos un error. Esta es la única situación en la que esto ocurre utilizando las funciones revisadas en esta sección.
 
 Por último, intentemos coercionar a matriz con `as.list()`.
-```{r, echo=TRUE}
+```{r as_list, echo=TRUE}
 as.list(mi_vector)
 as.list(mi_matriz)
 as.list(mi_df)

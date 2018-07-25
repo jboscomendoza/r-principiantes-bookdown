@@ -1,39 +1,63 @@
 # Tipos de datos
-En R los datos pueden ser de diferentes tipos. Los siguientes son los comunes.
+En R los datos pueden ser de diferentes tipos. Cada tipo tiene características particulares que lo distinguen de los demás. Entre otras cosas algunas operaciones sólo pueden realizarse con tipos de datos específicos
+
+En este capítulo revisaremos los tipos de datos más comunes en R y sus propiedades, así como la coerción entre tipos de dato.
+
+## Datos más comunes
+Los tipos de datos de uso más común en R son los siguientes.
 
 Tipo            | Ejemplo | Nombre en inglés
 -----           | -----   |----
 Entero          | 1       | integer
 Numérico        | 1.3     | numeric
-Complejo        | 1+0i    | complex 
 Cadena de texto | "uno"   | character
 Factor          | uno     | factor
 Lógico          | TRUE    | logical
 Perdido         | `NA`    | NA
 Vacio           | `NULL`  | null
 
-Cada tipo de dato tiene características particulares que lo hace diferente a los demás.
+Además de estos tipos, en R también contamos con datos complejos numéricos complejos (con una parte real y una imaginaria), **raw** (bytes), fechas y *raster*, entre otros. Estos tipos tiene aplicaciones muy específicas, por ejemplo, los datos de tipo fecha son ampliamente usados en economía, para análisis de series de tiempo.
 
-Los datos numéricos también son llamados **dobles** o **floats (flotantes)**. Su nombre se deb a que son números de doble precisión, pues tienen una parte entera y una fraccionaria decimal, y son llamados floats debido a que se usa un punto flotante para su representación computacional. Para fines prácticos todos estos términos son sinónimos y son usados de manera mas o menos intercambiable en libros y documentación, lo mismo ocurrirá en este libro.
+Revisemos las principales características de estos tipos de dato.
 
-Los datos de tipo lógico sólo tienen dos valores posibles: `TRUE` (verdadero) y `FALSE`(falso). Este tipo de datos es esencial para trabajar con álgebra booleana.
+## Entero y numérico
+Como su nombre lo indica, los datos enteros representan números enteros, sin una parte decimal o fraccionaria, que pueden ser usados en operaciones matemáticas. 
 
-`NA` se usa para representar datos perdidos y en R es diferente a `NULL`. `NULL` representa la ausencia de datos, es decir, que no hay nada que recuperar, mientras que `NA` representa un valor específico, de un dato que se reporta como perdido o ausente.
+Por su parte, como su nombre lo indica, los datos numéricos representan números, la diferencia de estos con los datos enteros es que tiene una parte decimal o fraccionaria.
 
-El tipo *character* representa cadenas de texto y es fácil reconocerlo porque un dato siempre esta rodeado de comillas, simples o dobles.
+Los datos numéricos también son llamados *doble* o *float* (flotantes). Este nombre se debe a que, en realidad, son números de doble precisión, pues tienen una parte entera y una fraccionaria decimal, y son llamados *float* debido a que se usa un punto flotante para su representación computacional. 
 
-Las cadenas de texto son diferentes a los factores aunque suelen lucir igual en la consola. Un factor puede ser descrito como un dato numérico representado por una etiqueta. Cada uno de las etiquetas o valores que puedes asumir un factor se conoce como **nivel**.
+Para fines prácticos, estos términos son sinónimos. En este libro, siempre que hablemos de datos numéricos, nos referimos a este tipo. 
 
-Por ejemplo, podemos tener un conjunto de datos de tipo factor con dos niveles, **femenino (1)** y **masculino (2)**. Para nuestra computadora, femenino tiene un valor de 1, pero a nosotros se nos muestra la palabra *femenino*. Por su parte, las cadenas de texto no son representaciones de datos numéricos, son 
+## Cadena de texto
+El tipo *character* representa texto y es fácil reconocerlo porque un dato siempre esta rodeado de comillas, simples o dobles. De manera convencional, nos referimos a este tipo de datos como cadenas de texto, es decir, secuencias de caracteres.
 
-Por esta razón, si intentamos coercionar un factor a tipo numérico, tendremos éxito, pero si intentamos lo mismo con una cadena de texto, se nos mostrará una advertencia y el resultado será **NA**.
+Este es el tipo de datos más flexible de R, pues una cadena de texto puede contener letras, números, espacios, signos de puntuación y símbolos especiales.
 
-Podemos usar la función **class()** para determinar el tipo de un dato.
-```{r class, echo=TRUE}
-class(3)
-class("3")
-class(TRUE)
-```
+## Factor
+Un factor es un tipo de datos específico a R. Puede ser descrito como un dato numérico representado por una etiqueta. 
+
+Supongamos que tenemos un conjunto de datos que representan el sexo de personas encuestadas por teléfono, pero estos se encuentran capturados con los números 1 y 2. El número 1 corresponde a **femenino** y  el 2 a **masculino**. 
+
+En R, podemos indicar que se nos muestre, en la consola y para otros análisis, los 1 como `femenino` y los 2 como `masculino`. Aunque para nuestra computadora, `femenino` tiene un valor de 1, pero a nosotros se nos muestra la palabra `femenino`. De esta manera reducimos el espacio de almacenamiento necesario para nuestros datos.
+
+Este comportamiento es similar a lo que ocurre con paquetes estadísticos comerciales como *SPSS Statistics*, en los que podemos asignar etiquetas a los datos, dependiendo de su valor. La diferencia se encuentra en que R trata a los factores de manera diferente a un dato numérico.
+
+Por último, cada una de las etiquetas o valores que puedes asumir un factor se conoce como **nivel**. En nuestro ejemplo con `femenino` y `masculino`, tendríamos dos niveles.
+
+## Lógico
+Los datos de tipo lógico sólo tienen dos valores posibles: verdadero (`TRUE`) y falso (`FALSE`). Representan si una condición o estado se cumple, es verdadero, o no, es falso.
+
+Este tipo de dato es, generalmente, el resultado de operaciones relacionales y lógicas, son esenciales para trabajar con **álgebra Booleana**, lo cual revisaremos en el (capítulo 5)(#-operadores)
+
+## `NA` y `NULL`
+En R, usamos `NA` para representar datos perdidos, mientras que `NULL` representa la ausencia de datos.
+
+La diferencia entre las dos es que un dato `NULL` aparece sólo cuando R intenta recuperar un dato y no encuentra nada, mientras que `NA` es usado para representar explícitamente datos perdidos, omitidos o que por alguna razón son faltantes.
+
+Por ejemplo, si tratamos de recuperar la edad de una persona encuestada que no existe, obtendríamos un `NULL`, pues no hay ningún dato que corresponda con ello. En cambio, si tratamos de recuperar su estado civil, y la persona encuestada no contestó esta pregunta, obtendríamos un `NA`.
+
+`NA` además puede aparecer como resultado de una operación realizada, pero no tuvo éxito en su ejecución.
 
 ## Coerción
 En R, los datos pueden ser coercionados (forzados) para convertirlos de un tipo a otro. Cuando pedimos a R que ejecute una operación, R intentará coercionar los datos al tipo correcto que permita realizarla. Si no lo logra, nos devuelve como resultado un error.
@@ -61,16 +85,25 @@ Función           | Tipo al que hace coerción
 `as.null()`       | `NULL`
 
 Por ejemplo, con `as.character()`, podemos convertir un número en una cadena de texto.
-```{r, echo=TRUE}
+```{r number_as_character, echo=TRUE}
 as.character(5)
 ```
 
-Estas funciones siguen las reglas de coerción de R, así que no podemos hacer forzar coerciones no permitidas.
-```{r, echo=TRUE, error=TRUE}
+Estas funciones siguen las reglas de coerción de R, así que no podemos forzar coerciones no permitidas.
+```{r char_as_logical, echo=TRUE, error=TRUE}
 as.logical("palabra")
 ```
 
 ## Verificar el tipo de un dato
+Podemos usar la función **class()** para determinar el tipo de un dato. Esto es importante, pues algunas operaciones requieren de un tipo específico para funcionar.
+
+Damos como argumento un dato y nos es devuelto el nombre del tipo, en inglés, al que pertenece.
+```{r class, echo=TRUE}
+class(3)
+class("3")
+class(TRUE)
+```
+
 También podemos verificar si un dato es de un tipo específico con la familia de funciones `is()`. 
 
 Función           | Tipo que verifican
@@ -81,11 +114,19 @@ Función           | Tipo que verifican
 `is.character()`  | Cadena de texto
 `is.factor()`     | Factor
 `is.logical()`    | Lógico
+`is.na()`         | `NA`
 `is.null()`       | `NULL`
 
-Si el dato es del tipo que estamos verificando, estas funciones nos devolverán `TRUE` y en caso contrario devolverán `FALSE`.
-```{r is, echo=TRUE}
-is.numeric(5)
+Estas funciones toman como argumento un dato, si este es del tipo que estamos verificando, nos devolverán `TRUE` y en caso contrario devolverán `FALSE`.
 
+Verificamos que `5` sea numérico.
+```{r is_num, echo=TRUE}
+is.numeric(5)
+```
+Obtenemos `TRUE`, este es un dato numérico.
+
+Y verificamos que `5` sea de tipo cadena de texto.
+```{r is_char, echo=TRUE}
 is.character(5)
 ```
+El resultado es `FALSE`, por lo tanto este no es un dato de cadena de texto.
