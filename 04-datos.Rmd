@@ -48,7 +48,9 @@ Por último, cada una de las etiquetas o valores que puedes asumir un factor se 
 ## Lógico
 Los datos de tipo lógico sólo tienen dos valores posibles: verdadero (`TRUE`) y falso (`FALSE`). Representan si una condición o estado se cumple, es verdadero, o no, es falso.
 
-Este tipo de dato es, generalmente, el resultado de operaciones relacionales y lógicas, son esenciales para trabajar con **álgebra Booleana**, lo cual revisaremos en el (capítulo 5)(#-operadores)
+Este tipo de dato es, generalmente, el resultado de operaciones relacionales y lógicas, son esenciales para trabajar con **álgebra Booleana**, lo cual revisaremos en el (capítulo 5)(#-operadores).
+
+Como este tipo de dato sólo admite dos valores específicos, es el más restrictivo de R.
 
 ## `NA` y `NULL`
 En R, usamos `NA` para representar datos perdidos, mientras que `NULL` representa la ausencia de datos.
@@ -60,57 +62,113 @@ Por ejemplo, si tratamos de recuperar la edad de una persona encuestada que no e
 `NA` además puede aparecer como resultado de una operación realizada, pero no tuvo éxito en su ejecución.
 
 ## Coerción
-En R, los datos pueden ser coercionados (forzados) para convertirlos de un tipo a otro. Cuando pedimos a R que ejecute una operación, R intentará coercionar los datos al tipo correcto que permita realizarla. Si no lo logra, nos devuelve como resultado un error.
+En R, los datos pueden ser coercionados, es decir, forzados, para transformarlos de un tipo a otro.
 
-La coerción de tipos se realiza de los más restrictivos a los más flexibles.
+La coerción es muy importante. Cuando pedimos a R ejecutar una operación, intentará coercionar de manera **implícita**, sin avisarnos, los datos de su tipo original al tipo correcto que permita realizarla. Habrá ocasiones en las que R tenga éxito y la operación ocurra sin problemas, y otras en las que falle y obtengamos un error.
 
-Como los datos de tipo lógico sólo admiten dos valores (`TRUE` y `FALSE`), estos son los más restrictivos; mientras que los datos de cadena de texto, al admitir cualquier cantidad y combinación de caracteres, son los más flexibles.
+Lo anterior ocurre porque no todos los tipos de datos pueden ser transformados a los demás, para ello se sigue una regla general.
 
-Por ejemplo, podemos coercionar un dato de tipo entero a tipo numérico, pero no un dato de tipo cadena de texto a numérico.
+**La coerción de tipos se realiza de los tipos de datos más restrictivos a los más flexibles.**
 
-Las coerciones siguen este orden:
+Las coerciones ocurren en el siguiente orden.
 
-`logical -> integer -> numeric -> complex -> character`
+`lógico -> entero -> numérico -> cadena de texto`
+(`logical -> integer -> numeric -> character`)
 
-Podemos pedir a R que haga coerción usando la familia de funciones `as()`.
+Las coerciones no pueden ocurrir en orden inverso. Podemos coercionar un dato de tipo entero a uno numérico, pero uno de cadena de texto a numérico.
+
+Como los datos de tipo lógico sólo admiten dos valores (`TRUE` y `FALSE`), estos son los más restrictivos; mientras que los datos de cadena de texto, al admitir cualquier cantidad y combinación de caracteres, son los más flexibles. 
+
+Los factores son un caso particular para la coerción. Dado que son valores numéricos con etiquetas, pueden ser coercionados a tipo numérico y cadena de texto; y los datos numéricos y cadena de texto pueden ser coercionados a factor. Sin embargo, al coercionar un factor tipo numérico, perdemos sus niveles.
+
+### Coerción explícita con la familia `as()`
+También podemos hacer coerciones **explícitas** usando la familia de funciones `as()`.
 
 Función           | Tipo al que hace coerción
 -----             | -----
 `as.integer()`    | Entero
 `as.numeric()`    | Numerico
-`as.complex()`    | Complejo
 `as.character()`  | Cadena de texto
 `as.factor()`     | Factor
 `as.logical()`    | Lógico
 `as.null()`       | `NULL`
 
-Por ejemplo, con `as.character()`, podemos convertir un número en una cadena de texto.
+Todas estas funciones aceptan como argumento datos o vectores (veremos qué es un vector en el [capítulo 6](#estructuras-de-datos)). 
+
+Cuando estas funciones tienen éxito en la coerción, nos devuelven datos del tipo pedido. Si fallan, obtenemos `NA` como resultado.
+
+Por ejemplo, intememos convertir el número 5 a una cadena de texto. Para ello usamos la función `as.character()`.
 ```{r number_as_character, echo=TRUE}
 as.character(5)
 ```
 
-Estas funciones siguen las reglas de coerción de R, así que no podemos forzar coerciones no permitidas.
-```{r char_as_logical, echo=TRUE, error=TRUE}
-as.logical("palabra")
+Esta es una coerción válida, así que tenemos éxito. Pero, si intentamos convertir la palabra "cinco" a un dato numérico, obtendremos una advertencia y `NA`.
+```{r char_as_num, echo=TRUE}
+as.numeric("cinco")
+```
+
+Comprobemos el comportamiento especial de los factores. 
+
+Podemos coercionar al número 5 y la palabra "cinco" en un factor. 
+
+```{r chnum_asfactor, echo=TRUE}
+as.factor(5)
+as.factor("cinco")
+```
+
+Asignamos la palabra "cinco" como factor al objeto `factor_cinco`.
+```{r, echo =TRUE}
+factor_cinco <- as.factor("cinco")
+
+#Resultado
+factor_cinco
+```
+
+Ahora podemos coercionar `factor_cinco` a cadena de texto y a numérico.
+```{r, echo=TRUE}
+# Cadena de texto
+as.character(factor_cinco)
+
+# Numérico
+as.numeric(factor_cinco)
+```
+
+Si coercionamos un dato de tipo lógico a numérico, `TRUE` siempre devolverá 1 y `FALSE` dará como resultado 0.
+```{r logic_asnum, echo=TRUE}
+as.numeric(TRUE)
+as.numeric(FALSE)
+```
+
+Por último, la funcón `as.null()` siempre devuelve `NULL`, sin importar el tipo de dato que demos como argumento.
+
+```{r asnull, echo=TRUE}
+# Lógico
+as.null(FALSE)
+# Numérico
+as.null(457)
+# Cadena de texto
+as.null("palabra")
 ```
 
 ## Verificar el tipo de un dato
-Podemos usar la función **class()** para determinar el tipo de un dato. Esto es importante, pues algunas operaciones requieren de un tipo específico para funcionar.
+En ocasiones, tenemos datos pero no sabemos de simple vistazo de qué tipo son. Para esto casos, podemos usar la función `class()` para determinar el tipo de un dato. Esto es de utilidad para asegurarnos que las operaciones que deseamos realizar tendrán los datos apropiados para llevarse a cabo con éxito.
 
-Damos como argumento un dato y nos es devuelto el nombre del tipo, en inglés, al que pertenece.
+`class()` recibe como argumento un dato o vector y devuelve el nombre del tipo al que pertenece, en inglés.
+
+Por ejemplo, verificamos el tipo de datos que son 3, "3" y `TRUE`.
 ```{r class, echo=TRUE}
 class(3)
 class("3")
 class(TRUE)
 ```
 
+### Verificación con la familia de funciones `is()`
 También podemos verificar si un dato es de un tipo específico con la familia de funciones `is()`. 
 
 Función           | Tipo que verifican
 -----             | -----
 `is.integer()`    | Entero
 `is.numeric()`    | Numerico
-`is.complex()`    | Complejo
 `is.character()`  | Cadena de texto
 `is.factor()`     | Factor
 `is.logical()`    | Lógico
@@ -119,14 +177,16 @@ Función           | Tipo que verifican
 
 Estas funciones toman como argumento un dato, si este es del tipo que estamos verificando, nos devolverán `TRUE` y en caso contrario devolverán `FALSE`.
 
-Verificamos que `5` sea numérico.
+Por ejemplo, verificamos que 5 sea numérico.
 ```{r is_num, echo=TRUE}
 is.numeric(5)
 ```
-Obtenemos `TRUE`, este es un dato numérico.
+Obtenemos `TRUE`, pues es verdadero que este es un dato numérico.
 
-Y verificamos que `5` sea de tipo cadena de texto.
+Verificamos que `5` sea de tipo cadena de texto.
 ```{r is_char, echo=TRUE}
 is.character(5)
 ```
 El resultado es `FALSE`, por lo tanto este no es un dato de cadena de texto.
+
+Conociendo el tipo de datos con los que estamos trabajando, nos aseguramos de que obtendremos los resultados esperados para las operaciones que estemos realizando.
