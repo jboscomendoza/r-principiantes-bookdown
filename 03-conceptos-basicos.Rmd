@@ -6,7 +6,7 @@ Lo primero que nos encontramos al ejecutar R es una pantalla que nos muestra la 
 
 `>_                                               ` 
 
-Esta es la consola de R y corresponde al **entorno computacional** de este lenguaje. Es aquí donde nuestro código es interpretado.
+Esta es la consola de R y corresponde al **entorno computacional** de este lenguaje. Es aquí donde nuestro **código** es interpretado.
 
 Podemos escribir código directamente en la consola y R nos dará el resultado de lo pidamos allí mismo. Esta es la razón por la que se dice que R permite el uso interactivo, pues no es necesario compilar nuestro código para ver sus resultados.
 
@@ -182,3 +182,19 @@ install.packages("un_paquete_falso")
 Los paquetes que hemos importado en nuestra sesión actual aparecen al llamar `sessionInfo()`.
 
 También podemos ver qué paquetes tenemos ya instalados ejecutando la función `installed.packages()` sin ningún argumento. Una instalación nueva de R tiene pocos paquetes instalados, pero esta lista puede crecer considerablemente con el tiempo.
+
+## Scripts
+Los scripts son documentos de texto con la extensión de archivo **.R**, por ejemplo `mi_script.R`.
+
+Estos archivos son iguales a cualquier documentos de texto, pero R los puede leer y ejecutar el código que contienen.
+
+Aunque R permite el uso interactivo, es recomendable que guardes tu código en un archivo .R, de esta manera puedes usarlo después y compartirlo con otras personas. En realidad, en proyectos complejos, es posible que sean necesarios mútiples scripts para distintos fines.
+
+Podemos abrir y ejecutar scripts en R usando la función `source()`, dandole como argumento la ruta del archivo .R en nuestra computadora, entre comillas. 
+
+Por ejemplo.
+```{r source, echo=TRUE, eval=FALSE}
+source("C:/Mis scripts/mi_script.R")
+```
+
+Cuando usamos RStudio y abrimos un script con extensión .R, este programa nos abre un panel en el cual podemos ver su contenido. De este modo podemos ejecutar todo el código que contiene o sólo partes de él.
