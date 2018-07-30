@@ -28,23 +28,34 @@ output:
 knitr::include_graphics("images/r-principiantes-cover.png")
 ```
 
-Este libro está dirigído a personas que nunca han usado R o ningún otro lenguaje de programación. No es necesario conocimiento previo de estadística.
+**Propósito del libro**
 
-El propósito es que el lector:
+*R para principiantes* pretende ser un materal introductorio al lenguaje de programación R, dirigído a personas que nunca han usado R o ningún otro lenguaje de programación, ni tiene conocimiento previo de probabilidad y estadística.
 
-*	conozca las características principales de R
-*	se familiarice con los tipos y estructuras de datos usados en R
-*	pueda definir sus propias funciones
+Este libro tiene como propósito que adquieras los fundamentos del uso de R como un lenguaje de programación, desde sus conceptos más elementales, hasta la definición de funciones y generación de gráficos.
 
-Este libro está enfocado a aprender el uso de R como un lenguaje de programación.
+No son objetivos de este libro que aprendas probabilidad y estadística, ni las aplicaciones espécificas de estas disciplinas, tales como son *data science*, aprendizaje automático, econometría, psicometría, bioestadística u otros.
 
-**Bibliografía básica de referencia**
+Al [final](#conclusion) de este libro se presenta una lista de libros y otros materiales que puedes consultar en caso de tener interés por alguno de estos temas.
 
-*	Diez, D., Barr, C., Çetinkaya-Rundel, M. (2015). OpenIntro Statistics, segunda edición. OpenIntro. https://www.openintro.org/stat/textbook.php?stat_book=os 
-*	Grolemund y Wickham. (2017). R for Data Science. O’Reilly. http://r4ds.had.co.nz/ 
-*	Navarro, D. (2015). Learning statistics with R: A tutorial for psychology students and other beginners. University of Adelaide. http://www.fon.hum.uva.nl/paul/lot2015/Navarro2014.pdf 
-*	Peng, R. D. (2016). R Programming for Data Science. Leanpub. https://leanpub.com/rprogramming 
-*	RStudio Cheat Sheets. https://www.rstudio.com/resources/cheatsheets/
-*	Wickham, H. (2014) Advanced R. O’Reilly.  http://adv-r.had.co.nz/ 
-*	Wickham, H. (2014) Tidy Data. Journal of Statistical Software. https://www.jstatsoft.org/article/view/v059i10/v59i10.pdf 
+Se espera que al concluir este libro:
 
+*	conozcas las características principales de R
+* identifiques operaciones, tipos y estructuras de datos 
+*	utilices los tipos y estructuras de datos en operaciones
+*	definas sus propias funciones
+* importes y exportes datos
+* generes y exportes gráficos
+
+**Acerca del autor**
+
+*Juan Bosco Mendoza Vega* es usuario de R desde el 2014. 
+
+Es maestro en psicología por la Universidad Nacional Autónoma de México (UNAM). Especialista en evaluación educativa, interesado en la evaluación del aprendizaje y de programas educativos, así como en los usos de métodos cuantitativos para el diseño, análisis y difusión de resultados de evaluación.
+
+Ha colaborado en los Comités Interinstitucionales para la Evaluación de la Educación Superior (CIEES), como analista y elaborador de informes de evaluación de programas educativos de educación superior de diferentes universidad públicas y privadas del país. 
+
+Desde el 2014 trabaja en el Instituto Nacional para la Evaluación de la Educación, en donde actualmente se ha desempeñado en las áreas de Evaluación de Resultados Educativos y de Evaluación de la Oferta Educativa.
+
+Puedes encontrar el repositorio público de Github del autor en el siguiente enlace:
+* https://github.com/jboscomendoza
