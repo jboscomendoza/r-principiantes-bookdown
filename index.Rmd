@@ -4,6 +4,7 @@ author: "Juan Bosco Mendoza Vega"
 site: bookdown::bookdown_site
 cover-image: "images/r-principiantes-cover.png"
 github-repo: "jboscomendoza/r-principiantes-bookdown"
+description: "Un libro introductorio a R, dirigido a personas sin experiencia previa con lenguajes de programación."
 fig_height: 5 
 output:
   bookdown::gitbook:
@@ -58,4 +59,5 @@ Ha colaborado en los Comités Interinstitucionales para la Evaluación de la Edu
 Desde el 2014 trabaja en el Instituto Nacional para la Evaluación de la Educación, en donde actualmente se ha desempeñado en las áreas de Evaluación de Resultados Educativos y de Evaluación de la Oferta Educativa.
 
 Puedes encontrar el repositorio público de Github del autor en el siguiente enlace:
+
 * https://github.com/jboscomendoza
