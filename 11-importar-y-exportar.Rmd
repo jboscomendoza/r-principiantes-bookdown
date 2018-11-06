@@ -12,7 +12,7 @@ Antes de empezar a importar datos, vale la pena señalar que  podemos descargar 
 
 De esta manera tendremos acceso a una vasta diversidad de fuentes de datos. Entre otras, podrás descargar los archivos 
 
-La función `download.file()` nos pide como argumento `url`, la dirección de internet del archivo que queremos descargar y `destfile` el nbombre que tendrá el archivo en nuestra computadora. Ambos argumentos como cadenas de texto, es decir, entre comillas.
+La función `download.file()` nos pide como argumento `url`, la dirección de internet del archivo que queremos descargar y `destfile` el nombre que tendrá el archivo en nuestra computadora. Ambos argumentos como cadenas de texto, es decir, entre comillas.
 
 Por ejemplo, para descargar una copia del set *iris* disponible en el [*UCI Machine Learning Repository*](https://archive.ics.uci.edu) usamos la siguiente dirección como argumento `url`:
 
@@ -35,7 +35,7 @@ Como vimos en el capítulo [7](#estructuras-de-datos), las estructura rectangula
 
 R cuenta con la función genérica `read.table()`, que puede leer cualquier tipo de archivo que contenga una tabla. 
 
-La condición para que R interprete un archivo como una tabla es que tenga renglones y en cada renglon, los datos estén separados por comas, o algún otro caracter, indicando columnas. Es decir, algo que luzca de la siguiente manera.
+La condición para que R interprete un archivo como una tabla es que tenga renglones y en cada renglón, los datos estén separados por comas, o algún otro carácter, indicando columnas. Es decir, algo que luzca de la siguiente manera.
 
 >1, 20,  8, 5
 
@@ -49,17 +49,17 @@ Por supuesto, en lugar de comas podemos tener puntos y coma, dos puntos, tabulad
 
 La función `read.table()` acepta un número considerable de argumentos. Los más importantes son los siguientes.
 
-* `file`: La ruta del archivo que importaremos, como cadena de texto. Si el archivo se encuentra en nuestro [directorio de trabajo](##directorio-de-trabajo), es suficientedar el nombre del archivo, sin la ruta completa.
+* `file`: La ruta del archivo que importaremos, como cadena de texto. Si el archivo se encuentra en nuestro [directorio de trabajo](##directorio-de-trabajo), es suficiente dar el nombre del archivo, sin la ruta completa.
 * `header`: Si nuestro archivo tiene encabezados, para ser interpretados como nombres de columna, definimos este argumento como `TRUE`.
-* `sep`: El caracter que es usado como separador de columnas. Por defecto es ";".
-* `col.names`: Un vector opcional, de tipo caracter, con los nombres de las columnas en la tabla.
+* `sep`: El carácter que es usado como separador de columnas. Por defecto es ";".
+* `col.names`: Un vector opcional, de tipo carácter, con los nombres de las columnas en la tabla.
 * `stringsAsFactors`: Esta función convierte automáticamente los datos de texto a factores. Si este no es el comportamiento que deseamos, definimos este argumento como `FALSE`.
 
 Puedes consultar todos los argumentos de esta función ejecutando `?read.table` en la consola.
 
 Es importante señalar que el objeto obtenido al usar esta función es siempre un **data frame**.
 
-Probemos con un archivo con extensión ".data", descargado desde el respositorio de [Github](http://www.github.com) de este libro. 
+Probemos con un archivo con extensión ".data", descargado desde el repositorio de [Github](http://www.github.com) de este libro. 
 ```{r descarga cancer.data, echo=TRUE, eval=FALSE}
 download.file(
   url = "https://raw.githubusercontent.com/jboscomendoza/r-principiantes-bookdown/master/datos/breast-cancer-wis.data", 
@@ -67,11 +67,11 @@ download.file(
 )
 ```
 
-Estos datos pertenecen a una base de diagnósticos de cancer mamario de la Universidad de Wisconsin, usado para probar métodos de aprendizaje automático. Puedes encontrar la información completa sobre este conjunto de datos en el siguiente enlace:
+Estos datos pertenecen a una base de diagnósticos de cáncer mamario de la Universidad de Wisconsin, usado para probar métodos de aprendizaje automático. Puedes encontrar la información completa sobre este conjunto de datos en el siguiente enlace:
 
 * https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Diagnostic%29
 
-Nos damos cuenta de que hemos tenido éxito en la descarga si aparece un mensaje en la consola de R indicando los resultados de nuesta operación.
+Nos damos cuenta de que hemos tenido éxito en la descarga si aparece un mensaje en la consola de R indicando los resultados de nuestra operación.
 
 Usamos sin especificar ningún otro argumento.
 ```{r read.table no args, echo=TRUE}
@@ -123,7 +123,7 @@ class(bcancer)
 ```
 
 ### Archivos CSV
-Un caso particular de las tablas, son los archivos separados por comas, con extensión **.csv**, por *Comma Separated Values*, sus siglas en inglés. Este es un tipo de archivo comunmente usado para compartir datos, pues es compatible con una amplia variedad de sistemas diferentes además de que ocupa relativamente poco espacio de almacenamiento.
+Un caso particular de las tablas, son los archivos separados por comas, con extensión **.csv**, por *Comma Separated Values*, sus siglas en inglés. Este es un tipo de archivo comúnmente usado para compartir datos, pues es compatible con una amplia variedad de sistemas diferentes además de que ocupa relativamente poco espacio de almacenamiento.
 
 Este tipo de archivos también se pueden importar usando la función `read.table()`.
 
@@ -136,7 +136,7 @@ download.file(
 ```
 
 Podemos usar `read.table()` con los mismos argumentos que en el ejemplo anterior, con la excepción de que este archivo sí tiene encabezados de columna, por lo que cambiamos `header` de `FALSE` a `TRUE`.
-```{r, echo=TRUE}
+```{r read.table breast cancer, echo=TRUE}
 bcancer <- read.table(file = "breast-cancer-wis.csv", header = TRUE, sep = ",",
                       col.names = nombres)
 
@@ -146,7 +146,7 @@ head(bcancer)
 
 Una ventaja de usar documentos con extensión **.csv** es la posibilidad de usar la función `read.csv()`. Esta es una es una versión de `read.table()`, optimizada para importar archivos **.csv**.
 
-`read.csv()` acepta los mismos argumentos que `read.table()`, pero al usarla con un archivo **.csv**, en casi todo los casos, no hara falta especificar nada salvo la ruta del archivo.
+`read.csv()` acepta los mismos argumentos que `read.table()`, pero al usarla con un archivo **.csv**, en casi todo los casos, no hará falta especificar nada salvo la ruta del archivo.
 ```{r readcsv, echo=TRUE}
 bcancer <- read.csv("breast-cancer-wis.csv")
 
@@ -164,7 +164,7 @@ Por ejemplo, intentamos abrir el archivo con extensión **.csv** que importamos 
 file.show("breast-cancer-wis.csv")
 ```
 
-R intentará usar el programa que en nuestro equipo, por defecto, abre el tipo de archivo que le hemos indicado. Si no tenemos un programa configurado para abrir el tipo de archivo que deseamos, nuestro sistema operativo nos pedira que elijamos uno.
+R intentará usar el programa que en nuestro equipo, por defecto, abre el tipo de archivo que le hemos indicado. Si no tenemos un programa configurado para abrir el tipo de archivo que deseamos, nuestro sistema operativo nos pedirá que elijamos uno.
 
 Lo anterior puede ocurrir si intentas abrir el archivo con extensión **.data** que hemos importado en este capítulo.
 ```{r file.show bc data, echo=TRUE, eval=FALSE}
@@ -197,8 +197,8 @@ De manera análoga a `read.table()`, la función `write.table()` nos permite exp
 Los argumentos más usados de `write.table()` son los siguientes.
 
 * `x`:  El nombre del data frame o matriz a exportar.
-* `file`: El nombre, extensión y ruta del archivo creado con esta función. Si sólo escribimos el nombre del archivo, este será creado en nuestro directorio de tabajo.
-* `sep`: El caracter que se usará como separador de columnas.
+* `file`: El nombre, extensión y ruta del archivo creado con esta función. Si sólo escribimos el nombre del archivo, este será creado en nuestro directorio de trabajo.
+* `sep`: El carácter que se usará como separador de columnas.
 * `row.names`: Si deseamos incluir el nombre de los renglones en nuestro objeto al exportarlo, establecemos este argumento como `TRUE`. En general, es recomendable fijarlo como `FALSE`, para conservar una estructura tabular más fácil de leer.
 * `col.names`: Si deseamos que el archivo incluya los nombres de las columnas en nuestro objeto, establecemos este argumento como `TRUE`. Es recomendable fijarlo como `TRUE` para evitar la necesidad de almacenar los nombres de columna en documentos distintos.
 
@@ -282,7 +282,7 @@ mi_lista_importado
 class(mi_lista)
 ```
 
-Los objetos immportados usando un archivo RDS conservan los tipos y clases que tenían originalmente, lo cual previene pérdida de información.
+Los objetos importados usando un archivo RDS conservan los tipos y clases que tenían originalmente, lo cual previene pérdida de información.
 
 ## Hojas de cálculo de Excel
 Un formato usado con mucha frecuencia para almacenar archivos son las hojas de cálculo, en particular las generadas por el paquete [*Microsoft Excel*](https://products.office.com/es-mx/excel).
@@ -309,7 +309,7 @@ Usaremos, principalmente dos funciones de este paquete.
 Para probar estas funciones, descargaremos una hoja de cálculo de prueba. Nota que hemos establecido el argumento `mode = "wb"` para asegurar que el archivo se descargue correctamente.
 ```{r descarga xlsx, echo=TRUE, eval=FALSE}
 download.file(
-  url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/data_frames.xlsx", 
+  url = "https://github.com/jboscomendoza/r-principiantes-bookdown/raw/master/datos/data_frames.xlsx", 
   destfile = "data_frames.xlsx", 
   mode = "wb"
 ) 
@@ -364,7 +364,7 @@ trees_excel
 
 Los resultados no lucen bien porque los datos en la pestaña no tienen forma de tabla. 
 
-Ajustamos los argumentos de `read_excel()` para leer correctamente la infomación de la pestaña. Al explorar manualmente el archivo **data.frames.xlsx**, podemos localizar el rango en el que se encuentran los datos (de las celdas B3 a D33) y los nombres de las columnas (Girth, Height y Volume).
+Ajustamos los argumentos de `read_excel()` para leer correctamente la información de la pestaña. Al explorar manualmente el archivo **data.frames.xlsx**, podemos localizar el rango en el que se encuentran los datos (de las celdas B3 a D33) y los nombres de las columnas (Girth, Height y Volume).
 
 Probemos importar de nuevo con esta información.
 ```{r read_excel trees bueno, echo=TRUE}
@@ -383,7 +383,7 @@ El paquete **readxl** tiene más funciones para trabajar con hojas de cálculo a
 ## Datos de paquetes estadísticos comerciales (SPSS, SAS y STATA)
 En ciertas disciplinas, el uso de determinados paquetes estadísticos comerciales es sumamente común. Si
 
-Por ejemplo, en Psicología el paquete [*SPSS Statistics*](https://www.ibm.com/products/spss-statistics) de IBM es el paquete estadístico comercial más usado. Si eres psicólogo o psicóloga, o colaboras con psicólogos, es áltamente probable que te encuentres con datos contenidos en archivos con extensión **.sav**, el tipo de archivo nativo de **SPSS Statistics**.
+Por ejemplo, en Psicología el paquete [*SPSS Statistics*](https://www.ibm.com/products/spss-statistics) de IBM es el paquete estadístico comercial más usado. Si eres psicólogo o psicóloga, o colaboras con psicólogos, es altamente probable que te encuentres con datos contenidos en archivos con extensión **.sav**, el tipo de archivo nativo de **SPSS Statistics**.
 
 Por lo tanto, es conveniente ser capaces de importar y exportar datos almacenados en archivos compatibles con paquetes estadísticos comerciales, pues esto nos permitirá  usar datos ya existentes compatibles con ellos y colaborar con otras personas.
 

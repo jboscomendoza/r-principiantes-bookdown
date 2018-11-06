@@ -1,5 +1,5 @@
 # Gráficas
-R cuenta con un sistema de generación de gráficas poderoso y flexible. Si nembargo, tener estar cualidades hace que este sistema sea un tanto complejo para aprender.
+R cuenta con un sistema de generación de gráficas poderoso y flexible. Sin embargo, tener estar cualidades hace que este sistema sea un tanto complejo para aprender.
 
 En este capítulo revisaremos como crear las gráficas más comunes con R *base*, así como algunos de los parámetros que podemos ajustar para mejorar su presentación. 
 
@@ -53,7 +53,7 @@ En R, la función `plot()` es usada de manera general para crear gráficos.
 
 Esta función tiene un comportamiento especial, pues dependiendo del tipo de dato que le demos como argumento, generará diferentes tipos de gráfica. Además, para cada tipo de gráfico, podremos ajustar diferentes parámetros que controlan su aspecto, dentro de esta misma función.
 
-Puedes imaginar a  `plot()` como una especie de navaja Suiza multifuncional, con una herramienta para cada ocasión.
+Puedes imaginar a  `plot()` como una especie de navaja Suiza multi-funcional, con una herramienta para cada ocasión.
 
 `plot()` siempre pide un argumento `x`, que corresponde al **eje X** de una gráfica. `x` requiere un vector y si no especificamos este argumento, obtendremos un error y no se creará una gráfica.
 
@@ -78,7 +78,7 @@ En donde los tipos de dato son:
 
 Además de `plot()`, hay funciones que generan tipos específicos de gráfica. Por ejemplo, podemos crear una gráfica de barras con `plot()` pero existe también la función `barplot()`. También existen también casos como el de los histogramas, que sólo pueden ser creados con la función `hist()`.
 
-Cuando llamas a la función `plot()` o alguna otra similar, R abre una ventana mostrando ese gráfico. Si estás usando RStudio, el gráfico aparece en el panel **Plot**. Si llamas de nuevo la función `plot()`, el gráfico generado más reciente reemplazará al más antiguo y en RStudio se creará una nueva pestaña en en el planel **Plot**. El gráfico reemplazado se perderá.
+Cuando llamas a la función `plot()` o alguna otra similar, R abre una ventana mostrando ese gráfico. Si estás usando RStudio, el gráfico aparece en el panel **Plot**. Si llamas de nuevo la función `plot()`, el gráfico generado más reciente reemplazará al más antiguo y en RStudio se creará una nueva pestaña en en el panel **Plot**. El gráfico reemplazado se perderá.
 
 Por lo tanto, a menos que nosotros los indiquemos, nuestros gráficos se pierden al crear uno nuevo. Al final de este capítulo veremos cómo exportar gráficos de manera más permanente.
 
@@ -91,7 +91,7 @@ Ya hemos trabajado con esta función en el [capítulo 8](##nuestra-funcion-crear
 
 Probemos creando un histograma con las edades (*age*) de las personas en nuestro data frame `banco`. Sabemos que *age* 
 
-Daremos como argumento a `hist()` la columna **age** como un vector, extraido de `banco` usando el signo de dolar `$`, aunque también podemos usar corchetes e índices.
+Daremos como argumento a `hist()` la columna **age** como un vector, extraído de `banco` usando el signo de dolar `$`, aunque también podemos usar corchetes e índices.
 ```{r hist_age, echo=TRUE}
 hist(x = banco$age)
 ```
@@ -214,16 +214,16 @@ Damos el resultado de la operación anterior a `barplot()`.
 barplot(ptab_banco)
 ```
 
-Hemos obtenido el resultado esperado, pero podemos mejorar la presentación. Nota que con barras apiladas el argumento `col` se puede usar para colorear las categorias al interior de las barras.
+Hemos obtenido el resultado esperado, pero podemos mejorar la presentación. Nota que con barras apiladas el argumento `col` se puede usar para colorear las categorías al interior de las barras.
 ```{r barplot_legend, echo=TRUE}
 barplot(ptab_banco,  main = "Préstamos por nivel educativo",
      xlab = "Nivel educativo", ylab = "Proporción", 
      col = c("royalblue", "grey"))
 ```
 
-Luce bien, pero tenemos un problema: no sabemos qué representan las categorías en nuestras barras apiladas viendo sólamente nuestra gráfica. 
+Luce bien, pero tenemos un problema: no sabemos qué representan las categorías en nuestras barras apiladas viendo solamente nuestra gráfica. 
 
-Nosotros podemos consultar directamente con los datos, pero una persona que vea por primera vez esta gráfica no tendrá esa opción, reduciendo con ello su utiidad. 
+Nosotros podemos consultar directamente con los datos, pero una persona que vea por primera vez esta gráfica no tendrá esa opción, reduciendo con ello su utilidad. 
 
 Para solucionar este problema, usamos leyendas.
 
@@ -256,7 +256,7 @@ Nosotros determinamos los colores en la sección anterior como "royalblue" y "gr
 
 Por último, daremos como "topright" como argumento `x` para que nuestra leyenda se unique en la parte superior derecha de nuestro gráfico.
 
-Aplicamos todo, incluído generar el gráfico al que agregaremos la leyenda.
+Aplicamos todo, incluido generar el gráfico al que agregaremos la leyenda.
 ```{r leyenda, echo = TRUE}
 barplot(ptab_banco,  main = "Préstamos por nivel educativo",
      xlab = "Nivel educativo", ylab = "Proporción", 
@@ -297,7 +297,7 @@ plot(x = banco$age, y = banco$balance, col= banco$loan)
 
 Nos sería de utilidad una leyenda para interpretar más fácilmente los colores. 
 
-Ya sabemos que los niveles de **loan** son "no" y "yes", además de que los colores han sido rojo y nregro, así que agregar una leyenda será relativamente fácil.
+Ya sabemos que los niveles de **loan** son "no" y "yes", además de que los colores han sido rojo y negro, así que agregar una leyenda será relativamente fácil.
 
 ```{r legend, echo=TRUE}
 plot(x = banco$age, y = banco$balance, col= banco$loan)
@@ -317,11 +317,11 @@ legend(x = "topleft", legend = c("Setosa", "Versicolor", "Virginica"),
 ```
 
 ## Diagramas de caja
-Los diagrams de caja, también conocidos como de caja y bigotes son gráficos que muestra la distribución de una variable usando cuartiles, de modo que de manera visual podemos inferir algunas cosas sobre su dispersión, ubicación y simetría.
+Los diagrama de caja, también conocidos como de caja y bigotes son gráficos que muestra la distribución de una variable usando cuartiles, de modo que de manera visual podemos inferir algunas cosas sobre su dispersión, ubicación y simetría.
 
-Una gráfica de este tipo dibuja un rectángulo cruzado por una línea recta horizontal. Esta linea recta representa la mediana, el segundo cuartil, su base representa el pimer cuartil y su parte superior el tercer cuartil. Al rango entre el primer y tercer cuartil se le conoce como intercuartílico (RIC). Esta es la caja.
+Una gráfica de este tipo dibuja un rectángulo cruzado por una línea recta horizontal. Esta linea recta representa la mediana, el segundo cuartil, su base representa el primer cuartil y su parte superior el tercer cuartil. Al rango entre el primer y tercer cuartil se le conoce como intercuartílico (RIC). Esta es la caja.
 
-Además, de la caja salen dos líneas. Una que llega hasta el mínimo valor de los datos en la variable o hasta el primer cuartil menos hast 1.5 veces el RIC; y otra que llegar hasta el valor máximo de los datos o el tercer cuartil más hasta 1.5 veces el RIC. Estos son los bigotes.
+Además, de la caja salen dos líneas. Una que llega hasta el mínimo valor de los datos en la variable o hasta el primer cuartil menos hasta 1.5 veces el RIC; y otra que llegar hasta el valor máximo de los datos o el tercer cuartil más hasta 1.5 veces el RIC. Estos son los bigotes.
 
 Usamos la función `plot()` para crear este tipo de gráfico, dando como argumento `x` un vector de factor o cadena de texto, y como argumento `y` un vector numérico.
 
@@ -351,7 +351,7 @@ boxplot(x = banco$age)
 En la segunda manera necesitamos dar dos argumentos:
 
 * `formula`: Para esta función las fórmulas tienen el formato `y ~ x`, donde x es el nombre de la variable continua a graficar, y la x es la variable que usaremos como agrupación.
-* `data`: Es el data frame del que serántomadas las variables.
+* `data`: Es el data frame del que serán tomadas las variables.
 
 Por ejemplo, para mostrar diagramas de caja por nivel educativo, nuestra variable y es **age** y nuestra variable x es **education**, por lo tanto, `formula` será `age ~ education`.
 ```{r boxplot_formula, echo=TRUE}
@@ -362,7 +362,7 @@ boxplot(formula = age ~ education, data =  banco)
 ## Gráficos de mosaico
 Los gráficos de mosaico o diagramas de Marimekko son usados para mostrar la relación entre dos variables discretas, ya sean factores o cadenas de texto.
 
-Este tipo de grafico recibe su nombre porque consiste en una cuadricula, en la que cada rectángulo representa el numero de casos que corresponden a un cruce específico de variables. Entre más casos se encuentren en ese cruce, más grande será el rectángulo.
+Este tipo de gráfico recibe su nombre porque consiste en una cuadricula, en la que cada rectángulo representa el numero de casos que corresponden a un cruce específico de variables. Entre más casos se encuentren en ese cruce, más grande será el rectángulo.
 
 Para obtener un gráfico de mosaico, damos como vectores de factor o cadena de texto como argumentos `x` y `y` a la función `plot()`.
 

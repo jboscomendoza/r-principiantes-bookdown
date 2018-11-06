@@ -98,7 +98,7 @@ Si asumimos que un estudiante necesita obtener 6 o más de promedio para aprobar
 
 * **SI** el promedio de un estudiante es igual o mayor a 6, **ENTONCES** mostrar "Aprobado", **DE OTRO MODO**, mostrar "Reprobado".
 
-Aplicamso esta lógica con un `if`,  `else` en la función `promedio()`.
+Aplicamos esta lógica con un `if`,  `else` en la función `promedio()`.
 ```{r, echo=TRUE}
 promedio <- function(calificaciones) {
   media <- mean(calificaciones)
@@ -259,7 +259,7 @@ for(numero in 1:10) {
 
 En nuestro ejemplo, pasamos por los valores de dado, cara por cara. La primera cara será igual a **1**, la segunda a **2**, y así sucesivamente hasta el **6**. 
 
-Podemos usar estos valores para asignar cada valor resultante de nuestras operaciones a una posición específica en un vector, incluso si este está vacio.
+Podemos usar estos valores para asignar cada valor resultante de nuestras operaciones a una posición específica en un vector, incluso si este está vacío.
 
 Creamos un vector vacío, asignándole como `NULL` como valor.
 ```{r, echo=TRUE}
@@ -320,14 +320,14 @@ while(valor < umbral) {
 
 ¡Ten cuidado con crear bucles infinitos! Si ejecutas un `while` con una condición que nunca será `FALSE`, este nunca se detendrá.
 
-Si corres lo siguiente, presiona la tecla **ESC** para detener la ejecución, de otro modo, correra por siempre y puede llegar a congelar tu equipo.
+Si corres lo siguiente, presiona la tecla **ESC** para detener la ejecución, de otro modo, correrá por siempre y puede llegar a congelar tu equipo.
 ```{r, echo=TRUE, eval=FALSE}
 while(1 < 2) {
   print("Presiona ESC para detener")
 }
 ```
 
-El siguiente es un error común. Estamos sumando 1 a `i` con cada iteración del bucle, pero como no estamos asignando este nuevo valor á `i`, su valor se  mantiene igual, entonces la condición nunca se cumplirá y el bucle será infinito.
+El siguiente es un error común. Estamos sumando 1 a `i` con cada iteración del bucle, pero como no estamos asignando este nuevo valor a `i`, su valor se  mantiene igual, entonces la condición nunca se cumplirá y el bucle será infinito.
 
 De nuevo, si corres lo siguiente, presiona la tecla **ESC** para detener la ejecución.
 ```{r, echo=TRUE, eval=FALSE}
@@ -337,7 +337,7 @@ while(i < 10) {
 }
 ```
 
-Un uso común de **while** es que realice operaciones que queremos detener cuando se cumple una condición, pero desconocemos cuándo ocurrirá est
+Un uso común de **while** es que realice operaciones que queremos detener cuando se cumple una condición, pero desconocemos cuándo ocurrirá esto.
 
 Supongamos que, por alguna razón queremos sumar calificaciones, del 1 al 10 al azar, hasta llegar a un número que mayor o igual a 50. Además nos interesa saber cuántas calificaciones sumaron y cuál fue el resultado al momento de cumplir la condición.
 

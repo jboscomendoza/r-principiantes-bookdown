@@ -10,7 +10,7 @@ Esta es la consola de R y corresponde al **entorno computacional** de este lengu
 
 Podemos escribir código directamente en la consola y R nos dará el resultado de lo pidamos allí mismo. Esta es la razón por la que se dice que R permite el uso interactivo, pues no es necesario compilar nuestro código para ver sus resultados.
 
-Si estás usando RStudio, te encontrarás la consola de R en uno de los páneles de este programa.
+Si estás usando RStudio, te encontrarás la consola de R en uno de los paneles de este programa.
 
 
 ## Ejecutar, llamar, correr y devolver
@@ -18,7 +18,7 @@ Cuando hablamos de ejecutar, llamar o correr nos referimos a pedir que R realice
 
 Cuando decimos que R nos devuelve algo, es que ha realizado algo que le hemos pedido, es decir, nos está dando una *salida*.
 
-Por ejemplo, si escribimos los siguiente en la consola lo siguiente y damos Enter, estamos pidiendo que se ejecute esta operación:
+Por ejemplo, si escribimos los siguiente en la consola lo siguiente y damos *Enter*, estamos pidiendo que se ejecute esta operación:
 `> 1 + 1`
 
 Y nos será devuelto su resultado:
@@ -51,7 +51,7 @@ Hablaremos sobre asignaciones más adelante, en el capítulo de [operadores](##o
 
 Es recomendable que al crear una variable usemos **nombres claros, no ambiguos y descriptivos**. Esto previene confusión y hace que nuestro código sea más fácil de comprender por otras personas o por nosotros mismos en el futuro.
 
-Los nombres de las variables pueden incluir letras, números, puntos y guiones bajos. Deben empezar siempre con una letra o un punto y si empiezan con un punto, a este no puede seguirle un número.
+Los nombres de las variables pueden incluir letras, números, puntos y guiones bajos. Deben empezar siempre con una letra o un punto y si empiezan con un punto, a este no le puede seguir un número.
 
 Finalmente, cuando te encuentres con un renglón de código que inicia con un gato (hashtag), esto representa un comentario, es código que no se ejecutará, sólo se mostrará.
 ```{r, echo=TRUE}
@@ -91,7 +91,7 @@ Los dos procedimientos siguientes son equivalentes.
 help("mean")
 ```
 
-Si usas RStudio, la documentación de la función se mostrará en uno de los paneles de este IDE. Si estas usando R directamente, se abrirá una ventana de tu navegador de internet.
+Si usas RStudio, la documentación de la función se mostrará en uno de los paneles de este IDE. Si estas usando R directamente, se abrirá una ventana de tu navegador de Internet.
 
 También podemos obtener la documentación de un paquete, si damos el argumento `package` a la función `help()`, con el nombre de un paquete.
 
@@ -148,7 +148,7 @@ Los entornos son un concepto importante al hablar de lenguajes de programación,
 Con que recuerdes que **cada sesión de R tiene su propio entorno global**, eso será suficiente.
 
 ## Paquetes
-R puede ser expandido con **paquetes**. Cada paquete es una colección de funciones diseñadas para atender una tarea específica. Por ejemplo, hay paquetes para trabajo visualización geoespacial, análisis psicométricos, mineria de datos, interacción con servicios de internet y muchas otras cosas más.
+R puede ser expandido con **paquetes**. Cada paquete es una colección de funciones diseñadas para atender una tarea específica. Por ejemplo, hay paquetes para trabajo visualización geoespacial, análisis psicométricos, minería de datos, interacción con servicios de Internet y muchas otras cosas más.
 
 Estos paquetes se encuentran alojados en **CRAN**, así que pasan por un control riguroso antes de estar disponibles para su uso generalizado.
 
@@ -159,9 +159,9 @@ Por ejemplo, para instalar el paquete **readr**, corremos lo siguiente.
 install.packages("readr")
 ```
 
-Hecho esto, apareceran algunos mensajes en la consola mostrando el avance de la instalación
+Hecho esto, aparecerán algunos mensajes en la consola mostrando el avance de la instalación
 
-Una vez concluida la instalación de un paquete, podrás usar sus funciones con la función `library()`. Sólo tienes que llamar esta función usando como argument oel nombre del paquete que quieres utilizar
+Una vez concluida la instalación de un paquete, podrás usar sus funciones con la función `library()`. Sólo tienes que llamar esta función usando como argumento el nombre del paquete que quieres utilizar
 ```{r,echo=TRUE, eval=FALSE}
 library(readr)
 ```
@@ -184,17 +184,17 @@ Los paquetes que hemos importado en nuestra sesión actual aparecen al llamar `s
 También podemos ver qué paquetes tenemos ya instalados ejecutando la función `installed.packages()` sin ningún argumento. Una instalación nueva de R tiene pocos paquetes instalados, pero esta lista puede crecer considerablemente con el tiempo.
 
 ## Scripts
-Los scripts son documentos de texto con la extensión de archivo **.R**, por ejemplo `mi_script.R`.
+Los *scripts* son documentos de texto con la extensión de archivo **.R**, por ejemplo `mi_script.R`.
 
 Estos archivos son iguales a cualquier documentos de texto, pero R los puede leer y ejecutar el código que contienen.
 
-Aunque R permite el uso interactivo, es recomendable que guardes tu código en un archivo .R, de esta manera puedes usarlo después y compartirlo con otras personas. En realidad, en proyectos complejos, es posible que sean necesarios mútiples scripts para distintos fines.
+Aunque R permite el uso interactivo, es recomendable que guardes tu código en un archivo .R, de esta manera puedes usarlo después y compartirlo con otras personas. En realidad, en proyectos complejos, es posible que sean necesarios múltiples *scripts* para distintos fines.
 
-Podemos abrir y ejecutar scripts en R usando la función `source()`, dandole como argumento la ruta del archivo .R en nuestra computadora, entre comillas. 
+Podemos abrir y ejecutar *scripts* en R usando la función `source()`, dándole como argumento la ruta del archivo .R en nuestra computadora, entre comillas. 
 
 Por ejemplo.
 ```{r source, echo=TRUE, eval=FALSE}
 source("C:/Mis scripts/mi_script.R")
 ```
 
-Cuando usamos RStudio y abrimos un script con extensión .R, este programa nos abre un panel en el cual podemos ver su contenido. De este modo podemos ejecutar todo el código que contiene o sólo partes de él.
+Cuando usamos RStudio y abrimos un *script* con extensión .R, este programa nos abre un panel en el cual podemos ver su contenido. De este modo podemos ejecutar todo el código que contiene o sólo partes de él.

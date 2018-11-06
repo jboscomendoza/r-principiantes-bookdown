@@ -1,7 +1,7 @@
 # Funciones
 La instalación base de R tiene suficientes funciones para que realicemos todas las tareas básicas de análisis de datos, desde importar información hasta crear documentos para comunicarla (¡este libro ha sido creado con R!).
 
-Sin embargo, es comun que necesitemos realizar tareas para las que no existe una función específica o que para encontrar solución necesitemos combinarl o utilizar funciones en sucesión, lo cual puede complicar nuestro código.
+Sin embargo, es común que necesitemos realizar tareas para las que no existe una función específica o que para encontrar solución necesitemos combinar o utilizar funciones en sucesión, lo cual puede complicar nuestro código.
 
 Ilustremos lo anterior con un ejemplo.
 
@@ -49,7 +49,7 @@ media <- mean(edades)
 desv_est <- sd(edades)
 ```
 
-Agregamos líneas con `abline()`, para la media de rojo y desviación estándar con azúl. También ajustamos los argumentos de `hist()`.
+Agregamos líneas con `abline()`, para la media de rojo y desviación estándar con azul. También ajustamos los argumentos de `hist()`.
 ```{r hist}
 hist(edades, main = "Edades", xlab = "Datos", ylab = "Frecuencia", col = "gold")
 abline(v = media, col = "red")
@@ -62,14 +62,14 @@ Para cumplir con esta tarea podríamos usar el código que ya hemos escrito. Sim
 
 Pero hacer las cosas de este modo propicia errores y es difícil de corregir y actualizar.
 
-Para empezar, si copias el código anterior cincuenta veces, tendrás un script con más de **400 líneas**. Si en algún momento te equivocas porque escribiste "Enceusta" en lugar de "Encuesta", incluso con las herramientas de búsqueda de RStudio, encontrar donde está el error será una tarea larga y tediosa.
+Para empezar, si copias el código anterior cincuenta veces, tendrás un *script* con más de **400 líneas**. Si en algún momento te equivocas porque escribiste "Enceusta" en lugar de "Encuesta", incluso con las herramientas de búsqueda de RStudio, encontrar donde está el error será una tarea larga y tediosa.
 
 Y si tu jefe en esta ejemplo quiere que agregues, quites o modifiques tu histograma, tendrás que hacer el cambio cincuenta veces, una para cada copia del código. De nuevo, con esto se incrementa el riesgo de que ocurran errores.
 
 Es en situaciones como esta en las que se hace evidente la necesidad de crear nuestras propias funciones, capaces de realizar una tarea específica a nuestros problemas, y que pueda usarse de manera repetida. Así reducimos errores, facilitamos hacer correcciones o cambios y nos hacemos la vida más fácil, a nosotros y a quienes usen nuestro código después.
 
 ## Funciones definidas por el usuario
-Una función tiene un nombre, argumentos y un cuerpo. Las funciones definidas por el usuario son creadas usando la sigiente estructura.
+Una función tiene un nombre, argumentos y un cuerpo. Las funciones definidas por el usuario son creadas usando la siguiente estructura.
 ```{r, echo=TRUE, eval=FALSE}
 nombre <- function(argumentos) {
   operaciones
@@ -80,7 +80,7 @@ Cuando asignamos una función a un nombre decimos que hemos **definido una funci
 
 El **nombre** que asignamos a una función nos permite ejecutarla y hacer referencias a ella. Podemos asignar la misma función a diferentes nombres o cambiar una función a la que ya le hemos asignado un nombre. Es recomendable elegir nombres claros, no ambiguos y descriptivos. 
 
-Una vez que la función tiene nombre, podemos llamarla usando su nombre, al igua lque con las funciones por defecto de R.
+Una vez que la función tiene nombre, podemos llamarla usando su nombre, al igual que con las funciones por defecto de R.
 
 Los **argumentos** son las variables que necesita la función para realizar sus operaciones. Aparecen entre paréntesis, separados por comas. Los valores son asignados al nombre del argumento por el usuario cada vez que ejecuta una función. Esto permite que usemos nuestras funciones en distintas situaciones con diferentes datos y especificaciones.
 
@@ -163,7 +163,7 @@ Con esto estamos listos para definir una función para crear histogramas con las
 ## Definiendo la función `crear_histograma()`
 Definiremos una función con el nombre `crear_histograma()` para generar un gráfico con las especificaciones que se nos han pedido. 
 
-Partimos de una función sin argumentos y el cuerpo vacio.
+Partimos de una función sin argumentos y el cuerpo vacío.
 ```{r crear_histograma vacio, echo=TRUE}
 crear_histograma <- function() {
 

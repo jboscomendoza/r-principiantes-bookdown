@@ -8,7 +8,7 @@ La familia de funciones `apply` es una expresión de los rasgos del paradigma fu
 La familia de funciones apply no sólo recibe datos como argumentos, también recibe funciones.
 
 ### Un recordatorio sobre vectorización
-Para entender más fácilmente el uso de la familia apply, recordemos la [vectorización de operaciones](###vectorización-de-operaciones).
+Para entender más fácilmente el uso de la familia 0, recordemos la [vectorización de operaciones](###vectorización-de-operaciones).
 
 Hay operaciones que, si las aplicamos a un vector, son aplicadas a todos sus elementos.
 ```{r recordar vectorizacion, echo=TRUE}
@@ -60,8 +60,8 @@ apply(X, MARGIN, FUN)
 `apply` tiene tres argumentos:
 
 * `X`: Una matriz o un objeto que pueda coercionarse a una matriz, generalmente, un data frame.
-* `MARGIN`: La dimensión (margen) que agrupará los elementos de la matriz `X`, para aplicarles una función. Son identificadas con números, **1** son renglones y **2** son colummnas.
-* `FUN`: La función que aplicaremos a la matriz `X` en su dimención `MARGIN`.
+* `MARGIN`: La dimensión (margen) que agrupará los elementos de la matriz `X`, para aplicarles una función. Son identificadas con números, **1** son renglones y **2** son columnas.
+* `FUN`: La función que aplicaremos a la matriz `X` en su dimensión `MARGIN`.
 
 ### ¿Qué es X
 `X` es una matriz o cualquier otro objeto que sea posible coercionar a una matriz. Esto es, principalmente, vectores y data frames. 
@@ -83,7 +83,7 @@ is.matrix(mi_matriz)
 mi_matriz
 ```
 
-Aunque también podemos coercionar listas y arrays a matrices, los resultados que obtenemos no siempre son apropiados para `apply()`, por lo que no es recomendable usarl estos objetos como argumentos.
+Aunque también podemos coercionar listas y arrays a matrices, los resultados que obtenemos no siempre son apropiados para `apply()`, por lo que no es recomendable usar estos objetos como argumentos.
 
 ### ¿Qué es MARGIN?
 Recuerda que las matrices y los data frames están formadas por vectores y que estas estructuras tienen dos dimensiones, ordenadas en renglones y columnas. Esto lo vimos en en [Matrices y arrays](##matrices-y-arrays) y [Data frames](##data-frames).
@@ -186,7 +186,7 @@ Cuando usamos `quantile()` en un `apply()`, el argumento `x` de la función ser�
 
 Esto funcionará siempre y cuando los argumentos sean apropiados para la función. Si proporcionamos un argumento inválido, la función no se ejecutará y **apply** fallará.
 
-Por ejemplo, intentamos obtener cuantiles de las columnas de una matriz, en la que una de ellas es de tipo caracter.
+Por ejemplo, intentamos obtener cuantiles de las columnas de una matriz, en la que una de ellas es de tipo carácter.
 
 Creamos una matriz.
 ```{r, echo=TRUE}
@@ -253,7 +253,7 @@ En este sentido, `lapply()` tiene la ventaja de que siempre devuelve una lista.
 
 `lapply()` intentará coercionar a una lista el objeto que demos como argumento y después aplicará una función a todos sus elementos. 
 
-`lapply` siempre nos devolverá una lista como resultado. A diferencia de `apply`, sabemos que siempre obtendremos ub objeto de tipo lista después de aplicar una función, sin importar cuál función sea.
+`lapply` siempre nos devolverá una lista como resultado. A diferencia de `apply`, sabemos que siempre obtendremos un objeto de tipo lista después de aplicar una función, sin importar cuál función sea.
 
 Dado que en R todas las estructuras de datos pueden coercionarse a una lista, `lapply()` puede usarse en un número más amplio de casos que `apply()`, además de que esto nos permite utilizar funciones que aceptan argumentos distintos a vectores.
 
@@ -396,7 +396,7 @@ Por ejemplo, obtendremos el coeficiente de correlación de cuatro data frames co
 
 Empezaremos creando una lista de data frames. Para esto, usaremos las función `rnorm()`, que genera números al azar y `set.seed()`, para que obtengas los mismos resultados aquí mostrados.
 
-`rnorm()` creara `n` números al azar (pseudoaleatorios, en realidad), sacados de una distribución normal con media 0 y desviación estandar 1. `set.seed()` es una función que "fija" los resultados de una generación de valores al azar. Cada que ejecutas `rnorm()` obtienes resultados diferentes, pero si das un número como argumento `seed` a `set.seed()`, siempre obtendrás los mismos números.
+`rnorm()` creara `n` números al azar (pseudoaleatorios, en realidad), sacados de una distribución normal con media 0 y desviación estándar 1. `set.seed()` es una función que "fija" los resultados de una generación de valores al azar. Cada que ejecutas `rnorm()` obtienes resultados diferentes, pero si das un número como argumento `seed` a `set.seed()`, siempre obtendrás los mismos números.
 ```{r, echo = TRUE}
 # Fijamos seed
 set.seed(seed = 2018)

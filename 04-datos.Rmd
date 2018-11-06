@@ -14,7 +14,7 @@ Cadena de texto | "uno"   | character
 Factor          | uno     | factor
 Lógico          | TRUE    | logical
 Perdido         | `NA`    | NA
-Vacio           | `NULL`  | null
+Vacío           | `NULL`  | null
 
 Además de estos tipos, en R también contamos con datos complejos numéricos complejos (con una parte real y una imaginaria), **raw** (bytes), fechas y *raster*, entre otros. Estos tipos tiene aplicaciones muy específicas, por ejemplo, los datos de tipo fecha son ampliamente usados en economía, para análisis de series de tiempo.
 
@@ -55,7 +55,7 @@ Como este tipo de dato sólo admite dos valores específicos, es el más restric
 ## `NA` y `NULL`
 En R, usamos `NA` para representar datos perdidos, mientras que `NULL` representa la ausencia de datos.
 
-La diferencia entre las dos es que un dato `NULL` aparece sólo cuando R intenta recuperar un dato y no encuentra nada, mientras que `NA` es usado para representar explícitamente datos perdidos, omitidos o que por alguna razón son faltantes.
+La diferencia entre las dos es que un dato `NULL` aparece sólo cuando R intenta recuperar un dato y no encuentra nada, mientras que `NA` es usado para representar de modo explícito datos perdidos, omitidos o que por alguna razón son faltantes.
 
 Por ejemplo, si tratamos de recuperar la edad de una persona encuestada que no existe, obtendríamos un `NULL`, pues no hay ningún dato que corresponda con ello. En cambio, si tratamos de recuperar su estado civil, y la persona encuestada no contestó esta pregunta, obtendríamos un `NA`.
 
@@ -64,7 +64,7 @@ Por ejemplo, si tratamos de recuperar la edad de una persona encuestada que no e
 ## Coerción
 En R, los datos pueden ser coercionados, es decir, forzados, para transformarlos de un tipo a otro.
 
-La coerción es muy importante. Cuando pedimos a R ejecutar una operación, intentará coercionar de manera **implícita**, sin avisarnos, los datos de su tipo original al tipo correcto que permita realizarla. Habrá ocasiones en las que R tenga éxito y la operación ocurra sin problemas, y otras en las que falle y obtengamos un error.
+La coerción es muy importante. Cuando pedimos a R ejecutar una operación, intentará coercionar de manera **implícita**, sin avisarnos, los datos de su tipo original al tipo correcto que la permita realizar. Habrá ocasiones en las que R tenga éxito y la operación ocurra sin problemas, y otras en las que falle y obtengamos un error.
 
 Lo anterior ocurre porque no todos los tipos de datos pueden ser transformados a los demás, para ello se sigue una regla general.
 
@@ -87,7 +87,7 @@ También podemos hacer coerciones **explícitas** usando la familia de funciones
 Función           | Tipo al que hace coerción
 -----             | -----
 `as.integer()`    | Entero
-`as.numeric()`    | Numerico
+`as.numeric()`    | Numérico
 `as.character()`  | Cadena de texto
 `as.factor()`     | Factor
 `as.logical()`    | Lógico
@@ -97,7 +97,7 @@ Todas estas funciones aceptan como argumento datos o vectores (veremos qué es u
 
 Cuando estas funciones tienen éxito en la coerción, nos devuelven datos del tipo pedido. Si fallan, obtenemos `NA` como resultado.
 
-Por ejemplo, intememos convertir el número 5 a una cadena de texto. Para ello usamos la función `as.character()`.
+Por ejemplo, intentemos convertir el número 5 a una cadena de texto. Para ello usamos la función `as.character()`.
 ```{r number_as_character, echo=TRUE}
 as.character(5)
 ```
@@ -139,7 +139,7 @@ as.numeric(TRUE)
 as.numeric(FALSE)
 ```
 
-Por último, la funcón `as.null()` siempre devuelve `NULL`, sin importar el tipo de dato que demos como argumento.
+Por último, la función `as.null()` siempre devuelve `NULL`, sin importar el tipo de dato que demos como argumento.
 
 ```{r asnull, echo=TRUE}
 # Lógico
@@ -168,7 +168,7 @@ También podemos verificar si un dato es de un tipo específico con la familia d
 Función           | Tipo que verifican
 -----             | -----
 `is.integer()`    | Entero
-`is.numeric()`    | Numerico
+`is.numeric()`    | Numérico
 `is.character()`  | Cadena de texto
 `is.factor()`     | Factor
 `is.logical()`    | Lógico

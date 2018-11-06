@@ -5,7 +5,7 @@ Las estructuras tienen diferentes características. Entre ellas, las que disting
 
 La siguiente tabla muestra las principales estructuras de control que te encontrarás en R.
 
-Dimensiones| Homogeneas| Heterogeneas
+Dimensiones| Homogéneas| Heterogéneas
 ----       |----       |----
 1          | Vector    | Lista
 2          | Matriz    | Data frame 
@@ -276,7 +276,7 @@ matriz
 Como `NA` representa datos perdidos, puede estar presente en compañía de todo tipo de de datos.
 
 ### Propiedades de las matrices
-No obstante que las matrices y arrays son estructuras que sólo pueden contener un tipo de datos, no son atómicas. Su clase es igual a **matriz (matrix)** o **array** segun corresponda.
+No obstante que las matrices y arrays son estructuras que sólo pueden contener un tipo de datos, no son atómicas. Su clase es igual a **matriz (matrix)** o **array** según corresponda.
 
 Verificamos esto usando la función `class()`.
 ```{r, echo=TRUE}
@@ -513,7 +513,7 @@ Función           | Coerciona a | Coerciona exitosamente a
 `as.data.frame()` | Data frame  | Vectores, Matrices              
 `as.list()`       | Lista       | Vectores, Matrices, Data frames
 
-Como podrás ver, las estructuras de datos más sencillas, (unidimensionales, homogeneas) pueden ser coercionadas a otras más complejas (multidimensionales, heterogeneas), pero la operación inversa casi nunca es posible.
+Como podrás ver, las estructuras de datos más sencillas, (unidimensionales, homogéneas) pueden ser coercionadas a otras más complejas (multidimensionales, heterogéneas), pero la operación inversa casi nunca es posible.
 
 Veamos algunos ejemplos.
 
@@ -570,7 +570,7 @@ as.list(mi_df)
 
 Dado que las listas son el tipo de objeto más flexible de todos, hemos tenido éxito en todos los casos con nuestra coerción.
 
-Nota que para los vectores y matrices, cada uno de los elementos es transformado en un elemento dentro de la lista resultante. Si tuvieramos una matriz con cuarenta y ocho celdas, obtendríamos una lista con ese mismo número de elementos.
+Nota que para los vectores y matrices, cada uno de los elementos es transformado en un elemento dentro de la lista resultante. Si tuviéramos una matriz con cuarenta y ocho celdas, obtendríamos una lista con ese mismo número de elementos.
 
 En cambio, para un data frame, el resultado es una lista, en la que cada elemento contiene los datos de una columna del data frame original. Un data frame con diez columnas resultará en una lista de diez elementos.
 

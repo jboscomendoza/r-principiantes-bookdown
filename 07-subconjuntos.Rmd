@@ -72,7 +72,7 @@ Aplicando lo anterior, si escribimos dentro de los corchetes `c(2, 5)`, entonces
 nivel[c(2, 5)]
 ```
 
-Para estructuras de dos dimensiones, como són matrices y data frames, **el primer vector de un índice, antes de una coma, es la posición en los renglones y el segundo es la posición las columnas**. 
+Para estructuras de dos dimensiones, como son matrices y data frames, **el primer vector de un índice, antes de una coma, es la posición en los renglones y el segundo es la posición las columnas**. 
 
 Obtener subconjuntos por renglones y columnas es un tipo de operación muy común al trabajar con data frames y matrices.
 
@@ -218,7 +218,7 @@ mi_array[1, 2, 1, 2]
 Nota que como resultados obtenemos matrices, a menos que hagamos una extraigamos el contenido de una sola celda.
 
 ## Nombres
-Un segundo método para extrar subconjuntos es usar los nombres de los elementos en una estructura de datos. Este forma de obtener subconjuntos es usada principalmente con data frames y listas. 
+Un segundo método para extraer subconjuntos es usar los nombres de los elementos en una estructura de datos. Este forma de obtener subconjuntos es usada principalmente con data frames y listas. 
 
 De manera similar a los índices, usamos corchetes cuadrados `[]` después del nombre de un objeto, pero en lugar de escribir un número, escribimos el nombre del elemento que deseamos extraer como una cadena de texto, es decir, entre comillas.
 
@@ -324,7 +324,7 @@ Otra manera en la que podemos extraer subconjuntos usando nombres, es con el sig
 
 Para usar este método, escribir el signo `$` después del nombre de un objeto de la siguiente forma: `objeto$nombre`.
 
-Este método permite extraer un sólo elemento a la vez, funciona para data frames y listas, y para el caso de los data frame, el elemento extraido siempre será una columna.
+Este método permite extraer un sólo elemento a la vez, funciona para data frames y listas, y para el caso de los data frame, el elemento extraído siempre será una columna.
 
 Por ejemplo, extraemos la columna **nombre** del data frame `mi_df`.
 ```{r, echo = TRUE}
@@ -437,11 +437,11 @@ Para comprender mejor el comportamiento comportamiento del signo `$` y los corch
 
 Por su parte, las listas pueden tener manzanas en diferentes presentaciones: bolsas, manzanas sueltas o incluso otras cajas de manzana.
 
-Cuando usamos corchetes, estamos sacando manzanas de una caja, usando una caja más pequeña, otro data frame o lista. Así, con un data frame, obtenemos otra caja que contiene bolsas de manza, y con una lista obtenemos otra caja con manzanas en las presentaciones que se encuentren.
+Cuando usamos corchetes, estamos sacando manzanas de una caja, usando una caja más pequeña, otro data frame o lista. Así, con un data frame, obtenemos otra caja que contiene bolsas de manzanas, y con una lista obtenemos otra caja con manzanas en las presentaciones que se encuentren.
 
 En contraste, al usar el signo `$` o corchetes dobles, estamos sacando bolsas de manzana directamente en un data frame, y en las listas estamos sacando las manzanas en su presentación original, sin que haya de por medio otra caja en ninguno de estos casos.
 
-Dado lo anterior, podemos extrar subconjuntos de subconjuntos combinando diferentes tipos de corchetes. 
+Dado lo anterior, podemos extraer subconjuntos de subconjuntos combinando diferentes tipos de corchetes. 
 ```{r}
 # Subconjunto de un subconjunto: Data frame.
 mi_df[[2]][3]
@@ -475,13 +475,13 @@ En donde:
 
 Dentro del corchete escribimos, antes de una coma, el código para obtener un subconjunto que extraiga una columna, del data frame al que queremos extraer un subconjunto usando un subconjunto.
 
-Este primer subconjunto debe ser extraido con alguno de los dos procedimientos que da como resultado un vector, ya sea el signo `$` o corchetes dobles `[[]]`.
+Este primer subconjunto debe ser extraído con alguno de los dos procedimientos que da como resultado un vector, ya sea el signo `$` o corchetes dobles `[[]]`.
 
-Necesitamos extraer un vector, poque aplicaremos a todos los elementos de esa columna una operación relacional, usando vectorización, como lo vimos en el [capítulo 6](###vectorizacion-de-operaciones).
+Necesitamos extraer un vector, porque aplicaremos a todos los elementos de esa columna una operación relacional, usando vectorización, como lo vimos en el [capítulo 6](###vectorizacion-de-operaciones).
 
 Todos los elementos para los que el resultado de esta operación sea **TRUE**, formarán parte de nuestro subconjunto usando condicionales. Como cada elemento de una columna de un data frame está ubicado en su propio renglón, podemos decir que nos serán devueltos los renglones para los que la condición sea verdadera.
 
-Si dejamos el espacio para `columnas_devueltas` vacio, nuestro resultado será un data frame con las mismas columnas que el data frame original. Si damos un índice o un nombre, entonces obtendremos un data frame sólo con las columnas solicitadas. De este modo, podemos extraer renglones y columnas específicas.
+Si dejamos el espacio para `columnas_devueltas` vacío, nuestro resultado será un data frame con las mismas columnas que el data frame original. Si damos un índice o un nombre, entonces obtendremos un data frame sólo con las columnas solicitadas. De este modo, podemos extraer renglones y columnas específicas.
 
 Veamos esto en práctica, extrayendo subconjuntos de los datos `iris`.
 
@@ -524,7 +524,7 @@ Por ejemplo, extraemos todos los datos para los que el ancho del pétalo (**Sepa
 iris[iris$Sepal.Width < 3 & iris$Species == "setosa", ]
 ```
 
-Recuerda que puedes usar el operados `!` para negaciones. De este modo puedes extraer todos los datos que no son de la especie viginica o su largo sea menor a 4.7.
+Recuerda que puedes usar el operados `!` para negaciones. De este modo puedes extraer todos los datos que no son de la especie virginica o su largo sea menor a 4.7.
 ```{r, echo=TRUE}
 iris[!(iris$Petal.Length < 4.7 | iris$Species == "virginica"), ]
 ```
@@ -556,7 +556,7 @@ iris[iris$Petal.Width >= 5]
 ### La función `subset()`
 Una alternativa para usar condicionales, sin necesidad de corchetes, es la función `subset()`.
 
-Esta función tiene los siguients argumentos:
+Esta función tiene los siguientes argumentos:
 
 * `x`: Un objeto, generalmente un data frame.
 * `subset`: Una condición, expresada como operaciones relacionales o condicionales, que se aplicarán a una columna de `x`.
@@ -566,7 +566,7 @@ Puedes leer la documentación completa llamando `?subset`.
 
 Como podrás ver, `subset()` necesita como argumentos los mismos elementos que usamos para extraer subconjuntos con corchetes. La principal diferencia se encuentra en el argumento `subset`.
 
-Al usar corchetes, necesitamos aplicar una operación relacional a un vector, extraido de nuestro objeto original, por ejemplo `iris[iris$Species == "setosa", ]`. Con `subset()`, basta proporcionar el nombre del elemento al que aplicaremos las operaciones relacionales y condicionales. Para este caso, escribimos `Species == "setosa"`. Nota que el nombre de la columna está escrito sin comillas.
+Al usar corchetes, necesitamos aplicar una operación relacional a un vector, extraído de nuestro objeto original, por ejemplo `iris[iris$Species == "setosa", ]`. Con `subset()`, basta proporcionar el nombre del elemento al que aplicaremos las operaciones relacionales y condicionales. Para este caso, escribimos `Species == "setosa"`. Nota que el nombre de la columna está escrito sin comillas.
 
 Por ejemplo, para extraer de iris todos los datos en los que el largo del sépalo es mayor que 7.5, damos a `iris` como argumento `x` y `Sepal.Lenght` como argumento `subset`. Dejamos sin definir el argumento `select`, para obtener todas las columnas.
 ```{r, echo=TRUE}
