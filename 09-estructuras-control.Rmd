@@ -178,7 +178,7 @@ Por ejemplo, pedimos sólo los números que son exactamente divisibles entre 2 y
 ```{r, echo=TRUE}
 num <- 1:20
 
-ifelse(num %% 2 == 0 & num %% 3, "Divisible", "No divisible")
+ifelse(num %% 2 == 0 & num %% 3 == 0, "Divisible", "No divisible")
 ```
 
 Desde luego, esto es particularmente útil para recodificar datos.
